@@ -49,6 +49,7 @@ export default async function handler(req, res) {
     return res.status(200).json({ url: pref.init_point });
   } catch (e) {
     console.error(e);
-    return res.status(502).json({ error: "No pudimos crear el pago" });
+    // detail ayuda a diagnosticar desde la página (nunca incluye el token)
+    return res.status(502).json({ error: "No pudimos crear el pago", detail: String(e.message || e).slice(0, 300) });
   }
 }

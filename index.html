@@ -752,11 +752,14 @@ form.addEventListener("submit", async (e) => {
       method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({...contact, cta: ctaVariant, landing: CONFIG.landing})
     });
     const data = await r.json().catch(() => ({}));
-    if (!r.ok || !data.url) throw new Error(data.error || "sin url");
+    if (!r.ok || !data.url) throw new Error((data.detail || data.error || ("HTTP " + r.status)));
     window.location.href = data.url;
   } catch (e2) {
     btn.disabled = false; btn.innerHTML = payLabel;
+    console.error("checkout", e2);
+    err.dataset.detail = String(e2.message || e2);
     err.textContent = "No pudimos abrir Mercado Pago. Probá de nuevo en un momento" + (CONFIG.supportWhatsApp ? " o escribinos por WhatsApp al +" + CONFIG.supportWhatsApp + "." : ".");
+    if (new URLSearchParams(location.search).has("debug") || /HTTP|Mercado Pago|Falta/.test(err.dataset.detail)) err.textContent += " [" + err.dataset.detail + "]";
     err.hidden = false;
   }
 });
