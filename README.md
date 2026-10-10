@@ -9,7 +9,18 @@ Landing de una sola página con fotos reales del libro (carpeta `img/`) que cobr
 
 Las dos usan el mismo backend y el mismo Mercado Pago. Cada pago guarda en `metadata` qué landing (`landing: a|b`) y qué texto de botón (`cta_variant`) vio el comprador, y los mismos datos van al píxel de Meta. En Meta Ads: un conjunto de anuncios con URL `https://tudominio/` y otro con `https://tudominio/b`.
 
-Si cambiás precio, fecha de promo, píxel o reseñas, hacelo en el `CONFIG` de **los dos** archivos.
+Si cambiás precio, fecha de promo o reseñas, hacelo en el `CONFIG` de **los dos** archivos.
+
+## Píxel de Meta
+
+Píxel `4240054562902602`, con el código base en el `<head>` de `index.html`, `b.html` y `gracias.html`. Cada evento lleva `variante` (`A` o `B`, constante `VARIANTE` en cada landing).
+
+| Paso | Evento |
+|---|---|
+| Abre `/` o `/b` | PageView + ViewContent |
+| Toca pagar con un email o WhatsApp válido | Lead (con coincidencia avanzada `em` o `ph`) |
+| Mercado Pago creó el pago, justo antes de redirigir (300 ms) | InitiateCheckout |
+| Vuelve a `/gracias` con el pago aprobado y confirmado por el servidor | Purchase (una sola vez por pago, `eventID: mp_<payment_id>`) |
 
 ## Cómo funciona la compra
 
@@ -26,7 +37,7 @@ Si cambiás precio, fecha de promo, píxel o reseñas, hacelo en el `CONFIG` de 
 
 | Archivo | Qué hace |
 |---|---|
-| `index.html` | La landing. Arriba del `<script>` está `CONFIG`: precio, WhatsApp de ayuda, píxel de Meta, y bloques opcionales (precio tachado, garantía, bonus, fotos de páginas, testimonios). |
+| `index.html` | La landing. Arriba del `<script>` está `CONFIG`: precio, WhatsApp de ayuda y bloques opcionales (precio tachado, garantía, bonus, fotos de páginas, testimonios). |
 | `gracias.html` | Página de vuelta de Mercado Pago con el botón de descarga. Poné tu WhatsApp en `SUPPORT_WA`. |
 | `api/checkout.js` | Crea el pago en Mercado Pago. |
 | `api/webhook.js` | Recibe el aviso de pago aprobado y entrega el ebook. |

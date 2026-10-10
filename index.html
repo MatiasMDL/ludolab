@@ -10,6 +10,18 @@
 <meta property="og:description" content="Una hoja, un dado, un marcador ¡y listo! PDF imprimible, lo recibís al instante.">
 <meta property="og:image" content="/img/tapa.jpg">
 <meta name="theme-color" content="#FAF8F5">
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '4240054562902602');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=4240054562902602&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel -->
 <!--HEAD-END-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -588,7 +600,6 @@ const CONFIG = {
   // Textos de botón que se prueban (A/B). A cada visitante le toca uno y se mide en el píxel y en Mercado Pago.
   ctaVariants: {a: "Quiero el ebook ahora", b: "¡Lo quiero ya!", c: "Descargar ahora"},
   supportWhatsApp: "",          // ej "5491123456789" para el link de ayuda (vacío = solo texto)
-  metaPixelId: "",              // ID del píxel de Meta (vacío = sin píxel)
   apiBase: "",                  // vacío = mismo dominio (/api/checkout)
   landing: "a",                 // nombre de esta versión de la landing (se guarda en cada pago)
 
@@ -686,12 +697,10 @@ const PREVIEW = (() => { try { return window.self !== window.top; } catch (e) { 
 })();
 
 // Píxel de Meta (solo en el sitio real)
-function track(ev, data) { try { window.fbq && window.fbq("track", ev, data || {}); } catch (e) {} }
-if (CONFIG.metaPixelId && !PREVIEW) {
-  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-  fbq("init", CONFIG.metaPixelId); fbq("track", "PageView");
-  fbq("track", "ViewContent", {content_name: "100 juegos con dados", value: CONFIG.price, currency: "ARS"});
-}
+const PIXEL_ID = "4240054562902602";   // el código base del píxel está en el <head>
+const VARIANTE = "A";                 // versión de la landing para el A/B (va en todos los eventos)
+function track(ev, data) { try { window.fbq && window.fbq("track", ev, Object.assign({}, data, {variante: VARIANTE})); } catch (e) {} }
+track("ViewContent", {content_name: "100 juegos con dados", value: CONFIG.price, currency: "ARS"});
 
 const form = document.getElementById("buy-form");
 const fEmail = document.getElementById("f-email"), fWa = document.getElementById("f-wa");
@@ -734,7 +743,9 @@ form.addEventListener("submit", async (e) => {
   err.hidden = true; demo.hidden = true;
   const contact = readContact();
   if (!contact) return;
-  track("InitiateCheckout", {value: CONFIG.price, currency: "ARS", cta_variant: ctaVariant, landing: CONFIG.landing});
+  // Coincidencia avanzada: solo el dato que dejó (el píxel lo hashea antes de enviarlo)
+  try { window.fbq && fbq("init", PIXEL_ID, contact.channel === "email" ? {em: contact.value} : {ph: contact.value}); } catch (e) {}
+  track("Lead", {content_name: "100 juegos con dados"});
   btn.disabled = true; btn.textContent = "Abriendo Mercado Pago…";
 
   if (PREVIEW) {
@@ -753,7 +764,8 @@ form.addEventListener("submit", async (e) => {
     });
     const data = await r.json().catch(() => ({}));
     if (!r.ok || !data.url) throw new Error((data.detail || data.error || ("HTTP " + r.status)));
-    window.location.href = data.url;
+    track("InitiateCheckout", {value: CONFIG.price, currency: "ARS", num_items: 1, cta_variant: ctaVariant});
+    setTimeout(() => { window.location.href = data.url; }, 300);   // le da tiempo al píxel a enviar el evento
   } catch (e2) {
     btn.disabled = false; btn.innerHTML = payLabel;
     console.error("checkout", e2);
@@ -770,7 +782,7 @@ if ("IntersectionObserver" in window) {
   new IntersectionObserver(([en]) => sticky.classList.toggle("hide", en.isIntersecting), {threshold: .15})
     .observe(document.getElementById("comprar"));
 }
-document.querySelectorAll('[data-cta]').forEach(a => a.addEventListener("click", () => { try { window.fbq && fbq("trackCustom", "CTAClick", {cta_variant: ctaVariant, cta_place: a.dataset.cta}); } catch (e) {} }));
+document.querySelectorAll('[data-cta]').forEach(a => a.addEventListener("click", () => { try { window.fbq && fbq("trackCustom", "CTAClick", {cta_variant: ctaVariant, cta_place: a.dataset.cta, variante: VARIANTE}); } catch (e) {} }));
 document.querySelectorAll('[data-cta]').forEach(a => a.addEventListener("click", () => setTimeout(() => (channel() === "whatsapp" ? wa : email).focus({preventScroll: true}), 450)));
 </script>
 </body>

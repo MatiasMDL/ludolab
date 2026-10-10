@@ -5,6 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
 <title>¡Gracias! · LudoLab</title>
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '4240054562902602');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=4240054562902602&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Figtree:wght@400;600;800&display=swap">
 <style>
 :root{--paper:#FAF8F5;--ink:#18181B;--ink-soft:#5A5D7E;--cta:#DA3229;--cta-hover:#B8261E;--sun:#FFC23D;--green:#1F8E74;--card:#fff;--line:#E9E2D6;
@@ -40,6 +52,20 @@ const help = SUPPORT_WA ? ' Si necesitás ayuda escribinos al <a href="https://w
 
 function render(html) { box.innerHTML = html; }
 
+// Purchase solo cuando nuestro servidor confirmó con Mercado Pago que el pago está aprobado,
+// y una sola vez por pago (aunque recargue la página). El eventID evita duplicados en Meta.
+function trackPurchase(d) {
+  const key = "fb_purchase_" + paymentId;
+  try { if (localStorage.getItem(key)) return; } catch (e) {}
+  const variante = String(d.landing || q.get("l") || "a").toUpperCase() === "B" ? "B" : "A";
+  try {
+    window.fbq && fbq("track", "Purchase",
+      {value: Number(d.amount) || 11999, currency: "ARS", content_name: "100 juegos con dados", num_items: 1, variante: variante, cta_variant: d.cta},
+      {eventID: "mp_" + paymentId});
+    localStorage.setItem(key, "1");
+  } catch (e) {}
+}
+
 async function check(attempt) {
   if (!paymentId) {
     render('<h1>No encontramos tu pago</h1><p>Si ya pagaste, revisá tu email o WhatsApp: el link te llega igual.' + help + '</p><a class="btn" href="/">Volver</a>');
@@ -49,14 +75,14 @@ async function check(attempt) {
     const r = await fetch("/api/verify?payment_id=" + encodeURIComponent(paymentId));
     const d = await r.json();
     if (d.status === "approved" && d.downloadUrl) {
-      try { window.fbq && fbq("track", "Purchase", {value: d.amount, currency: "ARS", cta_variant: d.cta, landing: d.landing}); } catch (e) {}
+      trackPurchase(d);
       render('<div class="ok"><svg width="30" height="30" viewBox="0 0 20 20"><path d="M5 10.5l3 3 7-7" stroke="white" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>'
         + '<h1>¡Listo! Ya es tuyo</h1><p>Descargalo ahora. También te mandamos el link ' + (d.channel === "whatsapp" ? "por WhatsApp" : "a tu email") + '.</p>'
         + '<a class="btn" href="' + d.downloadUrl + '">Descargar el PDF</a><small>El link funciona durante 7 días.' + help + '</small>');
       return;
     }
-    if (d.status === "pending" || d.status === "in_process") {
-      render('<h1>Tu pago está en proceso</h1><p>Cuando Mercado Pago lo acredite (si pagaste en efectivo puede tardar hasta 2 días hábiles), te llega el ebook automáticamente.' + help + '</p>');
+    if (d.status === "pending" || d.status === "in_process" || d.status === "authorized") {
+      render('<h1>Tu pago está pendiente</h1><p>Cuando Mercado Pago lo acredite (si pagaste en efectivo puede tardar hasta 2 días hábiles), te llega el ebook automáticamente.' + help + '</p>');
       return;
     }
     if (d.status === "rejected" || d.status === "cancelled") {
