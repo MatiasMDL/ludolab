@@ -33,7 +33,6 @@ export default async function handler(req, res) {
           unit_price: price(),
           currency_id: "ARS",
         }],
-        ...(channel === "email" ? { payer: { email: value } } : {}),
         external_reference: encodeRef(channel, value),
         metadata: { cta_variant: cta, landing },
         back_urls: {
