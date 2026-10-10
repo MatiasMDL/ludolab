@@ -17,7 +17,7 @@ export async function mp(path, opts = {}) {
   const r = await fetch("https://api.mercadopago.com" + path, {
     ...opts,
     headers: {
-      Authorization: `Bearer ${env("MP_ACCESS_TOKEN")}`,
+      Authorization: `Bearer ${env("MP_ACCESS_TOKEN").trim().replace(/^Bearer\s+/i, "")}`,
       "Content-Type": "application/json",
       ...(opts.headers || {}),
     },
