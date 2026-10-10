@@ -63,3 +63,8 @@ La variante viaja en el pago de Mercado Pago (`metadata.landing`) y en la URL de
 | Pagar y volver a /gracias | PageView y Purchase (`eventID mp_<número de pago>`) |
 | Recargar /gracias | Solo PageView, sin otro Purchase |
 | Abrir /gracias sin pagar o con un pago pendiente | Solo PageView, sin botón de descarga |
+
+## 5. Seguridad del PDF
+Abrir la página de descarga **no** alcanza para bajar el PDF. El botón aparece solo si `/api/verify` consulta el `payment_id` en la API de Mercado Pago (con el token, del lado del servidor) y el pago es de este ebook, está aprobado y es por el precio completo. Entonces entrega un link firmado que vence a los 7 días. Inventar un `payment_id` o poner `status=approved` en la URL no sirve.
+
+Punto débil: `/api/download` redirige a la URL pública del PDF en Vercel Blob. Quien compra puede copiar esa URL y compartirla, y esa URL no vence. Cómo cerrarlo de la forma más simple: subir el PDF de nuevo con un nombre aleatorio, borrar el viejo, actualizar `PDF_URL` y que la función mande el archivo en vez de redirigir, para que la URL real nunca se vea.
