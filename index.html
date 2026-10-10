@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>100 juegos con dados · LudoLab</title>
+<meta name="description" content="Ebook imprimible con 100 juegos con dados para jugar en familia, de 3 a 99 años. PDF A4, lo recibís al instante por email o WhatsApp. Pagás con Mercado Pago.">
+<meta property="og:type" content="product">
+<meta property="og:title" content="100 juegos con dados para jugar en familia, sin pantallas">
+<meta property="og:description" content="Una hoja, un dado, un marcador ¡y listo! PDF imprimible, lo recibís al instante.">
+<meta property="og:image" content="/img/tapa.jpg">
+<meta name="theme-color" content="#FAF8F5">
+<!--HEAD-END-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Figtree:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: la página imita el libro. Blanco y negro, títulos en mayúscula redondeada,
+   pastillas de contorno como las del libro, fotos reales sobre la mesa, un solo rojo para comprar. */
+:root{
+  --bg:#FAF8F5;        /* papel */
+  --panel:#F0ECE5;     /* bloque alterno, tono mesa clara */
+  --card:#FFFFFF;
+  --ink:#18181B;       /* negro de impresión */
+  --ink-soft:#56565E;
+  --line:#E2DDD5;
+  --cta:#DA3229;       /* rojo de los puntos del dado */
+  --cta-hover:#B8261E;
+  --blue:#2350C2;      /* azul del otro dado: detalles */
+  --green:#1C8A5E;
+  --f-display:"Fredoka","Arial Rounded MT Bold","Trebuchet MS",system-ui,sans-serif;
+  --f-body:"Figtree","Segoe UI",system-ui,-apple-system,sans-serif;
+  --r:16px;
+  --shadow:0 18px 40px -22px rgba(24,24,27,.45);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141416;--panel:#1D1D21;--card:#232328;--ink:#F3F1EC;--ink-soft:#B3B1AB;--line:#34343A;
+  --cta:#EE463C;--cta-hover:#FF5F55;--blue:#7C9DF2;--green:#4CC08E;--shadow:0 18px 40px -22px rgba(0,0,0,.8);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141416;--panel:#1D1D21;--card:#232328;--ink:#F3F1EC;--ink-soft:#B3B1AB;--line:#34343A;
+  --cta:#EE463C;--cta-hover:#FF5F55;--blue:#7C9DF2;--green:#4CC08E;--shadow:0 18px 40px -22px rgba(0,0,0,.8);color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--f-body);-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+.wrap{max-width:1100px;margin:0 auto;padding-inline:20px}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.05;margin:0;text-wrap:balance}
+h1{font-size:clamp(2.2rem,5.4vw,3.7rem);letter-spacing:-.01em}
+h2{font-size:clamp(1.7rem,3.6vw,2.4rem);text-transform:uppercase;letter-spacing:.01em}
+h3{font-size:1.2rem;font-weight:600}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:6px}
+section{padding-block:72px}
+.panel{background:var(--panel)}
+
+/* pastillas como las del libro */
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--ink);border-radius:999px;padding:5px 12px;
+  font:600 .78rem/1 var(--f-display);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.pill.solid{background:var(--ink);color:var(--bg)}
+.pill.new{background:var(--cta);border-color:var(--cta);color:#fff}
+.label{font:600 .8rem/1 var(--f-display);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+
+/* números de paso como el "1 Tirá el dado" del libro */
+.n{width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--bg);display:inline-grid;place-items:center;
+  font:700 .95rem/1 var(--f-display);flex:none}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6em;border:0;cursor:pointer;text-decoration:none;
+  font:800 1.1rem/1 var(--f-body);padding:1.05em 1.7em;border-radius:14px;background:var(--cta);color:#fff;
+  box-shadow:0 4px 0 var(--cta-hover);transition:transform .12s,box-shadow .12s,background .12s}
+.btn:hover{background:var(--cta-hover)}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--cta-hover)}
+.btn[disabled]{opacity:.7;cursor:progress}
+
+/* header */
+header.top{padding-block:16px;border-bottom:1.5px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{font:700 1.4rem/1 var(--f-display);text-decoration:none;display:flex;align-items:center;gap:8px}
+.logo .dot{width:22px;height:22px;border-radius:6px;background:var(--cta);display:grid;place-items:center}
+.logo .dot::after{content:"";width:6px;height:6px;border-radius:50%;background:#fff}
+.top a.small{font-weight:800;font-size:.9rem;text-decoration:none;background:var(--cta);color:#fff;border-radius:10px;padding:9px 14px}
+
+/* hero */
+.hero{padding-block:40px 64px}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;grid-template-areas:"copy photo" "cta photo";column-gap:56px;row-gap:26px;align-items:start}
+.hero-copy{grid-area:copy;display:flex;flex-direction:column;gap:18px;min-width:0;align-self:end}
+.hero-photo{grid-area:photo;min-width:0;position:relative}
+.hero-photo img{max-height:620px;border-radius:22px;box-shadow:var(--shadow);aspect-ratio:3/4;object-fit:cover;width:100%}
+.hero-photo figcaption{position:absolute;left:14px;bottom:14px;background:var(--card);color:var(--ink);border-radius:10px;padding:7px 12px;font-size:.82rem;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.hero-cta{grid-area:cta;display:flex;flex-direction:column;gap:18px;min-width:0}
+.lead{font-size:1.18rem;color:var(--ink-soft);max-width:36ch}
+.lead b{color:var(--ink)}
+.buyrow{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px}
+.price{display:flex;flex-direction:column;line-height:1.1}
+.price b{font:700 1.9rem/1 var(--f-display);font-variant-numeric:tabular-nums}
+.price span{font-size:.85rem;color:var(--ink-soft);font-weight:600}
+.anchor{font-size:.95rem;color:var(--ink-soft);font-weight:600}
+.ticks{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;font-weight:600;font-size:.97rem}
+.ticks li{display:flex;align-items:center;gap:10px}
+.ticks li::before{content:"";width:20px;height:20px;border-radius:50%;flex:none;
+  background:var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3 3 7-7' stroke='white' stroke-width='2.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat}
+
+/* cómo es un juego */
+.head{display:flex;flex-direction:column;gap:12px;max-width:660px;margin-bottom:36px}
+.head p{color:var(--ink-soft);font-size:1.08rem}
+.showcase{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:start}
+.shot{margin:0;display:flex;flex-direction:column;gap:12px;min-width:0}
+.shot img{border-radius:18px;box-shadow:var(--shadow);width:100%;aspect-ratio:3/4;object-fit:cover}
+.shot figcaption{display:flex;flex-direction:column;gap:8px}
+.shot figcaption strong{font:700 1.15rem/1.2 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.rules{background:var(--card);border:2.5px solid var(--ink);border-radius:18px;overflow:hidden;align-self:center;min-width:0}
+.rules .top-r{padding:20px 22px 6px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.rules .tit{font:700 1.5rem/1 var(--f-display);background:var(--ink);color:var(--bg);border-radius:12px;padding:8px 16px;text-transform:uppercase}
+.rules ol{list-style:none;margin:0;padding:14px 22px 18px;display:flex;flex-direction:column;gap:12px}
+.rules li{display:flex;gap:12px;align-items:center;font:600 1.08rem/1.25 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.rules .win{background:var(--ink);color:var(--bg);padding:14px 22px;font:700 1.05rem/1.25 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.rules .cap{padding:14px 22px 18px;font-size:.95rem;color:var(--ink-soft)}
+.side{display:flex;flex-direction:column;gap:22px;min-width:0}
+
+/* contenido */
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.cat{background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.cat h3{text-transform:uppercase;letter-spacing:.02em}
+.cat p{color:var(--ink-soft);font-size:.97rem}
+
+.why{display:grid;grid-template-columns:repeat(3,1fr);gap:28px 36px}
+.why div{display:flex;flex-direction:column;gap:6px;min-width:0;padding-top:14px;border-top:2.5px solid var(--ink)}
+.why p{color:var(--ink-soft);font-size:.98rem}
+
+/* historia */
+.story .wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;align-items:center}
+.story img{border-radius:18px;box-shadow:var(--shadow);width:100%;aspect-ratio:4/5;object-fit:cover}
+.story-copy{display:flex;flex-direction:column;gap:16px;min-width:0}
+.story blockquote{margin:0;font:500 clamp(1.25rem,2.4vw,1.55rem)/1.4 var(--f-display);color:var(--ink)}
+.story cite{font-style:normal;font-weight:700;color:var(--ink-soft)}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.step{display:flex;gap:14px;align-items:flex-start;min-width:0}
+.step div{display:flex;flex-direction:column;gap:4px}
+.step p{color:var(--ink-soft)}
+
+/* testimonios (se muestran solo si hay reales en CONFIG) */
+.quotes{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.quotes figure{margin:0;background:var(--card);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:10px;min-width:0;border:1.5px solid var(--line);position:relative}
+.quotes blockquote{margin:0;font-size:1rem;line-height:1.5}
+.quotes figcaption{display:flex;flex-direction:column;font-size:.9rem;margin-top:auto}
+.quotes figcaption span{color:var(--ink-soft)}
+.stars{color:#F2A900;letter-spacing:2px;font-size:1.05rem}
+.rating{font-weight:600}
+.sample-note{font-size:.9rem;border:2px dashed var(--blue);border-radius:10px;padding:8px 12px;color:var(--ink)}
+.sample-tag{position:absolute;top:12px;right:12px;font:700 .7rem/1 var(--f-body);text-transform:uppercase;letter-spacing:.08em;color:var(--blue);border:1.5px solid var(--blue);border-radius:6px;padding:3px 6px}
+
+/* checkout */
+.buy .wrap{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+.buy-copy{display:flex;flex-direction:column;gap:18px;min-width:0}
+.buy-copy img{width:140px;border-radius:12px;box-shadow:var(--shadow);transform:rotate(-4deg)}
+.included{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;font-weight:600}
+.included li{display:flex;gap:10px;align-items:baseline}
+.included li::before{content:"✓";color:var(--green);font-weight:900}
+.included li.bonus::before{content:"★";color:var(--cta)}
+.included li.no{color:var(--ink-soft);font-weight:500}
+.included li.no::before{content:"✕";color:var(--ink-soft)}
+.box{background:var(--card);border:2.5px solid var(--ink);border-radius:22px;padding:28px;display:flex;flex-direction:column;gap:18px;min-width:0;box-shadow:var(--shadow)}
+.box-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.box-top .price b{font-size:2.4rem}
+fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column}
+legend{font-weight:800;margin-bottom:10px;padding:0}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--bg);border:1.5px solid var(--line);border-radius:14px;padding:5px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 8px;border-radius:10px;font-weight:700;cursor:pointer;color:var(--ink-soft)}
+.seg input:checked + label{background:var(--ink);color:var(--bg)}
+.seg input:focus-visible + label{outline:3px solid var(--blue);outline-offset:2px}
+.seg svg{width:18px;height:18px;flex:none}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-weight:700;font-size:.95rem}
+.inp{display:flex;align-items:center;border:2px solid var(--line);border-radius:14px;background:var(--bg);overflow:hidden;transition:border-color .15s}
+.inp:focus-within{border-color:var(--ink)}
+.inp.bad{border-color:var(--cta)}
+.inp .pre{padding:0 0 0 14px;font-weight:700;color:var(--ink-soft);white-space:nowrap;font-variant-numeric:tabular-nums}
+.inp input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:600 1.1rem var(--f-body);padding:15px 14px;outline:none}
+.hint{font-size:.85rem;color:var(--ink-soft)}
+.err{font-size:.9rem;color:var(--cta);font-weight:700}
+.box .btn{width:100%;font-size:1.2rem}
+.secure{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:.85rem;color:var(--ink-soft);text-align:center}
+.mp{font-weight:800;color:#009EE3}
+.pays{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.pays span{font-size:.75rem;font-weight:700;border:1px solid var(--line);border-radius:6px;padding:3px 8px;color:var(--ink-soft)}
+.guarantee{font-size:.92rem;text-align:center;background:var(--panel);border-radius:12px;padding:10px 14px}
+.demo{border:2px dashed var(--blue);border-radius:14px;padding:14px 16px;font-size:.92rem;display:flex;flex-direction:column;gap:6px}
+.demo code{font-size:.85rem;word-break:break-all}
+
+/* conversión */
+.urgency{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--cta);color:#fff;display:flex;flex-wrap:wrap;
+  justify-content:center;align-items:center;gap:6px 16px;padding:9px 16px;font-size:.92rem;text-align:center}
+.u-txt b{text-transform:uppercase;letter-spacing:.06em}
+.u-timer{display:inline-flex;gap:6px;font-variant-numeric:tabular-nums}
+.u-timer > span{background:rgba(0,0,0,.22);border-radius:6px;padding:2px 7px;font-size:.85rem}
+.u-timer b{font:700 1.05rem/1 var(--f-display)}
+.was{font-size:.95rem;color:var(--ink-soft);font-weight:600}
+.was s,.anchor{color:var(--ink-soft)}
+.off{display:inline-block;background:var(--cta);color:#fff;font:700 .95rem/1 var(--f-display);border-radius:8px;padding:6px 9px;transform:rotate(-3deg)}
+.big-offer{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.offer-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px}
+.offer-row > b{font:700 clamp(2.4rem,5vw,3rem)/1 var(--f-display);font-variant-numeric:tabular-nums}
+.offer-note{font-size:.9rem;color:var(--ink-soft);font-weight:600}
+.btn.big{font-size:1.2rem;padding:1.1em 1.8em;text-transform:uppercase;letter-spacing:.02em;width:100%;max-width:440px}
+@media (prefers-reduced-motion:no-preference){.btn.big{animation:nudge 2.8s ease-in-out 1.5s infinite}
+  @keyframes nudge{0%,88%,100%{transform:none}92%{transform:scale(1.035)}96%{transform:scale(.99)}}}
+.secure-line{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:.88rem;font-weight:600;color:var(--ink-soft)}
+.secure-line > svg{width:16px;height:16px;color:var(--green)}
+.mp-badge{display:inline-flex;align-items:center;gap:5px;background:#009EE3;color:#fff;border-radius:999px;padding:3px 10px 3px 4px;
+  font:800 .8rem/1 var(--f-body);letter-spacing:-.01em;white-space:nowrap}
+.mp-badge svg{width:24px;height:16px}
+.trust{list-style:none;margin:6px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.trust li{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;min-width:0}
+.trust svg{width:22px;height:22px;flex:none;color:var(--ink)}
+.trust span{display:flex;flex-direction:column;font-size:.8rem;color:var(--ink-soft);line-height:1.3}
+.trust b{font-size:.9rem;color:var(--ink)}
+.cta-sec{padding-block:0 64px}
+.panel + .cta-sec,.cta-sec.on-panel{background:var(--panel)}
+.cta-block{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;border-top:2.5px solid var(--ink);padding-top:40px}
+.cta-title{font:700 clamp(1.3rem,3vw,1.7rem)/1.15 var(--f-display);text-wrap:balance}
+.cta-block .offer-row{justify-content:center}
+.cta-block .secure-line{justify-content:center}
+.stack{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+.stack-copy{display:flex;flex-direction:column;gap:14px;min-width:0}
+.incl{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:14px}
+.incl li{display:flex;gap:12px;align-items:flex-start}
+.incl svg{width:24px;height:24px;flex:none;color:#fff;background:var(--green);border-radius:50%;padding:4px}
+.incl span{display:flex;flex-direction:column;color:var(--ink-soft);font-size:.95rem}
+.incl b{color:var(--ink);font-size:1.05rem}
+.stack-price{background:var(--card);border:2.5px solid var(--ink);border-radius:22px;padding:28px 24px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;box-shadow:var(--shadow);min-width:0}
+.sp-was{color:var(--ink-soft);font-weight:600}
+.sp-now{font:600 1.1rem/1.1 var(--f-display);text-transform:uppercase}
+.sp-now b{display:block;font-size:3.2rem;line-height:1;margin-top:4px;font-variant-numeric:tabular-nums}
+.sp-save{font-size:.9rem;color:var(--ink-soft)}
+.sp-save b{color:var(--cta);font-variant-numeric:tabular-nums}
+.box-urg{background:var(--panel);border-radius:10px;padding:8px 12px;text-align:center;font-size:.92rem;font-weight:600}
+.box-urg b{color:var(--cta);font-variant-numeric:tabular-nums}
+.box .btn.big{max-width:none}
+.sticky .anchor{font-size:.8rem}
+.sticky .price span{color:var(--cta);font-weight:700;font-variant-numeric:tabular-nums}
+@media (max-width:760px){
+  .stack{grid-template-columns:1fr;gap:28px}
+  .trust{grid-template-columns:1fr 1fr}
+  .btn.big{max-width:none}
+}
+@media (max-width:380px){.trust{grid-template-columns:1fr}}
+
+/* faq */
+.faq{max-width:760px;display:flex;flex-direction:column}
+.faq details{border-bottom:1.5px solid var(--line);padding-block:18px}
+.faq summary{cursor:pointer;font:700 1.1rem/1.3 var(--f-body);list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font:700 1.5rem/1 var(--f-display);color:var(--cta);transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin-top:10px;color:var(--ink-soft)}
+
+footer{padding-block:40px 120px;border-top:1.5px solid var(--line);font-size:.9rem;color:var(--ink-soft)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--card);border-top:1.5px solid var(--line);
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));display:none;align-items:center;justify-content:space-between;gap:12px;
+  box-shadow:0 -8px 24px -12px rgba(0,0,0,.3);transition:transform .25s}
+.sticky.hide{transform:translateY(110%)}
+.sticky .price b{font-size:1.4rem}
+.sticky .btn{padding:.85em 1.3em;font-size:1rem}
+
+@media (max-width:860px){
+  .why{grid-template-columns:repeat(2,1fr)}
+  .showcase{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  section{padding-block:52px}
+  .hero{padding-block:24px 48px}
+  .hero .wrap{grid-template-columns:1fr;grid-template-areas:"copy" "photo" "cta";row-gap:22px}
+  .hero-photo img{aspect-ratio:16/11;object-position:50% 40%}
+  .buy .wrap,.story .wrap{grid-template-columns:1fr;gap:28px}
+  .story img{aspect-ratio:4/3}
+  .steps{grid-template-columns:1fr;gap:20px}
+  .sticky{display:flex}
+  .top a.small{display:none}
+}
+@media (max-width:480px){
+  .why{grid-template-columns:1fr}
+  .box{padding:22px 18px}
+  .buyrow .btn{flex:1}
+}
+</style>
+</head>
+<body>
+
+<div class="urgency" role="status">
+  <span class="u-txt"><b>Oferta limitada</b> · Últimas horas de promoción</span>
+  <span class="u-timer" aria-label="Tiempo restante de la promoción"><span><b id="cd-h">05</b>h</span><span><b id="cd-m">12</b>m</span><span><b id="cd-s">33</b>s</span></span>
+</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#"><span class="dot"></span>LudoLab</a>
+    <a class="small js-cta" href="#comprar" data-cta="header">Quiero el ebook ahora</a>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <div class="pills"><span class="pill new">Ya salió</span><span class="pill">Ebook imprimible</span><span class="pill">Llega al instante</span></div>
+      <h1>100 juegos con dados para jugar en familia, sin pantallas</h1>
+      <p class="lead"><b>Una hoja, un dado, un marcador ¡y listo!</b> Imprimís el juego que quieran y en un minuto están jugando. Cambiá el celu por un dado.</p>
+      <div class="pills"><span class="pill">De 3 a 99 años</span><span class="pill">De 1 a 6 jugadores</span><span class="pill">Formato A4</span></div>
+    </div>
+    <figure class="hero-photo" style="margin:0">
+      <img src="img/tapa.jpg" alt="Tapa del libro 100 juegos con dados impreso y anillado sobre una mesa de madera" width="900" height="1200">
+      <figcaption>Así queda impreso y anillado en casa</figcaption>
+    </figure>
+    <div class="hero-cta">
+      <div class="big-offer">
+        <span class="pill new">Oferta limitada</span>
+        <div class="offer-row"><span class="was">Antes <s class="js-anchor"></s></span><b class="js-price">$11.999</b><span class="off js-off">-20%</span></div>
+        <span class="offer-note">Pago único · Ebook imprimible · Lo recibís al instante en tu email o WhatsApp</span>
+      </div>
+      <a class="btn big js-cta" href="#comprar" data-cta="hero">Quiero el ebook ahora</a>
+      <p class="secure-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Compra 100% segura con <span class="mp-badge"><svg viewBox="0 0 24 16" aria-hidden="true"><ellipse cx="12" cy="8" rx="11.5" ry="7.5" fill="#fff"/><path d="M5 7.6c1.7-1.5 3.4-2 4.9-1.3l2.1 1.2 2.1-1.2c1.5-.7 3.2-.2 4.9 1.3M7.8 9.4l2.6 1.7c.6.4 1.5.4 2.1 0l3.8-2.6" fill="none" stroke="#009EE3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>mercado pago</span></p>
+      <ul class="trust">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg><span><b>Entrega al instante</b>Apenas se aprueba el pago</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.8 7L4 20l1.1-4A8 8 0 1 1 20 12z"/></svg><span><b>A tu email o WhatsApp</b>Vos elegís dónde</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg><span><b>PDF imprimible A4</b>Imprimís cuando quieras</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span><b>Pago 100% seguro</b>Con Mercado Pago</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="juegos">
+  <div class="wrap">
+    <div class="head">
+      <span class="label">Mirá cómo es por dentro</span>
+      <h2>Cada juego entra en una hoja</h2>
+      <p>Arriba dice para cuántos jugadores es, desde qué edad y qué se necesita. Abajo, las reglas en dos pasos. Los chicos lo entienden solos.</p>
+    </div>
+    <div class="showcase">
+      <figure class="shot">
+        <img src="img/juego-45.jpg" alt="Juego 45 abierto, un recorrido en espiral con casilleros numerados, al lado un marcador y dos dados" width="1000" height="1333" loading="lazy">
+        <figcaption>
+          <strong>Juego 45 · Largos caminos y laberintos</strong>
+          <div class="pills"><span class="pill">Nivel 3</span><span class="pill">1 a 4 jugadores</span><span class="pill">5+ años</span><span class="pill">Dado y fichas</span></div>
+        </figcaption>
+      </figure>
+      <div class="side">
+        <figure class="shot">
+          <img src="img/juego-19.jpg" alt="Juego 19, dos columnas de estrellas para pintar, una por jugador" width="787" height="1400" loading="lazy" style="aspect-ratio:4/5">
+          <figcaption>
+            <strong>Juego 19 · Pintar y completar</strong>
+            <div class="pills"><span class="pill">2 jugadores</span><span class="pill">5+ años</span><span class="pill">1 dado</span></div>
+          </figcaption>
+        </figure>
+        <div class="rules" aria-label="Reglas del juego 19, copiadas del libro">
+          <div class="top-r"><span class="tit">Juego 19</span><span class="label">Las reglas, tal cual</span></div>
+          <ol>
+            <li><span class="n">1</span>Tirá el dado.</li>
+            <li><span class="n">2</span>Pintá 1 o 2 estrellas, según el dado.</li>
+          </ol>
+          <div class="win">Gana quien pinta sus 12 estrellas.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-sec">
+  <div class="wrap">
+    <div class="cta-block">
+      <p class="cta-title">¿Lo imaginás en tu mesa esta tarde?</p>
+      <div class="offer-row"><span class="was">Antes <s class="js-anchor"></s></span><b class="js-price">$11.999</b><span class="off js-off">-20%</span></div>
+      <a class="btn big js-cta" href="#comprar" data-cta="juegos">Quiero el ebook ahora</a>
+      <p class="secure-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Compra segura con <span class="mp-badge"><svg viewBox="0 0 24 16" aria-hidden="true"><ellipse cx="12" cy="8" rx="11.5" ry="7.5" fill="#fff"/><path d="M5 7.6c1.7-1.5 3.4-2 4.9-1.3l2.1 1.2 2.1-1.2c1.5-.7 3.2-.2 4.9 1.3M7.8 9.4l2.6 1.7c.6.4 1.5.4 2.1 0l3.8-2.6" fill="none" stroke="#009EE3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>mercado pago</span></p>
+    </div>
+  </div>
+</section>
+
+<section id="que-trae">
+  <div class="wrap">
+    <div class="head">
+      <span class="label">Qué hay adentro</span>
+      <h2>100 juegos, ninguno se repite</h2>
+      <p>Ordenados por edad y dificultad, así encontrás rápido el ideal para hoy.</p>
+    </div>
+    <div class="cats">
+      <article class="cat"><h3>Largos caminos y laberintos</h3><p>Tirás, avanzás y mirás qué pasa en cada casillero. Gana quien llega primero a la meta.</p></article>
+      <article class="cat"><h3>Pintar y completar</h3><p>Estrellas, figuras y casilleros que se van llenando según lo que sale en el dado.</p></article>
+      <article class="cat"><h3>Bingos</h3><p>Marcás los números que van saliendo. Los más chicos practican el conteo sin darse cuenta.</p></article>
+      <article class="cat"><h3>Sumas y multiplicaciones</h3><p>Desafíos de cálculo que se juegan, no se estudian. Ideales para repasar las tablas.</p></article>
+      <article class="cat"><h3>Propuestas 3 en 1</h3><p>Una misma hoja con tres formas de jugar, para cuando piden “otro más”.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="testimonios" hidden>
+  <div class="wrap">
+    <div class="head">
+      <span class="label">Reseñas de familias</span>
+      <h2>Lo que dicen las familias que ya juegan</h2>
+      <p class="rating"><span class="stars" aria-hidden="true">★★★★★</span> <b class="js-avg">5,0</b> · <span class="js-count">10</span> reseñas</p>
+      <p class="sample-note" id="sample-note" hidden>Reseñas de ejemplo para probar el diseño. Solo se ven en la vista previa; en el sitio publicado aparecen únicamente las reseñas reales que cargues en la configuración.</p>
+    </div>
+    <div class="quotes" id="quotes"></div>
+  </div>
+</section>
+
+<section class="panel" id="incluye">
+  <div class="wrap">
+    <div class="stack">
+      <div class="stack-copy">
+        <span class="label">¿Qué incluye?</span>
+        <h2>Todo lo que te llevás hoy</h2>
+        <ul class="incl">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span><b>El ebook completo: 100 juegos con dados</b>PDF A4 listo para imprimir, con reglas en cada hoja</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span><b>5 tipos de juego</b>Caminos y laberintos, pintar y completar, bingos, sumas y multiplicaciones, y 3 en 1</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span><b>Edad, jugadores y materiales en cada juego</b>De 3 a 99 años, de 1 a 6 jugadores</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span><b>Impresiones ilimitadas</b>Reimprimí los favoritos todas las veces que quieran</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span><b>Entrega al instante</b>En tu email o tu WhatsApp, apenas pagás</span></li>
+        </ul>
+        <ul class="incl js-bonus-list" hidden></ul>
+      </div>
+      <div class="stack-price">
+        <span class="pill new">Oferta limitada</span>
+        <p class="sp-was">Precio normal: <s class="js-anchor"></s></p>
+        <p class="sp-now">Hoy solo <b class="js-price">$11.999</b></p>
+        <p class="sp-save">Ahorrás <b class="js-save">$2.991</b> · La promo termina en <b class="js-cd-inline">05:12:33</b></p>
+        <a class="btn big js-cta" href="#comprar" data-cta="incluye">Quiero el ebook ahora</a>
+        <p class="secure-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Pago seguro con <span class="mp-badge"><svg viewBox="0 0 24 16" aria-hidden="true"><ellipse cx="12" cy="8" rx="11.5" ry="7.5" fill="#fff"/><path d="M5 7.6c1.7-1.5 3.4-2 4.9-1.3l2.1 1.2 2.1-1.2c1.5-.7 3.2-.2 4.9 1.3M7.8 9.4l2.6 1.7c.6.4 1.5.4 2.1 0l3.8-2.6" fill="none" stroke="#009EE3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>mercado pago</span></p>
+        <div class="pays"><span>Crédito</span><span>Débito</span><span>Dinero en cuenta</span><span>Efectivo</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="story">
+  <div class="wrap">
+    <img src="img/juego-19-b.jpg" alt="Página del juego 19 impresa en el libro anillado" width="787" height="1400" loading="lazy">
+    <div class="story-copy">
+      <span class="label">Probado en casa, juego por juego</span>
+      <blockquote>“Estos juegos los creamos y los probamos en casa con nuestra hija. Si a ella le gustaban, entraban al libro.”</blockquote>
+      <cite>La familia detrás de LudoLab</cite>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="por-que">
+  <div class="wrap">
+    <div class="head">
+      <span class="label">Por qué funciona</span>
+      <h2>Un rato de juego de verdad, con lo que ya tenés</h2>
+    </div>
+    <div class="why">
+      <div><h3>Sin pantallas</h3><p>Papel, marcador y dados. Para la merienda, una tarde de lluvia o la sobremesa.</p></div>
+      <div><h3>Aprenden jugando</h3><p>Conteo, sumas y multiplicaciones aparecen solas en cada tirada.</p></div>
+      <div><h3>Juegan grandes y chicos</h3><p>De 1 a 6 jugadores, con juegos pensados para que se sumen los adultos.</p></div>
+      <div><h3>Entre hermanos</h3><p>Cada juego marca la edad, así cada uno tiene su desafío en la misma mesa.</p></div>
+      <div><h3>Reimprimís cuando quieras</h3><p>¿Hay un favorito? Lo imprimís de nuevo, o lo anillás como en las fotos.</p></div>
+      <div><h3>Para llevar de viaje</h3><p>Un par de hojas y un dado entran en cualquier mochila.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-sec">
+  <div class="wrap">
+    <div class="cta-block">
+      <p class="cta-title">Cambiá el celu por un dado, desde hoy</p>
+      <div class="offer-row"><span class="was">Antes <s class="js-anchor"></s></span><b class="js-price">$11.999</b><span class="off js-off">-20%</span></div>
+      <a class="btn big js-cta" href="#comprar" data-cta="porque">Quiero el ebook ahora</a>
+      <p class="secure-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Compra segura con <span class="mp-badge"><svg viewBox="0 0 24 16" aria-hidden="true"><ellipse cx="12" cy="8" rx="11.5" ry="7.5" fill="#fff"/><path d="M5 7.6c1.7-1.5 3.4-2 4.9-1.3l2.1 1.2 2.1-1.2c1.5-.7 3.2-.2 4.9 1.3M7.8 9.4l2.6 1.7c.6.4 1.5.4 2.1 0l3.8-2.6" fill="none" stroke="#009EE3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>mercado pago</span></p>
+    </div>
+  </div>
+</section>
+
+<section id="como">
+  <div class="wrap">
+    <div class="head">
+      <span class="label">Cómo es la compra</span>
+      <h2>En dos minutos lo tenés impreso</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="n">1</span><div><h3>Dejás tu email o WhatsApp</h3><p>Elegís dónde recibirlo. Es el único dato que te pedimos.</p></div></div>
+      <div class="step"><span class="n">2</span><div><h3>Pagás con Mercado Pago</h3><p>Tarjeta, débito, dinero en cuenta o efectivo.</p></div></div>
+      <div class="step"><span class="n">3</span><div><h3>Descargás y a jugar</h3><p>Apenas se aprueba el pago aparece el botón de descarga y te llega el link.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="buy panel" id="comprar">
+  <div class="wrap">
+    <div class="buy-copy">
+      <img src="img/tapa.jpg" alt="" width="900" height="1200" loading="lazy">
+      <span class="label">Último paso</span>
+      <h2>Dejá tu email o WhatsApp y descargalo ya</h2>
+      <ul class="included">
+        <li>1 PDF tamaño A4 con 100 juegos e instrucciones</li>
+        <li>Edad, jugadores y materiales en cada juego</li>
+        <li>Para imprimir en casa todas las veces que quieras</li>
+        <li>Entrega inmediata por email o WhatsApp</li>
+        <li>Pagás con Mercado Pago: tarjeta, débito o efectivo</li>
+        <li class="no">Es digital: no incluye libro impreso ni dados</li>
+      </ul>
+    </div>
+
+    <form class="box" id="buy-form" novalidate>
+      <div class="box-top">
+        <div class="price"><span class="was">Antes <s class="js-anchor"></s></span><b class="js-price">$11.999</b><span>pago único · ARS</span></div>
+        <span class="off js-off">-20%</span>
+      </div>
+
+      <p class="box-urg">La promo termina en <b class="js-cd-inline">05:12:33</b></p>
+      <fieldset>
+        <legend>¿Dónde querés recibirlo?</legend>
+        <div class="seg" role="radiogroup">
+          <input type="radio" name="channel" id="ch-email" value="email" checked>
+          <label for="ch-email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Email</label>
+          <input type="radio" name="channel" id="ch-wa" value="whatsapp">
+          <label for="ch-wa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 0 1-11.8 7L4 20l1.1-4A8 8 0 1 1 20 12z"/></svg>WhatsApp</label>
+        </div>
+      </fieldset>
+
+      <div class="field" id="f-email">
+        <label for="email">Tu email</label>
+        <div class="inp"><input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="nombre@gmail.com"></div>
+      </div>
+      <div class="field" id="f-wa" hidden>
+        <label for="wa">Tu WhatsApp</label>
+        <div class="inp"><span class="pre">+54 9</span><input id="wa" name="wa" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="11 2345 6789"></div>
+        <span class="hint">Código de área sin 0 y número sin 15.</span>
+      </div>
+      <p class="err" id="err" hidden></p>
+
+      <button class="btn big" type="submit" id="pay-btn"><span class="js-pay-label">Pagar y descargar</span> · <span class="js-price">$11.999</span></button>
+
+      <div class="secure">
+        <span class="secure-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Pago 100% seguro con <span class="mp-badge"><svg viewBox="0 0 24 16" aria-hidden="true"><ellipse cx="12" cy="8" rx="11.5" ry="7.5" fill="#fff"/><path d="M5 7.6c1.7-1.5 3.4-2 4.9-1.3l2.1 1.2 2.1-1.2c1.5-.7 3.2-.2 4.9 1.3M7.8 9.4l2.6 1.7c.6.4 1.5.4 2.1 0l3.8-2.6" fill="none" stroke="#009EE3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>mercado pago</span></span>
+        <div class="pays"><span>Crédito</span><span>Débito</span><span>Dinero en cuenta</span><span>Efectivo</span></div>
+      </div>
+      <p class="guarantee" id="guarantee" hidden><strong>Garantía de 7 días.</strong> Si no te convence, te devolvemos el dinero. Solo tenés que escribirnos.</p>
+      <div class="demo" id="demo" hidden></div>
+    </form>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="head"><span class="label">Preguntas frecuentes</span><h2>Lo que más nos preguntan</h2></div>
+    <div class="faq">
+      <details open><summary>¿Qué recibo y cuándo?</summary><p>Un PDF tamaño A4 con los 100 juegos, listo para imprimir. Te llega al instante: lo descargás en la misma pantalla apenas se aprueba el pago y además te mandamos el link a tu email o WhatsApp.</p></details>
+      <details><summary>¿Es un libro físico?</summary><p>No. Es un PDF para imprimir. El libro de las fotos lo imprimimos y anillamos en casa: vos podés hacer lo mismo o imprimir solo las hojas que vayan a usar. No enviamos dados ni materiales.</p></details>
+      <details><summary>¿Cómo y cuándo lo recibo?</summary><p>Apenas Mercado Pago aprueba el pago, vas a ver el botón para descargarlo en la misma pantalla. Además te mandamos el link al email o WhatsApp que elegiste.</p></details>
+      <details><summary>¿Qué necesito para jugar?</summary><p>Una hoja, un dado y un marcador. Algunos juegos usan fichas o más de un dado, y cada hoja lo indica arriba.</p></details>
+      <details><summary>¿Para qué edades es?</summary><p>De 3 a 99 años. Cada juego indica desde qué edad se puede jugar y su nivel, así elegís el indicado para cada uno.</p></details>
+      <details><summary>¿Cómo puedo pagar?</summary><p>Con todo lo que acepta Mercado Pago: tarjeta de crédito, débito, dinero en cuenta o efectivo en Pago Fácil y Rapipago. Si pagás en efectivo, te llega cuando se acredita el pago.</p></details>
+      <details><summary>¿Puedo imprimirlo varias veces?</summary><p>Sí, para uso en tu familia o tu aula las veces que quieras. Lo que no se permite es revenderlo ni compartir el archivo.</p></details>
+      <details id="faq-guarantee" hidden><summary>¿Y si no le gusta a mi familia?</summary><p>Tenés 7 días de garantía: nos escribís y te devolvemos el dinero, sin vueltas.</p></details>
+      <details><summary>¿Y si no me llega?</summary><p>Revisá spam o promociones. Si igual no aparece, escribinos <span class="js-support">por WhatsApp</span> y te lo mandamos a mano.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© LudoLab · Juegos para imprimir y jugar en familia</span>
+    <span>Producto digital · Pagos procesados por Mercado Pago</span>
+  </div>
+</footer>
+
+<div class="sticky" id="sticky">
+  <div class="price"><s class="js-anchor anchor"></s><b class="js-price">$11.999</b><span class="js-cd-inline">05:12:33</span></div>
+  <a class="btn js-cta" href="#comprar" data-cta="sticky">Quiero el ebook ahora</a>
+</div>
+
+<script>
+/* ===== Configuración: lo único que hay que tocar ===== */
+const CONFIG = {
+  price: 11999,                 // precio en ARS; tiene que coincidir con PRICE_ARS del backend
+  anchorPrice: 14990,           // precio anterior (tachado)
+  promoEndsAt: "",              // fin real de la promo, ej "2026-10-12T23:59:00-03:00". Vacío = termina hoy a las 23:59 (hora Argentina)
+  // Textos de botón que se prueban (A/B). A cada visitante le toca uno y se mide en el píxel y en Mercado Pago.
+  ctaVariants: {a: "Quiero el ebook ahora", b: "¡Lo quiero ya!", c: "Descargar ahora"},
+  supportWhatsApp: "",          // ej "5491123456789" para el link de ayuda (vacío = solo texto)
+  metaPixelId: "",              // ID del píxel de Meta (vacío = sin píxel)
+  apiBase: "",                  // vacío = mismo dominio (/api/checkout)
+  landing: "a",                 // nombre de esta versión de la landing (se guarda en cada pago)
+
+  // Bloques que se muestran solo si los completás (todo vacío = no aparecen):
+  guarantee7days: false,        // true = muestra la garantía de 7 días (comprometete solo si la vas a cumplir)
+  bonuses: [],                  // ej ["Tablero de puntajes imprimible", "Dado de papel para armar"]
+  testimonials: []              // reseñas REALES, ej [{text: "Lo usamos todas las tardes", name: "Caro", place: "Rosario, Santa Fe", stars: 5}]
+};
+/* ===================================================== */
+
+const fmt = n => "$" + n.toLocaleString("es-AR", {maximumFractionDigits: 0});
+document.querySelectorAll(".js-price").forEach(el => el.textContent = fmt(CONFIG.price));
+if (CONFIG.supportWhatsApp) {
+  document.querySelectorAll(".js-support").forEach(el => {
+    el.innerHTML = 'por WhatsApp al <a href="https://wa.me/' + CONFIG.supportWhatsApp + '" target="_blank" rel="noopener">+' + CONFIG.supportWhatsApp + '</a>';
+  });
+}
+
+const hasAnchor = CONFIG.anchorPrice > CONFIG.price;
+document.querySelectorAll(".js-anchor").forEach(el => { el.textContent = fmt(CONFIG.anchorPrice); });
+document.querySelectorAll(".was, .sp-was, .js-off, .sticky .anchor").forEach(el => { el.hidden = !hasAnchor; });
+if (hasAnchor) {
+  const pct = Math.round((1 - CONFIG.price / CONFIG.anchorPrice) * 100);
+  document.querySelectorAll(".js-off").forEach(el => el.textContent = "-" + pct + "%");
+  document.querySelectorAll(".js-save").forEach(el => el.textContent = fmt(CONFIG.anchorPrice - CONFIG.price));
+} else document.querySelectorAll(".sp-save").forEach(el => el.hidden = true);
+
+// Contador: hasta promoEndsAt o, si está vacío, hasta las 23:59:59 de hoy en Argentina (UTC-3)
+function promoEnd() {
+  if (CONFIG.promoEndsAt) return new Date(CONFIG.promoEndsAt).getTime();
+  const now = Date.now(), art = new Date(now - 3 * 3600e3);
+  return Date.UTC(art.getUTCFullYear(), art.getUTCMonth(), art.getUTCDate() + 1) + 3 * 3600e3;
+}
+const END = promoEnd(), pad = n => String(n).padStart(2, "0");
+function tick() {
+  let t = Math.max(0, Math.floor((END - Date.now()) / 1000));
+  const h = Math.floor(t / 3600), m = Math.floor(t % 3600 / 60), sec = t % 60;
+  document.getElementById("cd-h").textContent = pad(h);
+  document.getElementById("cd-m").textContent = pad(m);
+  document.getElementById("cd-s").textContent = pad(sec);
+  document.querySelectorAll(".js-cd-inline").forEach(el => el.textContent = pad(h) + ":" + pad(m) + ":" + pad(sec));
+}
+tick(); setInterval(tick, 1000);
+
+// A/B de textos de botón: ?cta=b fuerza una variante; si no, se sortea una vez por visitante
+const CTA_KEYS = Object.keys(CONFIG.ctaVariants);
+let ctaVariant = new URLSearchParams(location.search).get("cta");
+if (!CONFIG.ctaVariants[ctaVariant]) {
+  try { ctaVariant = localStorage.getItem("ll_cta"); } catch (e) {}
+  if (!CONFIG.ctaVariants[ctaVariant]) ctaVariant = CTA_KEYS[Math.floor(Math.random() * CTA_KEYS.length)];
+}
+try { localStorage.setItem("ll_cta", ctaVariant); } catch (e) {}
+document.querySelectorAll(".js-cta").forEach(el => el.textContent = CONFIG.ctaVariants[ctaVariant]);
+document.documentElement.dataset.cta = ctaVariant;
+if (CONFIG.guarantee7days) { document.getElementById("guarantee").hidden = false; document.getElementById("faq-guarantee").hidden = false; }
+const inc = document.querySelector(".included"), noLi = inc.querySelector(".no");
+CONFIG.bonuses.forEach(b => { const li = document.createElement("li"); li.className = "bonus"; li.textContent = "Bonus de regalo: " + b; inc.insertBefore(li, noLi); });
+// La vista previa corre dentro de un marco: ahí no hay backend, se muestra el flujo en modo demo.
+const PREVIEW = (() => { try { return window.self !== window.top; } catch (e) { return true; } })();
+
+// Reseñas: en el sitio real solo se muestran las de CONFIG.testimonials. En la vista previa, si no hay, se ven 10 tarjetas de ejemplo marcadas.
+(function renderReviews() {
+  let list = CONFIG.testimonials, sample = false;
+  if (!list.length && PREVIEW) {
+    sample = true;
+    list = [
+      {name: "Roxana", place: "Córdoba, Córdoba", text: "Lo imprimí un domingo de lluvia y mis dos nenes estuvieron toda la tarde jugando. El de pintar las estrellas es el favorito de la más chiquita."},
+      {name: "Martín", place: "Rosario, Santa Fe", text: "Buscaba algo para sacarlos un rato del celular y funcionó. Ahora después de la merienda me piden “el de los dados”."},
+      {name: "Lucía", place: "La Plata, Buenos Aires", text: "Soy maestra de segundo grado y uso los juegos de sumas en el aula. Se entienden solos y los chicos se re enganchan."},
+      {name: "Florencia", place: "Mendoza, Mendoza", text: "Me llegó al mail apenas pagué. Lo anillé como en las fotos y quedó hermoso. Juega mi hija de 5 y también el abuelo."},
+      {name: "Gabriela", place: "San Miguel de Tucumán, Tucumán", text: "Mi hijo practica las tablas jugando y ni se da cuenta. Es lo mejor que compré este año para la casa."},
+      {name: "Paula", place: "Neuquén, Neuquén", text: "Nos lo llevamos de vacaciones: un par de hojas y un dado. Salvó más de una noche en la cabaña."},
+      {name: "Daniela", place: "Mar del Plata, Buenos Aires", text: "Tengo mellizos de 4 años y hay juegos que ya pueden jugar solos. Me encanta que cada hoja diga la edad."},
+      {name: "Sebastián", place: "Salta, Salta", text: "Pagué con Mercado Pago y lo descargué en un minuto. Simple, barato y los chicos felices."},
+      {name: "Carolina", place: "Paraná, Entre Ríos", text: "Los de caminos y laberintos son geniales para jugar entre hermanos. Ya reimprimimos varias veces los favoritos."},
+      {name: "Verónica", place: "Bahía Blanca, Buenos Aires", text: "Lo compré para el cumple de mi sobrina y terminamos jugando todos los grandes. Súper recomendable."}
+    ].map(t => ({...t, stars: 5}));
+  }
+  if (!list.length) return;
+  const box = document.getElementById("quotes");
+  list.forEach(t => {
+    const f = document.createElement("figure"), st = document.createElement("span"), q = document.createElement("blockquote"), c = document.createElement("figcaption");
+    const n = Math.max(1, Math.min(5, t.stars || 5));
+    st.className = "stars"; st.textContent = "★".repeat(n) + "☆".repeat(5 - n); st.setAttribute("aria-label", n + " de 5 estrellas");
+    q.textContent = "“" + t.text + "”";
+    c.innerHTML = "<b></b><span></span>"; c.firstChild.textContent = t.name; c.lastChild.textContent = t.place || "";
+    if (sample) { const tag = document.createElement("span"); tag.className = "sample-tag"; tag.textContent = "Ejemplo"; f.appendChild(tag); }
+    f.append(st, q, c); box.appendChild(f);
+  });
+  const avg = list.reduce((a, t) => a + (t.stars || 5), 0) / list.length;
+  document.querySelector(".js-avg").textContent = avg.toFixed(1).replace(".", ",");
+  document.querySelector(".js-count").textContent = list.length;
+  document.getElementById("sample-note").hidden = !sample;
+  document.getElementById("testimonios").hidden = false;
+})();
+
+// Píxel de Meta (solo en el sitio real)
+function track(ev, data) { try { window.fbq && window.fbq("track", ev, data || {}); } catch (e) {} }
+if (CONFIG.metaPixelId && !PREVIEW) {
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq("init", CONFIG.metaPixelId); fbq("track", "PageView");
+  fbq("track", "ViewContent", {content_name: "100 juegos con dados", value: CONFIG.price, currency: "ARS"});
+}
+
+const form = document.getElementById("buy-form");
+const fEmail = document.getElementById("f-email"), fWa = document.getElementById("f-wa");
+const email = document.getElementById("email"), wa = document.getElementById("wa");
+const payLabel = document.getElementById("pay-btn").innerHTML;
+const err = document.getElementById("err"), btn = document.getElementById("pay-btn"), demo = document.getElementById("demo");
+
+function channel() { return form.querySelector('input[name="channel"]:checked').value; }
+function syncChannel() {
+  const isWa = channel() === "whatsapp";
+  fWa.hidden = !isWa; fEmail.hidden = isWa; err.hidden = true;
+  fEmail.querySelector(".inp").classList.remove("bad"); fWa.querySelector(".inp").classList.remove("bad");
+  try { localStorage.setItem("ll_channel", channel()); } catch (e) {}
+}
+form.querySelectorAll('input[name="channel"]').forEach(r => r.addEventListener("change", () => { syncChannel(); (channel() === "whatsapp" ? wa : email).focus(); }));
+try { const saved = localStorage.getItem("ll_channel"); if (saved === "whatsapp") document.getElementById("ch-wa").checked = true; } catch (e) {}
+syncChannel();
+
+function showErr(msg, input) {
+  err.textContent = msg; err.hidden = false;
+  input.closest(".inp").classList.add("bad"); input.focus();
+}
+[email, wa].forEach(i => i.addEventListener("input", () => { i.closest(".inp").classList.remove("bad"); err.hidden = true; }));
+
+function readContact() {
+  if (channel() === "email") {
+    const v = email.value.trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v)) { showErr("Revisá el email: parece que le falta algo (ej: nombre@gmail.com).", email); return null; }
+    return {channel: "email", value: v};
+  }
+  let d = wa.value.replace(/\D/g, "");
+  d = d.replace(/^(54)?9?/, "").replace(/^0/, "");          // si pegan +54 9 o 0 adelante
+  d = d.replace(/^(\d{2,4})15(\d{6,8})$/, "$1$2");          // saca el 15 después del código de área
+  if (d.length !== 10) { showErr("El WhatsApp tiene que tener 10 números: código de área sin 0 y número sin 15 (ej: 11 2345 6789).", wa); return null; }
+  return {channel: "whatsapp", value: "549" + d};
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  err.hidden = true; demo.hidden = true;
+  const contact = readContact();
+  if (!contact) return;
+  track("InitiateCheckout", {value: CONFIG.price, currency: "ARS", cta_variant: ctaVariant, landing: CONFIG.landing});
+  btn.disabled = true; btn.textContent = "Abriendo Mercado Pago…";
+
+  if (PREVIEW) {
+    setTimeout(() => {
+      btn.disabled = false; btn.innerHTML = payLabel;
+      demo.innerHTML = "<strong>Vista previa:</strong> en el sitio publicado, acá se abre el checkout de Mercado Pago y después del pago se descarga el PDF.<span>Contacto que se guardaría: <code></code></span>";
+      demo.querySelector("code").textContent = (contact.channel === "email" ? "email · " : "WhatsApp · +") + contact.value;
+      demo.hidden = false;
+    }, 600);
+    return;
+  }
+
+  try {
+    const r = await fetch(CONFIG.apiBase + "/api/checkout", {
+      method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({...contact, cta: ctaVariant, landing: CONFIG.landing})
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok || !data.url) throw new Error(data.error || "sin url");
+    window.location.href = data.url;
+  } catch (e2) {
+    btn.disabled = false; btn.innerHTML = payLabel;
+    err.textContent = "No pudimos abrir Mercado Pago. Probá de nuevo en un momento" + (CONFIG.supportWhatsApp ? " o escribinos por WhatsApp al +" + CONFIG.supportWhatsApp + "." : ".");
+    err.hidden = false;
+  }
+});
+
+// Barra fija: se esconde cuando el formulario está a la vista
+const sticky = document.getElementById("sticky");
+if ("IntersectionObserver" in window) {
+  new IntersectionObserver(([en]) => sticky.classList.toggle("hide", en.isIntersecting), {threshold: .15})
+    .observe(document.getElementById("comprar"));
+}
+document.querySelectorAll('[data-cta]').forEach(a => a.addEventListener("click", () => { try { window.fbq && fbq("trackCustom", "CTAClick", {cta_variant: ctaVariant, cta_place: a.dataset.cta}); } catch (e) {} }));
+document.querySelectorAll('[data-cta]').forEach(a => a.addEventListener("click", () => setTimeout(() => (channel() === "whatsapp" ? wa : email).focus({preventScroll: true}), 450)));
+</script>
+</body>
+</html>

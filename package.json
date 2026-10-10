@@ -1,0 +1,6 @@
+{
+  "name": "ludolab-landing",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=18" }
+}
