@@ -68,3 +68,10 @@ La variante viaja en el pago de Mercado Pago (`metadata.landing`) y en la URL de
 Abrir la página de descarga **no** alcanza para bajar el PDF. El botón aparece solo si `/api/verify` consulta el `payment_id` en la API de Mercado Pago (con el token, del lado del servidor) y el pago es de este ebook, está aprobado y es por el precio completo. Entonces entrega un link firmado que vence a los 7 días. Inventar un `payment_id` o poner `status=approved` en la URL no sirve.
 
 Punto débil: `/api/download` redirige a la URL pública del PDF en Vercel Blob. Quien compra puede copiar esa URL y compartirla, y esa URL no vence. Cómo cerrarlo de la forma más simple: subir el PDF de nuevo con un nombre aleatorio, borrar el viejo, actualizar `PDF_URL` y que la función mande el archivo en vez de redirigir, para que la URL real nunca se vea.
+
+## 6. API de conversiones (servidor) y compra única
+- El Purchase del servidor sale desde `/api/webhook` cuando Mercado Pago avisa que el pago quedó aprobado (y desde `/api/verify` si el aviso todavía no llegó). Va con `event_id: mp_<payment_id>`, igual que el del navegador, así Meta los cuenta como una sola compra.
+- Cada pago deja una marca en Vercel Blob (`meta/capi-…` y `meta/pixel-…`, con nombres imposibles de adivinar). Si la marca ya existe, no se manda de nuevo: ni desde el servidor ni desde el navegador, aunque abra la página de descarga en otro celular.
+- `user_data`: email (el que dejó y el de Mercado Pago) y WhatsApp con SHA-256, `external_id`, país, `fbp`, `fbc`, IP y navegador guardados al dejar los datos (viajan en `metadata` del pago).
+- `custom_data`: `value` (lo que cobró Mercado Pago), `currency: ARS`, `variante` (A o B, sacada de `external_reference`).
+- Variables en Vercel: `META_CAPI_TOKEN` (obligatoria), `BLOB_READ_WRITE_TOKEN` (la crea Vercel al conectar el Blob), `META_TEST_EVENT_CODE` (opcional para probar).

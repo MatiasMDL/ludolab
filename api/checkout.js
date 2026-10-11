@@ -1,4 +1,4 @@
-import { env, price, mp, encodeRef } from "./_lib/shared.js";
+import { env, price, mp, encodeRef, clientIp } from "./_lib/shared.js";
 
 // POST /api/checkout  {channel: "email"|"whatsapp", value}
 // Crea la preferencia de Checkout Pro y devuelve la URL de pago de Mercado Pago.
@@ -21,6 +21,10 @@ export default async function handler(req, res) {
   const cta = String(body.cta || "").replace(/[^a-z0-9_-]/gi, "").slice(0, 20) || "na";
   const landing = String(body.landing || "").replace(/[^a-z0-9_-]/gi, "").slice(0, 20) || "na";
   const site = env("SITE_URL");
+  const variante = landing.toLowerCase() === "b" ? "B" : "A";
+  // Datos para la API de conversiones de Meta (se reusan en el Purchase del servidor)
+  const cookie = (v) => (/^fb\.\d\.\d+\.[\w.-]{1,250}$/.test(String(v || "")) ? String(v) : undefined);
+  const meta = { fbp: cookie(body.fbp), fbc: cookie(body.fbc), client_ip: clientIp(req) || undefined, client_ua: String(req.headers["user-agent"] || "").slice(0, 400) || undefined };
   try {
     const pref = await mp("/checkout/preferences", {
       method: "POST",
@@ -33,8 +37,8 @@ export default async function handler(req, res) {
           unit_price: price(),
           currency_id: "ARS",
         }],
-        external_reference: encodeRef(channel, value),
-        metadata: { cta_variant: cta, landing },
+        external_reference: encodeRef(channel, value, variante),
+        metadata: { cta_variant: cta, landing, ...meta },
         back_urls: {
           success: `${site}/gracias?l=${landing}`,
           pending: `${site}/gracias?l=${landing}`,

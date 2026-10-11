@@ -1,4 +1,5 @@
 import crypto from "node:crypto";
+import { put, head, del } from "@vercel/blob";
 
 export const env = (k, fallback) => {
   const v = process.env[k];
@@ -29,14 +30,15 @@ export async function mp(path, opts = {}) {
 
 export const getPayment = (id) => mp(`/v1/payments/${encodeURIComponent(id)}`);
 
-// El contacto viaja en external_reference: "ebook|email|nombre@gmail.com" o "ebook|whatsapp|5491123456789"
-export function encodeRef(channel, value) {
-  return `${PRODUCT_ID}|${channel}|${value}`;
+// El contacto y la versión de la landing viajan en external_reference:
+// "100-juegos-con-dados|email|nombre@gmail.com|A" o "100-juegos-con-dados|whatsapp|5491123456789|B"
+export function encodeRef(channel, value, variante) {
+  return `${PRODUCT_ID}|${channel}|${value}|${variante === "B" ? "B" : "A"}`;
 }
 export function decodeRef(ref = "") {
-  const [product, channel, value] = String(ref).split("|");
+  const [product, channel, value, variante] = String(ref).split("|");
   if (product !== PRODUCT_ID || !channel || !value) return null;
-  return { channel, value };
+  return { channel, value, variante: variante === "B" || variante === "A" ? variante : null };
 }
 
 // Un pago sirve para descargar solo si es de este producto, está aprobado y pagó el precio completo
@@ -61,6 +63,95 @@ export function readToken(t = "") {
   const [paymentId, exp] = Buffer.from(payload, "base64url").toString().split(".");
   if (!paymentId || Date.now() > Number(exp)) return null;
   return { paymentId };
+}
+
+/* ---------- Una sola vez por pago (marcas en Vercel Blob) ---------- */
+// Guarda una marca por pago con un nombre imposible de adivinar. Devuelve true solo la primera vez.
+const markPath = (kind, paymentId) => `meta/${kind}-${hmac(`${kind}:${paymentId}`).slice(0, 32)}.txt`;
+
+export async function claimOnce(kind, paymentId) {
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    console.warn("Falta BLOB_READ_WRITE_TOKEN: no se pueden evitar envíos duplicados");
+    return true;
+  }
+  const path = markPath(kind, paymentId);
+  try {
+    await put(path, new Date().toISOString(), { access: "public", addRandomSuffix: false, allowOverwrite: false, contentType: "text/plain" });
+    return true;
+  } catch (e) {
+    try { await head(path); return false; } // ya existía: ya se hizo
+    catch { console.error("claimOnce", kind, paymentId, e.message); return true; }
+  }
+}
+
+async function releaseClaim(kind, paymentId) {
+  if (process.env.BLOB_READ_WRITE_TOKEN) await del(markPath(kind, paymentId)).catch(() => {});
+}
+
+/* ---------- API de conversiones de Meta ---------- */
+export const PIXEL_ID = "4240054562902602";
+const sha = (s) => crypto.createHash("sha256").update(String(s).trim().toLowerCase()).digest("hex");
+const clean = (o) => Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined && v !== null && v !== "" && !(Array.isArray(v) && !v.length)));
+
+export const clientIp = (req) => String(req.headers["x-forwarded-for"] || req.headers["x-real-ip"] || "").split(",")[0].trim();
+
+// Manda el Purchase al servidor de Meta una sola vez por pago, con event_id mp_<payment_id>
+// (el mismo que usa el navegador, así Meta los cuenta como una sola compra).
+export async function sendPurchaseOnce(payment, req) {
+  const token = process.env.META_CAPI_TOKEN;
+  if (!token) return { skipped: "falta META_CAPI_TOKEN" };
+  if (!isValidPurchase(payment)) return { skipped: "pago no aprobado" };
+  if (!(await claimOnce("capi", payment.id))) return { skipped: "ya enviado" };
+
+  const c = decodeRef(payment.external_reference);
+  const m = payment.metadata || {};
+  const emails = [...new Set([c.channel === "email" ? c.value : null, payment.payer?.email]
+    .filter((e) => e && /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(e)).map((e) => e.trim().toLowerCase()))];
+  const phone = c.channel === "whatsapp" ? c.value.replace(/\D/g, "") : null;
+  const variante = c.variante || (String(m.landing || "").toLowerCase() === "b" ? "B" : "A");
+  const approved = Date.parse(payment.date_approved || "") || Date.now();
+
+  const event = {
+    event_name: "Purchase",
+    event_time: Math.floor(Math.min(approved, Date.now()) / 1000),
+    event_id: `mp_${payment.id}`,
+    action_source: "website",
+    event_source_url: `${env("SITE_URL")}/gracias`,
+    user_data: clean({
+      em: emails.map(sha),
+      ph: phone ? [sha(phone)] : [],
+      external_id: [sha(c.value)],
+      country: [sha("ar")],
+      fbp: m.fbp,
+      fbc: m.fbc,
+      client_ip_address: m.client_ip || (req && clientIp(req)),
+      client_user_agent: m.client_ua || (req && req.headers["user-agent"]),
+    }),
+    custom_data: {
+      value: Number(payment.transaction_amount),
+      currency: "ARS",
+      content_name: "100 juegos con dados",
+      content_ids: [PRODUCT_ID],
+      content_type: "product",
+      num_items: 1,
+      variante,
+    },
+  };
+
+  const body = { data: [event], access_token: token };
+  if (process.env.META_TEST_EVENT_CODE) body.test_event_code = process.env.META_TEST_EVENT_CODE;
+  try {
+    const r = await fetch(`https://graph.facebook.com/v21.0/${PIXEL_ID}/events`, {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
+    });
+    const out = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(`Meta ${r.status}: ${JSON.stringify(out).slice(0, 300)}`);
+    console.log("Purchase enviado a Meta", payment.id, variante, out.events_received);
+    return { sent: true };
+  } catch (e) {
+    await releaseClaim("capi", payment.id); // así el próximo aviso lo reintenta
+    throw e;
+  }
 }
 
 /* ---------- Entrega ---------- */

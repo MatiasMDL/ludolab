@@ -553,13 +553,24 @@ function readContact() {
   return {channel: "whatsapp", value: "549" + d};
 }
 
+// Cookies del píxel (_fbp y _fbc) para que el servidor las reuse en la compra
+function fbCookies() {
+  const get = (n) => (document.cookie.match("(?:^|; )" + n + "=([^;]*)") || [])[1];
+  let fbc = get("_fbc");
+  const fbclid = new URLSearchParams(location.search).get("fbclid");
+  if (!fbc && fbclid) fbc = "fb.1." + Date.now() + "." + fbclid;
+  return {fbp: get("_fbp"), fbc: fbc};
+}
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   err.hidden = true; demo.hidden = true;
   const contact = readContact();
   if (!contact) return;
   // Coincidencia avanzada: solo el dato que dejó (el píxel lo hashea antes de enviarlo)
-  try { window.fbq && fbq("init", PIXEL_ID, contact.channel === "email" ? {em: contact.value} : {ph: contact.value}); } catch (e) {}
+  const lead = contact.channel === "email" ? {em: contact.value} : {ph: contact.value};
+  try { window.fbq && fbq("init", PIXEL_ID, lead); } catch (e) {}
+  try { localStorage.setItem("ll_lead", JSON.stringify(lead)); } catch (e) {}   // la página de descarga lo reusa
   track("Lead", {content_name: "100 juegos con dados"});
   btn.disabled = true; btn.textContent = "Abriendo Mercado Pago…";
 
@@ -575,7 +586,7 @@ form.addEventListener("submit", async (e) => {
 
   try {
     const r = await fetch(CONFIG.apiBase + "/api/checkout", {
-      method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({...contact, cta: ctaVariant, landing: CONFIG.landing})
+      method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({...contact, cta: ctaVariant, landing: CONFIG.landing, ...fbCookies()})
     });
     const data = await r.json().catch(() => ({}));
     if (!r.ok || !data.url) throw new Error((data.detail || data.error || ("HTTP " + r.status)));

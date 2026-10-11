@@ -12,7 +12,8 @@ n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
 n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
 document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '4240054562902602');
+var ud={};try{ud=JSON.parse(localStorage.getItem('ll_lead')||'{}')}catch(e){}
+fbq('init', '4240054562902602', ud);   // mail o WhatsApp que dejó en la landing
 fbq('track', 'PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=4240054562902602&ev=PageView&noscript=1"/></noscript>
@@ -53,11 +54,13 @@ const help = SUPPORT_WA ? ' Si necesitás ayuda escribinos al <a href="https://w
 function render(html) { box.innerHTML = html; }
 
 // Purchase solo cuando nuestro servidor confirmó con Mercado Pago que el pago está aprobado,
-// y una sola vez por pago (aunque recargue la página). El eventID evita duplicados en Meta.
+// y una sola vez por pago: lo controla el servidor (cualquier dispositivo) y además localStorage.
+// El eventID mp_<payment_id> es el mismo que manda el servidor, así Meta los cuenta como una sola compra.
 function trackPurchase(d) {
   const key = "fb_purchase_" + paymentId;
   try { if (localStorage.getItem(key)) return; } catch (e) {}
-  const variante = String(d.landing || q.get("l") || "a").toUpperCase() === "B" ? "B" : "A";
+  if (d.trackPixel === false) return;   // el servidor dice que este pago ya se contó (otro dispositivo o recarga)
+  const variante = d.variante || (String(d.landing || q.get("l") || "a").toUpperCase() === "B" ? "B" : "A");
   try {
     window.fbq && fbq("track", "Purchase",
       {value: Number(d.amount) || 11999, currency: "ARS", content_name: "100 juegos con dados", num_items: 1, variante: variante, cta_variant: d.cta},

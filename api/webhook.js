@@ -1,5 +1,5 @@
 import crypto from "node:crypto";
-import { getPayment, isValidPurchase, deliver } from "./_lib/shared.js";
+import { getPayment, isValidPurchase, deliver, sendPurchaseOnce } from "./_lib/shared.js";
 
 // POST /api/webhook  (notification_url de la preferencia)
 // Mercado Pago avisa acá cada cambio de un pago. Si quedó aprobado, mandamos el ebook.
@@ -23,6 +23,8 @@ export default async function handler(req, res) {
     // Nunca confiamos en el cuerpo: consultamos el pago directo a Mercado Pago
     const payment = await getPayment(id);
     if (isValidPurchase(payment)) {
+      // Compra para Meta (API de conversiones): una sola vez por pago
+      await sendPurchaseOnce(payment).then((r) => r.skipped && console.log("Meta Purchase:", r.skipped)).catch((e) => console.error(e.message));
       const r = await deliver(payment);
       console.log("Entregado", payment.id, r);
     }
