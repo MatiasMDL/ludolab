@@ -37,8 +37,8 @@ p{margin:0;color:var(--ink-soft)}
 small{color:var(--ink-soft)}
 a{color:inherit}
 .planb{font-size:.95rem}
-.btn-wa{background:#1F8E54;box-shadow:0 4px 0 #166B3F;font-size:1rem}
-.btn-wa:hover{background:#166B3F}
+.btn-ig{background:#C13584;box-shadow:0 4px 0 #8E2762;font-size:1rem}
+.btn-ig:hover{background:#8E2762}
 </style>
 </head>
 <body>
@@ -48,21 +48,19 @@ a{color:inherit}
   <p>Esto tarda unos segundos.</p>
 </main>
 <script>
-const SUPPORT_WA = ""; // ej "5491123456789"
+const SUPPORT_IG = "ludolab.ar"; // ayuda por mensaje directo de Instagram
 const box = document.getElementById("box");
 const q = new URLSearchParams(location.search);
 const paymentId = q.get("payment_id") || q.get("collection_id");
-const help = SUPPORT_WA ? ' Si necesitás ayuda escribinos al <a href="https://wa.me/' + SUPPORT_WA + '">+' + SUPPORT_WA + '</a>.' : "";
+const help = ' Si necesitás ayuda escribinos por Instagram a <a href="https://ig.me/m/' + SUPPORT_IG + '">@' + SUPPORT_IG + '</a>.';
 
 function render(html) { box.innerHTML = html; }
 
-// Plan B si no le llega el mail: WhatsApp con el número de pago ya escrito
+// Plan B si no le llega el mail: mensaje directo de Instagram con el número de pago a mano
 function planB(d) {
   const donde = d.channel === "whatsapp" ? "el WhatsApp" : "el mail";
-  const txt = '<p class="planb">Si no te llega ' + donde + ' en 5 minutos, revisá Spam o Promociones, o escribinos por WhatsApp.</p>';
-  if (!SUPPORT_WA) return txt;
-  const msg = "¡Hola! Compré el ebook 100 juegos con dados y no me llegó " + donde + ". Mi número de pago es #" + paymentId;
-  return txt + '<a class="btn btn-wa" href="https://wa.me/' + SUPPORT_WA + '?text=' + encodeURIComponent(msg) + '">Escribinos por WhatsApp</a>';
+  return '<p class="planb">Si no te llega ' + donde + ' en 5 minutos, revisá Spam o Promociones, o escribinos por Instagram con tu número de pago: <b>#' + paymentId + '</b></p>'
+    + '<a class="btn btn-ig" href="https://ig.me/m/' + SUPPORT_IG + '" target="_blank" rel="noopener">Escribinos por Instagram</a>';
 }
 
 // Purchase solo cuando nuestro servidor confirmó con Mercado Pago que el pago está aprobado,
