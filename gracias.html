@@ -36,6 +36,9 @@ p{margin:0;color:var(--ink-soft)}
 .ok{width:56px;height:56px;border-radius:50%;background:var(--green);display:grid;place-items:center}
 small{color:var(--ink-soft)}
 a{color:inherit}
+.planb{font-size:.95rem}
+.btn-wa{background:#1F8E54;box-shadow:0 4px 0 #166B3F;font-size:1rem}
+.btn-wa:hover{background:#166B3F}
 </style>
 </head>
 <body>
@@ -52,6 +55,15 @@ const paymentId = q.get("payment_id") || q.get("collection_id");
 const help = SUPPORT_WA ? ' Si necesitás ayuda escribinos al <a href="https://wa.me/' + SUPPORT_WA + '">+' + SUPPORT_WA + '</a>.' : "";
 
 function render(html) { box.innerHTML = html; }
+
+// Plan B si no le llega el mail: WhatsApp con el número de pago ya escrito
+function planB(d) {
+  const donde = d.channel === "whatsapp" ? "el WhatsApp" : "el mail";
+  const txt = '<p class="planb">Si no te llega ' + donde + ' en 5 minutos, revisá Spam o Promociones, o escribinos por WhatsApp.</p>';
+  if (!SUPPORT_WA) return txt;
+  const msg = "¡Hola! Compré el ebook 100 juegos con dados y no me llegó " + donde + ". Mi número de pago es #" + paymentId;
+  return txt + '<a class="btn btn-wa" href="https://wa.me/' + SUPPORT_WA + '?text=' + encodeURIComponent(msg) + '">Escribinos por WhatsApp</a>';
+}
 
 // Purchase solo cuando nuestro servidor confirmó con Mercado Pago que el pago está aprobado,
 // y una sola vez por pago: lo controla el servidor (cualquier dispositivo) y además localStorage.
@@ -81,7 +93,8 @@ async function check(attempt) {
       trackPurchase(d);
       render('<div class="ok"><svg width="30" height="30" viewBox="0 0 20 20"><path d="M5 10.5l3 3 7-7" stroke="white" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>'
         + '<h1>¡Listo! Ya es tuyo</h1><p>Descargalo ahora. También te mandamos el link ' + (d.channel === "whatsapp" ? "por WhatsApp" : "a tu email") + '.</p>'
-        + '<a class="btn" href="' + d.downloadUrl + '">Descargar el PDF</a><small>El link funciona durante 7 días.' + help + '</small>');
+        + '<a class="btn" href="' + d.downloadUrl + '">Descargar el PDF</a><small>El link funciona durante 7 días.</small>'
+        + planB(d));
       return;
     }
     if (d.status === "pending" || d.status === "in_process" || d.status === "authorized") {

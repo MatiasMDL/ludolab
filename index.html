@@ -194,6 +194,7 @@ legend{font-weight:800;margin-bottom:10px;padding:0}
 .inp .pre{padding:0 0 0 14px;font-weight:700;color:var(--ink-soft);white-space:nowrap;font-variant-numeric:tabular-nums}
 .inp input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:600 1.1rem var(--f-body);padding:15px 14px;outline:none}
 .hint{font-size:.85rem;color:var(--ink-soft)}
+.err .sug{font:inherit;color:inherit;background:none;border:0;padding:0;text-decoration:underline;cursor:pointer}
 .err{font-size:.9rem;color:var(--cta);font-weight:700}
 .box .btn{width:100%;font-size:1.2rem}
 .secure{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:.85rem;color:var(--ink-soft);text-align:center}
@@ -725,10 +726,39 @@ function showErr(msg, input) {
 }
 [email, wa].forEach(i => i.addEventListener("input", () => { i.closest(".inp").classList.remove("bad"); err.hidden = true; }));
 
+// Detecta errores de tipeo en el dominio del mail (gmial.com, hotmial.com, gmail.con...)
+const MAIL_DOMAINS = ["gmail.com", "hotmail.com", "hotmail.com.ar", "outlook.com", "outlook.com.ar", "yahoo.com", "yahoo.com.ar", "live.com", "live.com.ar", "icloud.com", "fibertel.com.ar", "speedy.com.ar", "arnet.com.ar"];
+function editDistance(a, b) {
+  const d = Array.from({length: a.length + 1}, (_, i) => [i]);
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++)
+    d[i][j] = Math.min(d[i-1][j] + 1, d[i][j-1] + 1, d[i-1][j-1] + (a[i-1] === b[j-1] ? 0 : 1),
+      i > 1 && j > 1 && a[i-1] === b[j-2] && a[i-2] === b[j-1] ? d[i-2][j-2] + 1 : 99);
+  return d[a.length][b.length];
+}
+function suggestEmail(v) {
+  const [user, domain] = v.split("@");
+  if (!domain || MAIL_DOMAINS.includes(domain)) return null;
+  let best = null, dist = 3;
+  for (const m of MAIL_DOMAINS) { const k = editDistance(domain, m); if (k < dist) { dist = k; best = m; } }
+  return best ? user + "@" + best : null;
+}
+
 function readContact() {
   if (channel() === "email") {
     const v = email.value.trim().toLowerCase();
-    if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v)) { showErr("Revisá el email: parece que le falta algo (ej: nombre@gmail.com).", email); return null; }
+    if (!/^[^\s@|]+@[^\s@|]+\.[a-z]{2,}$/i.test(v)) { showErr("Revisá el email: parece que le falta algo (ej: nombre@gmail.com).", email); return null; }
+    const fix = suggestEmail(v);
+    if (fix && email.dataset.confirmed !== v) {   // la primera vez avisamos; si vuelve a tocar Pagar, sigue con lo que escribió
+      email.dataset.confirmed = v;
+      showErr("", email);
+      err.append("¿Quisiste decir ");
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "sug"; b.textContent = fix;
+      b.addEventListener("click", () => { email.value = fix; err.hidden = true; email.closest(".inp").classList.remove("bad"); email.focus(); });
+      err.append(b, "? Tocalo para corregirlo, o tocá Pagar de nuevo si está bien.");
+      return null;
+    }
     return {channel: "email", value: v};
   }
   let d = wa.value.replace(/\D/g, "");

@@ -32,6 +32,7 @@ Píxel `4240054562902602`, con el código base en el `<head>` de `index.html`, `
    - **Email:** automático con Resend.
    - **WhatsApp:** automático si configurás la API de WhatsApp de Meta. Si no, te llega un email a vos con un botón que abre WhatsApp con el mensaje y el link ya escritos (un toque y listo).
 6. El link de descarga está firmado y vence a los 7 días.
+7. Cada venta se entrega una sola vez (aunque Mercado Pago avise varias veces). La dueña recibe copia oculta del mail y un aviso aparte "Venta #<pago> – mail ENVIADO" o "FALLÓ" (con 2 reintentos antes de fallar). Cada envío queda registrado en Vercel Blob y se ve en `/api/envios?key=<ENVIOS_KEY>`.
 
 ## Archivos
 
