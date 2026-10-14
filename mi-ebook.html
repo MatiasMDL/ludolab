@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Tu ebook · LudoLab Ebooks</title>
+<meta name="theme-color" content="#FAF8F5">
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '4240054562902602');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=4240054562902602&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Figtree:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+.intro{padding-block:26px 6px;text-align:center}
+.intro h1{font-size:clamp(2rem,8vw,2.8rem)}
+.intro p{color:var(--ink-soft);margin-top:8px}
+.keep{margin:16px auto 0;max-width:560px;background:var(--panel);border:2px dashed var(--ink);border-radius:14px;padding:12px 14px;font-weight:700;text-align:center}
+.book{margin-top:26px}
+.book h2{text-align:center;margin-bottom:14px}
+.actions{display:grid;gap:12px;margin:0 auto 16px;max-width:560px}
+.actions .btn{font-size:1.15rem;padding:1.1em 1em}
+.viewer{max-width:820px;margin:0 auto;background:var(--panel);border:2px solid var(--ink);border-radius:var(--r);padding:10px;display:flex;flex-direction:column;gap:10px;align-items:center}
+.viewer canvas,.viewer .ph{width:100%;height:auto;background:#fff;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.15)}
+.viewer .ph{aspect-ratio:210/297;display:grid;place-items:center;color:#888;font-size:.9rem}
+.viewer iframe{width:100%;height:80vh;border:0;border-radius:8px;background:#fff}
+.viewer .msg{padding:26px 10px;text-align:center;color:var(--ink-soft)}
+.pages{font-size:.85rem;color:var(--ink-soft);text-align:center}
+.state{max-width:520px;margin:40px auto;padding:28px 22px;text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center}
+@media (min-width:720px){.actions{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap"><a class="logo" href="/"><span class="dot"></span>LudoLab <small>Ebooks</small></a></div></header>
+<main class="wrap" id="app">
+  <section class="state card"><h1>Abriendo tu ebook…</h1></section>
+</main>
+<footer class="site">
+  <div class="wrap">
+    <span>© LudoLab Ebooks</span>
+    <nav><a href="/recuperar">¿No te llegó?</a><a href="/terminos">Términos</a><a href="/privacidad">Privacidad</a><a href="/contacto">Contacto</a><a href="/contacto#arrepentimiento">Botón de arrepentimiento</a></nav>
+  </div>
+</footer>
+<script src="/assets/pdfjs/pdf.min.js"></script>
+<script>
+const app = document.getElementById("app");
+const token = location.pathname.split("/")[2] || "";
+const mobile = matchMedia("(pointer:coarse)").matches;
+const esc = (s) => String(s || "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"})[c]);
+if (window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc = "/assets/pdfjs/pdf.worker.min.js";
+
+// El PDF se baja una sola vez por ebook y se reusa para ver, imprimir y guardar
+const cache = {};
+async function getPdf(e) {
+  if (!cache[e.slug]) cache[e.slug] = fetch(e.pdf).then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.blob(); });
+  return cache[e.slug];
+}
+
+async function guardar(e, btn) {
+  const label = btn.innerHTML; btn.disabled = true; btn.textContent = "Preparando el PDF…";
+  try {
+    const blob = await getPdf(e);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a"); a.href = url; a.download = e.archivo; document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 60e3);
+  } catch (err) { location.href = e.pdf; }   // si el navegador no deja, lo abre directo
+  finally { btn.disabled = false; btn.innerHTML = label; }
+}
+
+async function imprimir(e, btn) {
+  if (mobile) { window.open(e.pdf, "_blank"); return; }   // en el celu: se abre en el visor y se imprime desde ahí
+  const label = btn.innerHTML; btn.disabled = true; btn.textContent = "Preparando…";
+  try {
+    const url = URL.createObjectURL(await getPdf(e));
+    const f = document.createElement("iframe"); f.style.cssText = "position:fixed;right:0;bottom:0;width:0;height:0;border:0"; f.src = url;
+    f.onload = () => { try { f.contentWindow.focus(); f.contentWindow.print(); } catch (err) { window.open(url, "_blank"); } };
+    document.body.append(f);
+  } catch (err) { window.open(e.pdf, "_blank"); }
+  finally { setTimeout(() => { btn.disabled = false; btn.innerHTML = label; }, 1500); }
+}
+
+// Visor: cada página se dibuja recién cuando aparece en pantalla
+async function mostrar(e, viewer, info) {
+  try {
+    if (!window.pdfjsLib) throw new Error("sin visor");
+    const data = await (await getPdf(e)).arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({data}).promise;
+    viewer.innerHTML = "";
+    info.textContent = pdf.numPages + " páginas";
+    const io = new IntersectionObserver((entries) => entries.forEach(async (en) => {
+      if (!en.isIntersecting) return;
+      io.unobserve(en.target);
+      const page = await pdf.getPage(Number(en.target.dataset.n));
+      const w = Math.min(en.target.clientWidth || 800, 820) * Math.min(devicePixelRatio || 1, 2);
+      const vp = page.getViewport({scale: w / page.getViewport({scale: 1}).width});
+      const c = document.createElement("canvas"); c.width = vp.width; c.height = vp.height;
+      await page.render({canvasContext: c.getContext("2d"), viewport: vp}).promise;
+      c.setAttribute("aria-label", "Página " + en.target.dataset.n); en.target.replaceWith(c);
+    }), {rootMargin: "600px 0px"});
+    for (let n = 1; n <= pdf.numPages; n++) {
+      const ph = document.createElement("div"); ph.className = "ph"; ph.dataset.n = n; ph.textContent = "Página " + n;
+      viewer.append(ph); io.observe(ph);
+    }
+  } catch (err) {
+    console.error(err);
+    viewer.innerHTML = mobile
+      ? '<p class="msg">Tocá <b>Imprimir</b> para abrirlo en el visor de tu celu, o <b>Guardar</b> para tenerlo siempre.</p>'
+      : '<iframe title="' + esc(e.titulo) + '" src="' + e.pdf + '"></iframe>';
+  }
+}
+
+async function init() {
+  try {
+    const r = await fetch("/api/mi-ebook?visita=1&t=" + encodeURIComponent(token));
+    if (r.status === 404) throw new Error("404");
+    const d = await r.json();
+    if (!r.ok || !d.ebooks?.length) throw new Error(d.error || "sin ebooks");
+    app.innerHTML = '<section class="intro"><h1>¡Acá está tu ebook! 🎲</h1>'
+      + (d.ebooks.length > 1 ? '<p>Tenés ' + d.ebooks.length + ' ebooks en esta página.</p>' : '')
+      + '<p class="keep">Guardá esta página: este link es tuyo y funciona para siempre.</p></section>';
+    d.ebooks.forEach(e => {
+      const s = document.createElement("section"); s.className = "book";
+      s.innerHTML = '<h2>' + esc(e.titulo) + '</h2><div class="actions">'
+        + '<button class="btn block" type="button" data-a="print">🖨 Imprimir</button>'
+        + '<button class="btn ghost block" type="button" data-a="save">💾 Guardar en mi celu/compu</button></div>'
+        + '<div class="viewer"><p class="msg">Cargando tu ebook…</p></div><p class="pages"></p>';
+      s.querySelector('[data-a="print"]').onclick = (ev) => imprimir(e, ev.currentTarget);
+      s.querySelector('[data-a="save"]').onclick = (ev) => guardar(e, ev.currentTarget);
+      app.append(s);
+      mostrar(e, s.querySelector(".viewer"), s.querySelector(".pages"));
+    });
+    app.insertAdjacentHTML("beforeend", '<p class="muted" style="text-align:center;margin-top:22px;font-size:.92rem">Comprado con ' + esc(d.email) + '. Es para uso familiar o en el aula: por favor no lo compartas.</p>');
+  } catch (err) {
+    app.innerHTML = '<section class="state card"><h1>No encontramos este link</h1><p class="muted">Revisá que esté completo, o pedí tu link de nuevo con el mail con el que compraste.</p><a class="btn" href="/recuperar">Recuperar mi ebook</a></section>';
+  }
+}
+init();
+</script>
+</body>
+</html>

@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>¡Gracias! · LudoLab</title>
+<title>¡Gracias! · LudoLab Ebooks</title>
+<meta name="theme-color" content="#FAF8F5">
 <!-- Meta Pixel -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -13,103 +14,98 @@ n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
 document,'script','https://connect.facebook.net/en_US/fbevents.js');
 var ud={};try{ud=JSON.parse(localStorage.getItem('ll_lead')||'{}')}catch(e){}
-fbq('init', '4240054562902602', ud);   // mail o WhatsApp que dejó en la landing
+fbq('init', '4240054562902602', ud);   // mail que dejó en la landing (coincidencia avanzada)
 fbq('track', 'PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=4240054562902602&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Figtree:wght@400;600;800&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Figtree:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
 <style>
-:root{--paper:#FAF8F5;--ink:#18181B;--ink-soft:#5A5D7E;--cta:#DA3229;--cta-hover:#B8261E;--sun:#FFC23D;--green:#1F8E74;--card:#fff;--line:#E9E2D6;
-  --f-display:"Fredoka","Arial Rounded MT Bold",system-ui,sans-serif;--f-body:"Figtree",system-ui,sans-serif}
-@media (prefers-color-scheme: dark){:root{--paper:#17182B;--ink:#F4F1EA;--ink-soft:#B8B9D0;--cta:#F0584B;--cta-hover:#FF6E62;--green:#5CCDB0;--card:#21223A;--line:#2F3150;color-scheme:dark}}
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--f-body);padding:24px 16px}
-.box{max-width:520px;width:100%;background:var(--card);border:2px solid var(--ink);border-radius:24px;box-shadow:8px 8px 0 var(--ink);padding:32px 26px;display:flex;flex-direction:column;gap:16px;text-align:center;align-items:center}
-h1{font:700 clamp(1.8rem,6vw,2.4rem)/1.05 var(--f-display);margin:0}
-p{margin:0;color:var(--ink-soft)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;border:0;border-radius:999px;background:var(--cta);color:#fff;font:800 1.15rem/1 var(--f-body);padding:1.05em 1.6em;text-decoration:none;box-shadow:0 4px 0 var(--cta-hover)}
-.btn:hover{background:var(--cta-hover)}
-.spin{width:44px;height:44px;border-radius:12px;border:3px solid var(--ink);animation:r 1s linear infinite}
+.state{max-width:520px;margin:36px auto 0;padding:30px 22px;display:flex;flex-direction:column;gap:16px;text-align:center;align-items:center}
+.state h1{font-size:clamp(1.8rem,7vw,2.4rem)}
+.state p{color:var(--ink-soft)}
+.spin{width:48px;height:48px;border-radius:12px;border:3px solid var(--ink);position:relative;animation:r 1.2s linear infinite}
+.spin::after{content:"";position:absolute;inset:0;margin:auto;width:9px;height:9px;border-radius:50%;background:var(--cta)}
 @keyframes r{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.spin{animation:none}}
-.ok{width:56px;height:56px;border-radius:50%;background:var(--green);display:grid;place-items:center}
-small{color:var(--ink-soft)}
-a{color:inherit}
-.planb{font-size:.95rem}
-.btn-ig{background:#C13584;box-shadow:0 4px 0 #8E2762;font-size:1rem}
-.btn-ig:hover{background:#8E2762}
+.ok{width:60px;height:60px;border-radius:50%;background:var(--green);display:grid;place-items:center}
+.small-link{font-size:.92rem}
 </style>
 </head>
 <body>
-<main class="box" id="box">
-  <div class="spin" aria-hidden="true"></div>
-  <h1>Confirmando tu pago…</h1>
-  <p>Esto tarda unos segundos.</p>
+<header class="top"><div class="wrap"><a class="logo" href="/"><span class="dot"></span>LudoLab <small>Ebooks</small></a></div></header>
+<main class="wrap">
+  <section class="state card" id="box" aria-live="polite">
+    <div class="spin" aria-hidden="true"></div>
+    <h1>Confirmando tu pago…</h1>
+    <p>Esto tarda unos segundos.</p>
+  </section>
 </main>
+<footer class="site">
+  <div class="wrap">
+    <span>© LudoLab Ebooks</span>
+    <nav><a href="/recuperar">¿No te llegó?</a><a href="/terminos">Términos</a><a href="/privacidad">Privacidad</a><a href="/contacto">Contacto</a><a href="/contacto#arrepentimiento">Botón de arrepentimiento</a></nav>
+  </div>
+</footer>
 <script>
-const SUPPORT_IG = "ludolab.ar"; // ayuda por mensaje directo de Instagram
 const box = document.getElementById("box");
 const q = new URLSearchParams(location.search);
 const paymentId = q.get("payment_id") || q.get("collection_id");
-const help = ' Si necesitás ayuda escribinos por Instagram a <a href="https://ig.me/m/' + SUPPORT_IG + '">@' + SUPPORT_IG + '</a>.';
-
+const ref = q.get("external_reference") || "";
+const slug = (q.get("p") || ref.split("|")[0] || "dados").replace(/[^a-z0-9-]/g, "");
+const v = (q.get("v") || q.get("l")) === "b" ? "b" : "a";
+const RECUPERAR = '<a class="small-link" href="/recuperar">¿No te llegó o lo perdiste? Pedilo de nuevo acá</a>';
+const esc = (s) => String(s || "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"})[c]);
 function render(html) { box.innerHTML = html; }
 
-// Plan B si no le llega el mail: mensaje directo de Instagram con el número de pago a mano
-function planB(d) {
-  const donde = d.channel === "whatsapp" ? "el WhatsApp" : "el mail";
-  return '<p class="planb">Si no te llega ' + donde + ' en 5 minutos, revisá Spam o Promociones, o escribinos por Instagram con tu número de pago: <b>#' + paymentId + '</b></p>'
-    + '<a class="btn btn-ig" href="https://ig.me/m/' + SUPPORT_IG + '" target="_blank" rel="noopener">Escribinos por Instagram</a>';
-}
-
-// Purchase solo cuando nuestro servidor confirmó con Mercado Pago que el pago está aprobado,
-// y una sola vez por pago: lo controla el servidor (cualquier dispositivo) y además localStorage.
-// El eventID mp_<payment_id> es el mismo que manda el servidor, así Meta los cuenta como una sola compra.
+// Purchase del navegador: una sola vez por pago (lo controla el servidor y además el navegador).
+// Usa el mismo event_id que el servidor (mp_<pago>) para que Meta cuente una sola compra.
 function trackPurchase(d) {
   const key = "fb_purchase_" + paymentId;
   try { if (localStorage.getItem(key)) return; } catch (e) {}
-  if (d.trackPixel === false) return;   // el servidor dice que este pago ya se contó (otro dispositivo o recarga)
-  const variante = d.variante || (String(d.landing || q.get("l") || "a").toUpperCase() === "B" ? "B" : "A");
+  if (!d.trackPixel) return;
   try {
-    window.fbq && fbq("track", "Purchase",
-      {value: Number(d.amount) || 11999, currency: "ARS", content_name: "100 juegos con dados", num_items: 1, variante: variante, cta_variant: d.cta},
-      {eventID: "mp_" + paymentId});
+    window.fbq && fbq("track", "Purchase", {value: Number(d.amount), currency: "ARS", content_ids: [d.slug], content_name: d.titulo,
+      content_type: "product", num_items: 1, variante: d.variante}, {eventID: d.eventId});
     localStorage.setItem(key, "1");
   } catch (e) {}
 }
 
-async function check(attempt) {
+let fails = 0, started = Date.now();
+async function check() {
   if (!paymentId) {
-    render('<h1>No encontramos tu pago</h1><p>Si ya pagaste, revisá tu email o WhatsApp: el link te llega igual.' + help + '</p><a class="btn" href="/dados">Volver</a>');
+    render('<h1>No encontramos tu pago</h1><p>Si ya pagaste, en unos minutos te llega el link a tu mail.</p><a class="btn" href="/recuperar">Pedir mi ebook</a>');
     return;
   }
   try {
-    const r = await fetch("/api/verify?payment_id=" + encodeURIComponent(paymentId));
+    const r = await fetch("/api/verify?payment_id=" + encodeURIComponent(paymentId) + "&ref=" + encodeURIComponent(ref));
     const d = await r.json();
-    if (d.status === "approved" && d.downloadUrl) {
+    if (!r.ok) throw new Error(d.error || r.status);
+    if (d.status === "approved" && d.url) {
       trackPurchase(d);
-      render('<div class="ok"><svg width="30" height="30" viewBox="0 0 20 20"><path d="M5 10.5l3 3 7-7" stroke="white" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>'
-        + '<h1>¡Listo! Ya es tuyo</h1><p>Descargalo ahora. También te mandamos el link ' + (d.channel === "whatsapp" ? "por WhatsApp" : "a tu email") + '.</p>'
-        + '<a class="btn" href="' + d.downloadUrl + '">Descargar el PDF</a><small>El link funciona durante 7 días.</small>'
-        + planB(d));
-      return;
-    }
-    if (d.status === "pending" || d.status === "in_process" || d.status === "authorized") {
-      render('<h1>Tu pago está pendiente</h1><p>Cuando Mercado Pago lo acredite (si pagaste en efectivo puede tardar hasta 2 días hábiles), te llega el ebook automáticamente.' + help + '</p>');
+      render('<div class="ok"><svg width="32" height="32" viewBox="0 0 20 20"><path d="M5 10.5l3 3 7-7" stroke="white" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>'
+        + '<h1>¡Pago aprobado!</h1><p>Abriendo tu ebook…</p><a class="btn" href="' + d.url + '">📖 Abrir mi ebook</a>');
+      setTimeout(() => location.replace(d.url), 700);
       return;
     }
     if (d.status === "rejected" || d.status === "cancelled") {
-      render('<h1>El pago no se aprobó</h1><p>No se hizo ningún cobro. Podés intentar con otro medio de pago.</p><a class="btn" href="/dados/' + (q.get("l") === "b" ? "b" : "a") + '#comprar">Intentar de nuevo</a>');
+      render('<h1>El pago no se aprobó</h1><p>No se hizo ningún cobro. Podés intentar con otro medio de pago.</p><a class="btn" href="/' + slug + '/' + v + '#comprar">Intentar de nuevo</a>');
       return;
     }
-    throw new Error("estado " + d.status);
+    // pendiente, en proceso, etc.: seguimos consultando y redirigimos sola
+    render('<div class="spin" aria-hidden="true"></div><h1>Tu pago se está acreditando</h1><p>Apenas se confirme te llega el ebook'
+      + (d.email ? ' a <b>' + esc(d.email) + '</b>' : ' a tu mail') + '. Si dejás esta página abierta, se abre sola.</p>'
+      + '<p class="small-link">Si pagaste en efectivo puede tardar hasta 2 días hábiles.</p>' + RECUPERAR);
+    if (Date.now() - started < 30 * 60e3) setTimeout(check, 5000);
   } catch (e) {
-    if (attempt < 5) return setTimeout(() => check(attempt + 1), 2500);
-    render('<h1>Recibimos tu pago</h1><p>Estamos terminando de confirmarlo. En unos minutos te llega el link al contacto que dejaste.' + help + '</p>');
+    if (++fails < 6) return setTimeout(check, 2500);
+    render('<h1>Recibimos tu pago</h1><p>Estamos terminando de confirmarlo. En unos minutos te llega el link a tu mail.</p>' + RECUPERAR);
   }
 }
-check(0);
+check();
 </script>
 </body>
 </html>

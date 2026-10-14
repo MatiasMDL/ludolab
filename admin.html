@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Panel · LudoLab Ebooks</title>
+<meta name="theme-color" content="#FAF8F5">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Figtree:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+.wrap{max-width:1200px}
+.login{max-width:420px;margin:40px auto;padding:26px 22px;display:flex;flex-direction:column;gap:12px}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding-block:22px 10px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.kpi{padding:14px 16px}
+.kpi b{display:block;font:700 1.7rem/1.1 var(--f-display)}
+.kpi span{font-size:.85rem;color:var(--ink-soft)}
+.panel{padding:16px;margin-bottom:18px;overflow-x:auto}
+.panel h2{font-size:1.2rem;margin-bottom:10px}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top;white-space:nowrap}
+th{font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft)}
+td.wrap-ok{white-space:normal;max-width:260px}
+.st{font-weight:800}.st.ENVIADO{color:var(--green)}.st.FALLÓ{color:var(--cta)}
+.mini{font:700 .8rem/1 var(--f-body);padding:.55em .9em;border-radius:999px;border:2px solid var(--ink);background:var(--card);color:var(--ink);cursor:pointer}
+.checks{display:grid;gap:6px;font-size:.92rem}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+select,input.search{font:600 .92rem var(--f-body);padding:.55em .8em;border:2px solid var(--ink);border-radius:10px;background:var(--card);color:var(--ink)}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap"><a class="logo" href="/"><span class="dot"></span>LudoLab <small>Ebooks</small></a></div></header>
+<main class="wrap" id="app">
+  <form class="login card" id="login">
+    <h1 style="font-size:1.8rem">Panel de ventas</h1>
+    <label for="pw">Contraseña</label>
+    <input id="pw" type="password" autocomplete="current-password" required>
+    <p class="err" id="lerr" hidden></p>
+    <button class="btn block" type="submit">Entrar</button>
+  </form>
+</main>
+<script>
+const app = document.getElementById("app");
+const fmt = (n) => "$" + Number(n || 0).toLocaleString("es-AR");
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"})[c]);
+const dia = (iso) => new Date(iso).toLocaleDateString("en-CA", {timeZone: "America/Argentina/Buenos_Aires"});
+const hora = (iso) => new Date(iso).toLocaleString("es-AR", {timeZone: "America/Argentina/Buenos_Aires", dateStyle: "short", timeStyle: "short"});
+let pw = ""; try { pw = sessionStorage.getItem("ll_admin") || ""; } catch (e) {}
+
+async function api(accion, extra) {
+  const r = await fetch("/api/admin", {method: "POST", headers: {"Content-Type": "application/json", "x-admin-password": pw}, body: JSON.stringify({accion, ...extra})});
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) { const e = new Error(d.error || ("Error " + r.status)); e.status = r.status; throw e; }
+  return d;
+}
+
+document.getElementById("login").addEventListener("submit", async (e) => {
+  e.preventDefault(); pw = document.getElementById("pw").value;
+  try { await load(); try { sessionStorage.setItem("ll_admin", pw); } catch (e) {} }
+  catch (err) { const l = document.getElementById("lerr"); l.textContent = err.message; l.hidden = false; }
+});
+
+let ventas = [], estado = {};
+async function load() {
+  [estado, {ventas}] = await Promise.all([api("estado"), api("ventas")]);
+  draw();
+}
+
+function draw() {
+  const prodSel = document.getElementById("fprod")?.value || "";
+  const txt = (document.getElementById("fq")?.value || "").toLowerCase();
+  const lista = ventas.filter(v => (!prodSel || v.slug === prodSel) && (!txt || (v.email + " " + v.payer_email + " " + v.payment_id).toLowerCase().includes(txt)));
+  const hoy = dia(new Date().toISOString());
+  const deHoy = ventas.filter(v => dia(v.fecha) === hoy);
+  const fallidas = ventas.filter(v => v.mail_estado !== "ENVIADO").length;
+  const porDia = {}, porProd = {};
+  ventas.forEach(v => { const d = dia(v.fecha); (porDia[d] ||= {n: 0, m: 0}); porDia[d].n++; porDia[d].m += v.monto;
+    (porProd[v.titulo] ||= {n: 0, m: 0}); porProd[v.titulo].n++; porProd[v.titulo].m += v.monto; });
+  const ok = (b, t) => '<span>' + (b ? "✅" : "⚠️") + " " + t + "</span>";
+
+  app.innerHTML = '<div class="bar"><h1 style="font-size:1.9rem">Panel de ventas</h1><button class="mini" id="reload">Actualizar</button></div>'
+    + '<div class="kpis">'
+    + '<div class="kpi card"><b>' + deHoy.length + '</b><span>Ventas hoy · ' + fmt(deHoy.reduce((a, v) => a + v.monto, 0)) + '</span></div>'
+    + '<div class="kpi card"><b>' + ventas.length + '</b><span>Ventas totales · ' + fmt(ventas.reduce((a, v) => a + v.monto, 0)) + '</span></div>'
+    + '<div class="kpi card"><b>' + fallidas + '</b><span>Mails sin entregar</span></div>'
+    + '<div class="kpi card"><b>' + ventas.filter(v => v.aperturas > 0).length + '</b><span>Abrieron su ebook</span></div></div>'
+    + '<div class="panel card"><h2>Configuración</h2><div class="checks">'
+    + ok(estado.base, "Base de datos (Upstash Redis)") + ok(estado.resend, "Mails con Resend" + (estado.remitente ? " · desde " + esc(estado.remitente) : ""))
+    + ok(estado.pdfPrivado, "PDFs en Blob privado") + ok(estado.metaCapi, "API de conversiones de Meta") + ok(estado.copiaA, "Copia oculta y aviso de ventas")
+    + (estado.pdfPrivado ? '<span><button class="mini" id="migrar">Copiar el PDF de dados al Blob privado</button> <span id="mres" class="muted"></span></span>' : '')
+    + '</div></div>'
+    + '<div class="panel card"><h2>Por producto</h2><table><tr><th>Ebook</th><th>Ventas</th><th>Total</th></tr>'
+    + Object.entries(porProd).map(([k, x]) => '<tr><td>' + esc(k) + '</td><td>' + x.n + '</td><td>' + fmt(x.m) + '</td></tr>').join("") + '</table></div>'
+    + '<div class="panel card"><h2>Por día</h2><table><tr><th>Día</th><th>Ventas</th><th>Total</th></tr>'
+    + Object.entries(porDia).slice(0, 31).map(([k, x]) => '<tr><td>' + k + '</td><td>' + x.n + '</td><td>' + fmt(x.m) + '</td></tr>').join("") + '</table></div>'
+    + '<div class="panel card"><div class="bar" style="padding:0 0 10px"><h2>Ventas</h2><div class="filters">'
+    + '<select id="fprod"><option value="">Todos los ebooks</option>' + (estado.productos || []).map(p => '<option value="' + esc(p.slug) + '"' + (p.slug === prodSel ? " selected" : "") + '>' + esc(p.titulo) + '</option>').join("") + '</select>'
+    + '<input class="search" id="fq" placeholder="Buscar mail o pago" value="' + esc(txt) + '"></div></div>'
+    + '<table><tr><th>Fecha</th><th>Ebook</th><th>Mail</th><th>Pago</th><th>Monto</th><th>Landing</th><th>Mail de entrega</th><th>Envíos</th><th>Abrió su link</th><th></th></tr>'
+    + lista.map(v => '<tr><td>' + hora(v.fecha) + '</td><td>' + esc(v.titulo) + '</td><td class="wrap-ok">' + esc(v.email) + (v.payer_email && v.payer_email !== v.email ? '<br><span class="muted">MP: ' + esc(v.payer_email) + '</span>' : '') + '</td>'
+      + '<td>' + esc(v.payment_id) + '</td><td>' + fmt(v.monto) + '</td><td>' + esc(v.variante) + '</td>'
+      + '<td class="wrap-ok"><span class="st ' + esc(v.mail_estado) + '">' + esc(v.mail_estado) + '</span>' + (v.mail_error ? '<br><span class="muted">' + esc(v.mail_error) + '</span>' : '') + '</td>'
+      + '<td>' + v.mail_envios + '</td><td>' + v.aperturas + ' veces</td><td><button class="mini" data-re="' + esc(v.payment_id) + '">Reenviar</button></td></tr>').join("")
+    + '</table>' + (lista.length ? "" : '<p class="muted" style="padding:12px 0">Todavía no hay ventas.</p>') + '</div>';
+
+  document.getElementById("reload").onclick = () => load().catch(alert);
+  document.getElementById("fprod").onchange = draw;
+  const fq = document.getElementById("fq"); fq.oninput = () => { clearTimeout(fq._t); fq._t = setTimeout(() => { draw(); document.getElementById("fq").focus(); }, 350); };
+  document.querySelectorAll("[data-re]").forEach(b => b.onclick = async () => {
+    b.disabled = true; b.textContent = "Enviando…";
+    try { const r = await api("reenviar", {payment_id: b.dataset.re}); b.textContent = r.ok ? "¡Enviado!" : "Falló"; setTimeout(() => load(), 1200); }
+    catch (e) { b.textContent = "Error"; alert(e.message); }
+  });
+  const mg = document.getElementById("migrar");
+  if (mg) mg.onclick = async () => { mg.disabled = true; const out = document.getElementById("mres"); out.textContent = "Copiando…";
+    try { const r = await api("migrar-pdf", {slug: "dados"}); out.textContent = "Listo: " + r.guardado + " (" + Math.round(r.bytes / 1024) + " KB)"; }
+    catch (e) { out.textContent = e.message; mg.disabled = false; } };
+}
+
+if (pw) load().catch(() => { pw = ""; });
+</script>
+</body>
+</html>

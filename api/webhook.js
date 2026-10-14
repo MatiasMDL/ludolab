@@ -1,16 +1,16 @@
 import crypto from "node:crypto";
-import { getPayment, isValidPurchase, deliver, sendPurchaseOnce } from "./_lib/shared.js";
+import { getPayment } from "./_lib/mp.js";
+import { processPayment } from "./_lib/ventas.js";
 
-// POST /api/webhook  (notification_url de la preferencia)
-// Mercado Pago avisa acá cada cambio de un pago. Si quedó aprobado, mandamos el ebook.
+// POST /api/webhook  (notification_url de cada pago, igual para todos los ebooks)
+// Mercado Pago avisa cada cambio de un pago. Si quedó aprobado: guarda la compra, manda el Purchase a Meta
+// una sola vez y manda el mail con el link personal una sola vez.
 export default async function handler(req, res) {
-  const body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : req.body || {};
-  const type = body.type || req.query.type || req.query.topic;
-  const id = body?.data?.id || req.query["data.id"] || req.query.id;
-
+  const b = typeof req.body === "string" ? JSON.parse(req.body || "{}") : req.body || {};
+  const type = b.type || req.query.type || req.query.topic;
+  const id = b?.data?.id || req.query["data.id"] || req.query.id;
   if (type !== "payment" || !id) return res.status(200).send("ignorado");
 
-  // Firma del webhook (si configuraste la clave secreta en Mercado Pago)
   const secret = process.env.MP_WEBHOOK_SECRET;
   if (secret) {
     const parts = Object.fromEntries(String(req.headers["x-signature"] || "").split(",").map((p) => p.trim().split("=")));
@@ -20,14 +20,9 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Nunca confiamos en el cuerpo: consultamos el pago directo a Mercado Pago
-    const payment = await getPayment(id);
-    if (isValidPurchase(payment)) {
-      // Compra para Meta (API de conversiones): una sola vez por pago
-      await sendPurchaseOnce(payment).then((r) => r.skipped && console.log("Meta Purchase:", r.skipped)).catch((e) => console.error(e.message));
-      const r = await deliver(payment);
-      console.log("Entregado", payment.id, r);
-    }
+    const payment = await getPayment(id); // nunca confiamos en el cuerpo del aviso
+    const r = await processPayment(payment, { fromWebhook: true });
+    console.log("Webhook", id, r.status, r.paid ? "entregado" : "");
     return res.status(200).send("ok");
   } catch (e) {
     console.error(e);

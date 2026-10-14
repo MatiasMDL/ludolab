@@ -1,71 +1,48 @@
-# Landing LudoLab · 100 juegos con dados
+# LudoLab Ebooks · ludolab.app
 
-Landing de una sola página con fotos reales del libro (carpeta `img/`) que cobra con Mercado Pago (Checkout Pro) y entrega el PDF al instante.
+Sitio de venta de ebooks imprimibles. Páginas estáticas + funciones de Vercel. Cobra con Mercado Pago (Checkout Pro) y entrega solo: el webhook manda un link personal y permanente `/mi-ebook/<token>`.
 
-## Dos versiones para A/B
+## Páginas
 
-- **A** (`/`, `index.html`): página larga, ángulo "menos pantallas", contador y varios botones.
-- **B** (`/b`, `b.html`): ángulo "aprenden jugando", el formulario de pago está en la primera pantalla.
+| Ruta | Archivo | Qué es |
+|---|---|---|
+| `/` | `index.html` | Portal con todos los ebooks (lee `productos.json`) |
+| `/<slug>` y `/<slug>/a` | `<slug>/a.html` | Landing A del ebook |
+| `/<slug>/b` | `<slug>/b.html` | Landing B (test A/B) |
+| `/gracias` | `gracias.html` | Vuelta de Mercado Pago: si está aprobado abre `/mi-ebook/<token>`, si está pendiente espera y redirige sola |
+| `/mi-ebook/<token>` | `mi-ebook.html` | Los ebooks del comprador: visor, Imprimir y Guardar |
+| `/recuperar` | `recuperar.html` | Reenvía el link al mail (máx. 3 por hora) |
+| `/admin` | `admin.html` | Panel con contraseña: ventas, aperturas, reenviar |
+| `/terminos`, `/privacidad`, `/contacto` | | Legales y botón de arrepentimiento |
 
-Las dos usan el mismo backend y el mismo Mercado Pago. Cada pago guarda en `metadata` qué landing (`landing: a|b`) y qué texto de botón (`cta_variant`) vio el comprador, y los mismos datos van al píxel de Meta. En Meta Ads: un conjunto de anuncios con URL `https://tudominio/` y otro con `https://tudominio/b`.
+`ludolab-cyan.vercel.app` redirige con 301 a `ludolab.app` (conservando `fbclid` y `utm_*`), menos `/api/*`, para que los pagos y avisos viejos sigan funcionando.
 
-Si cambiás precio, fecha de promo o reseñas, hacelo en el `CONFIG` de **los dos** archivos.
+## Cómo agregar un ebook nuevo
 
-## Píxel de Meta
+1. **PDF:** en Vercel → Storage → el Blob privado de ebooks → subí el PDF como `ebooks/<slug>.pdf` (por ejemplo `ebooks/mandalas.pdf`).
+2. **Tapa:** guardá la foto en `img/` (por ejemplo `img/mandalas.jpg`), vertical o 4:3.
+3. **Catálogo:** agregá un registro en `productos.json` copiando el de `dados` y cambiando: `slug`, `titulo`, `subtitulo`, `categoria` (`chicos` o `adultos`), `para_quien`, `precio`, `precio_tachado`, `tapa`, `pdf` y los textos de `mail`.
+4. **Landing:** copiá la carpeta `dados/` como `<slug>/` y en `a.html` (y `b.html` si hacés test) cambiá textos, fotos, `const PRODUCTO = "<slug>"` y el `price`/`anchorPrice` del `CONFIG`.
+5. Subí los cambios a GitHub: Vercel publica solo. El ebook aparece en el portal y se cobra con el precio del catálogo.
 
-Píxel `4240054562902602`, con el código base en el `<head>` de `index.html`, `b.html` y `gracias.html`. Cada evento lleva `variante` (`A` o `B`, constante `VARIANTE` en cada landing).
+## Cómo se entrega
 
-| Paso | Evento |
+1. La landing guarda el pedido (mail, variante, cookies del píxel) en la base y crea el pago con `external_reference = <slug>|<orden>`.
+2. Mercado Pago avisa a `/api/webhook`. Si el pago quedó `approved` y es por el precio del catálogo: guarda la compra, manda el **Purchase** a Meta (API de conversiones, `event_id = mp_<pago>`) una sola vez, y manda el mail "Tu ebook … – acá está tu link" una sola vez, con copia oculta a `OWNER_EMAIL` y aviso aparte "Venta #… – … – mail ENVIADO/FALLÓ" (2 reintentos).
+3. `/gracias` consulta el pago, dispara el Purchase del navegador con el mismo `event_id` (una sola vez) y abre `/mi-ebook/<token>`.
+4. El PDF vive en un Blob **privado**: `/api/pdf` verifica el token y da un link firmado que vence a los 10 minutos.
+
+## Variables de entorno (Vercel → Settings → Environment Variables)
+
+| Variable | Para qué |
 |---|---|
-| Abre `/` o `/b` | PageView + ViewContent |
-| Toca pagar con un email o WhatsApp válido | Lead (con coincidencia avanzada `em` o `ph`) |
-| Mercado Pago creó el pago, justo antes de redirigir (300 ms) | InitiateCheckout |
-| Vuelve a `/gracias` con el pago aprobado y confirmado por el servidor | Purchase (una sola vez por pago, `eventID: mp_<payment_id>`) |
-
-## Cómo funciona la compra
-
-1. La persona elige **Email** o **WhatsApp** y escribe solo ese dato.
-2. `POST /api/checkout` crea la preferencia en Mercado Pago (el contacto viaja en `external_reference`) y la redirige al checkout.
-3. Paga con tarjeta, débito, dinero en cuenta o efectivo.
-4. Mercado Pago la devuelve a `/gracias`, que consulta `/api/verify` y muestra **el botón de descarga en el momento**.
-5. En paralelo, Mercado Pago avisa a `/api/webhook`, que vuelve a consultar el pago y manda el link:
-   - **Email:** automático con Resend.
-   - **WhatsApp:** automático si configurás la API de WhatsApp de Meta. Si no, te llega un email a vos con un botón que abre WhatsApp con el mensaje y el link ya escritos (un toque y listo).
-6. El link de descarga está firmado y vence a los 7 días.
-7. Cada venta se entrega una sola vez (aunque Mercado Pago avise varias veces). La dueña recibe copia oculta del mail y un aviso aparte "Venta #<pago> – mail ENVIADO" o "FALLÓ" (con 2 reintentos antes de fallar). Cada envío queda registrado en Vercel Blob y se ve en `/api/envios?key=<ENVIOS_KEY>`.
-
-## Archivos
-
-| Archivo | Qué hace |
-|---|---|
-| `index.html` | La landing. Arriba del `<script>` está `CONFIG`: precio, WhatsApp de ayuda y bloques opcionales (precio tachado, garantía, bonus, fotos de páginas, testimonios). |
-| `gracias.html` | Página de vuelta de Mercado Pago con el botón de descarga. Poné tu WhatsApp en `SUPPORT_WA`. |
-| `api/checkout.js` | Crea el pago en Mercado Pago. |
-| `api/webhook.js` | Recibe el aviso de pago aprobado y entrega el ebook. |
-| `api/verify.js` | Confirma el pago para la página de gracias. |
-| `api/download.js` | Valida el link firmado y redirige al PDF. |
-| `api/_lib/shared.js` | Funciones compartidas (Mercado Pago, firma, email, WhatsApp). |
-| `.env.example` | Todas las variables que hay que cargar. |
-
-Sin dependencias: Node 18+ con `fetch` nativo.
-
-## Lo que necesitás para publicarla
-
-1. **Mercado Pago:** en [Tus integraciones](https://www.mercadopago.com.ar/developers/panel/app) creá una aplicación (Checkout Pro) y copiá el **Access Token de producción** → `MP_ACCESS_TOKEN`. En la sección Webhooks copiá la **clave secreta** → `MP_WEBHOOK_SECRET`.
-2. **Hosting:** una cuenta gratis en [Vercel](https://vercel.com). Subís esta carpeta (o la conectás a un repo de GitHub), cargás las variables de `.env.example` en *Settings → Environment Variables* y deploy.
-3. **Dominio** (opcional pero suma confianza): por ejemplo `ludolab.com.ar` en NIC Argentina, conectado a Vercel. Va en `SITE_URL`.
-4. **El PDF:** subilo a Vercel Blob (o un link de Google Drive) con un nombre difícil de adivinar → `PDF_URL`.
-5. **Email:** cuenta gratis en [Resend](https://resend.com), verificás tu dominio y copiás la API key → `RESEND_API_KEY`, `EMAIL_FROM`. Poné tu email en `OWNER_EMAIL` para enterarte de cada venta.
-6. **WhatsApp automático** (opcional): WhatsApp Business Platform de Meta con una plantilla aprobada de una variable (el link). Mientras no esté, las ventas por WhatsApp te llegan por email para mandar con un toque.
-7. `DOWNLOAD_SECRET`: cualquier texto largo y aleatorio.
-
-## Probar antes de cobrar de verdad
-
-Usá las **credenciales de prueba** de Mercado Pago y sus [tarjetas de prueba](https://www.mercadopago.com.ar/developers/es/docs/checkout-pro/additional-content/your-integrations/test/cards). Con el token de prueba no se cobra nada.
-
-## Cosas a tener en cuenta
-
-- `PRICE_ARS` (backend) y `CONFIG.price` (landing) tienen que ser el mismo número. El que manda es el del backend.
-- Mercado Pago puede avisar dos veces por el mismo pago; en ese caso el comprador recibiría el link dos veces. Si molesta, se agrega una base chica (Vercel KV) para recordar qué pagos ya se entregaron.
-- Pagos en efectivo: el ebook llega cuando Mercado Pago acredita el pago (la página de gracias lo explica).
-- Activá los bloques de garantía, precio tachado y testimonios solo con datos reales.
+| `MP_ACCESS_TOKEN`, `MP_WEBHOOK_SECRET` | Mercado Pago |
+| `SITE_URL` | `https://ludolab.app` |
+| `KV_REST_API_URL`, `KV_REST_API_TOKEN` | Base Upstash Redis (las crea Vercel al conectarla) |
+| `EBOOKS_READ_WRITE_TOKEN` | Blob privado de los PDFs (prefijo `EBOOKS` al conectarlo) |
+| `RESEND_API_KEY`, `EMAIL_FROM` | Mails (`LudoLab Ebooks <hola@ludolab.app>`) |
+| `OWNER_EMAIL` | Copia oculta y aviso de cada venta |
+| `REPLY_TO` | Opcional: a dónde van las respuestas de los compradores |
+| `META_CAPI_TOKEN`, `META_TEST_EVENT_CODE` | API de conversiones de Meta (el segundo, solo para probar) |
+| `ADMIN_PASSWORD` | Contraseña de `/admin` (mínimo 10 caracteres) |
+| `DOWNLOAD_SECRET`, `PDF_URL` | Solo para los links de descarga viejos y para copiar el PDF al Blob privado |

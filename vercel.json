@@ -10,9 +10,12 @@
     { "source": "/b", "destination": "/dados/b", "statusCode": 301 }
   ],
   "rewrites": [
+    { "source": "/mi-ebook/:token", "destination": "/mi-ebook.html" },
     { "source": "/:slug([a-z0-9-]+)", "destination": "/:slug/a.html" }
   ],
   "headers": [
-    { "source": "/api/(.*)", "headers": [{ "key": "Cache-Control", "value": "no-store" }] }
+    { "source": "/api/(.*)", "headers": [{ "key": "Cache-Control", "value": "no-store" }] },
+    { "source": "/mi-ebook/(.*)", "headers": [{ "key": "Referrer-Policy", "value": "no-referrer" }, { "key": "X-Robots-Tag", "value": "noindex" }] },
+    { "source": "/(admin|recuperar|gracias)", "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }] }
   ]
 }

@@ -1,49 +1,54 @@
-import { env, price, mp, encodeRef, clientIp } from "./_lib/shared.js";
+import { SITE, body, clientIp, normEmail, validEmail, randomToken } from "./_lib/util.js";
+import { mp } from "./_lib/mp.js";
+import { hset, redis } from "./_lib/db.js";
+import { productoActivo } from "./_lib/catalogo.js";
+import { encodeRef } from "./_lib/ventas.js";
 
-// POST /api/checkout  {channel: "email"|"whatsapp", value}
-// Crea la preferencia de Checkout Pro y devuelve la URL de pago de Mercado Pago.
+// POST /api/checkout  {producto, email, cta, landing, fbp, fbc}
+// Guarda el pedido (mail incluido) ANTES de ir a pagar y devuelve la URL de pago de Mercado Pago.
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "Método no permitido" });
+  const b = body(req);
 
-  const body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : req.body || {};
-  const channel = body.channel;
-  let value = String(body.value || "").trim().toLowerCase();
+  const prod = productoActivo(String(b.producto || "dados"));
+  if (!prod) return res.status(400).json({ error: "Ese ebook no existe" });
 
-  if (channel === "email") {
-    if (!/^[^\s@|]+@[^\s@|]+\.[a-z]{2,}$/i.test(value) || value.length > 120) return res.status(400).json({ error: "Email inválido" });
-  } else if (channel === "whatsapp") {
-    value = value.replace(/\D/g, "");
-    if (!/^549\d{10}$/.test(value)) return res.status(400).json({ error: "WhatsApp inválido" });
-  } else {
-    return res.status(400).json({ error: "Elegí email o WhatsApp" });
+  // Landings viejas (todavía abiertas en algún celu) mandan {channel, value}
+  let email = normEmail(b.email || (b.channel === "email" ? b.value : ""));
+  const whatsapp = b.channel === "whatsapp" ? String(b.value || "").replace(/\D/g, "") : "";
+  if (!validEmail(email)) {
+    if (!/^549\d{10}$/.test(whatsapp)) return res.status(400).json({ error: "Revisá tu mail" });
+    email = "";
   }
 
-  const cta = String(body.cta || "").replace(/[^a-z0-9_-]/gi, "").slice(0, 20) || "na";
-  const landing = String(body.landing || "").replace(/[^a-z0-9_-]/gi, "").slice(0, 20) || "na";
-  const site = env("SITE_URL");
-  const variante = landing.toLowerCase() === "b" ? "B" : "A";
-  // Datos para la API de conversiones de Meta (se reusan en el Purchase del servidor)
+  const landing = String(b.landing || "a").toLowerCase() === "b" ? "b" : "a";
+  const variante = landing.toUpperCase();
+  const cta = String(b.cta || "").replace(/[^a-z0-9_-]/gi, "").slice(0, 20) || "na";
   const cookie = (v) => (/^fb\.\d\.\d+\.[\w.-]{1,250}$/.test(String(v || "")) ? String(v) : undefined);
-  const meta = { fbp: cookie(body.fbp), fbc: cookie(body.fbc), client_ip: clientIp(req) || undefined, client_ua: String(req.headers["user-agent"] || "").slice(0, 400) || undefined };
+  const order = {
+    slug: prod.slug, email, whatsapp: whatsapp || undefined, variante, cta,
+    fbp: cookie(b.fbp), fbc: cookie(b.fbc), ip: clientIp(req) || undefined,
+    ua: String(req.headers["user-agent"] || "").slice(0, 400) || undefined, creado: new Date().toISOString(),
+  };
+  const orderId = randomToken(16);
+  const site = SITE();
+
   try {
+    await hset(`order:${orderId}`, order);
+    await redis("EXPIRE", `order:${orderId}`, 60 * 60 * 24 * 120);
+
+    const back = `${site}/gracias?p=${prod.slug}&v=${landing}`;
     const pref = await mp("/checkout/preferences", {
       method: "POST",
       body: JSON.stringify({
         items: [{
-          id: "100-juegos-con-dados",
-          title: "100 juegos con dados · Ebook imprimible",
-          description: "Ebook imprimible PDF A4",
-          quantity: 1,
-          unit_price: price(),
-          currency_id: "ARS",
+          id: prod.slug, title: `${prod.titulo} · Ebook imprimible`, description: "Ebook imprimible PDF",
+          quantity: 1, unit_price: Number(prod.precio), currency_id: "ARS",
         }],
-        external_reference: encodeRef(channel, value, variante),
-        metadata: { cta_variant: cta, landing, ...meta },
-        back_urls: {
-          success: `${site}/gracias?l=${landing}`,
-          pending: `${site}/gracias?l=${landing}`,
-          failure: `${site}/gracias?l=${landing}`,
-        },
+        external_reference: encodeRef(prod.slug, orderId),
+        // Copia de respaldo del pedido dentro del pago
+        metadata: { producto: prod.slug, email, landing, cta_variant: cta, fbp: order.fbp, fbc: order.fbc, client_ip: order.ip, client_ua: order.ua },
+        back_urls: { success: back, pending: back, failure: back },
         auto_return: "approved",
         notification_url: `${site}/api/webhook`,
         statement_descriptor: "LUDOLAB",
@@ -52,7 +57,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ url: pref.init_point });
   } catch (e) {
     console.error(e);
-    // detail ayuda a diagnosticar desde la página (nunca incluye el token)
     return res.status(502).json({ error: "No pudimos crear el pago", detail: String(e.message || e).slice(0, 300) });
   }
 }
