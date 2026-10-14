@@ -31,7 +31,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         items: [{
           id: "100-juegos-con-dados",
-          title: env("PRODUCT_TITLE", "100 juegos con dados · Ebook imprimible"),
+          title: "100 juegos con dados · Ebook imprimible",
           description: "Ebook imprimible PDF A4",
           quantity: 1,
           unit_price: price(),

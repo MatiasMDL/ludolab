@@ -1,5 +1,6 @@
 import crypto from "node:crypto";
 import { put, head, del, list } from "@vercel/blob";
+import { producto } from "./catalogo.js";
 
 export const env = (k, fallback) => {
   const v = process.env[k];
@@ -11,7 +12,8 @@ export const env = (k, fallback) => {
 };
 
 export const PRODUCT_ID = "100-juegos-con-dados";
-export const price = () => Number(env("PRICE_ARS", "11999"));
+// Precio del ebook de dados: sale de productos.json
+export const price = () => Number(producto("dados").precio);
 
 /* ---------- Mercado Pago ---------- */
 export async function mp(path, opts = {}) {

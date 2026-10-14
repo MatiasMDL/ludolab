@@ -1,5 +1,17 @@
 {
   "cleanUrls": true,
+  "functions": {
+    "api/**/*.js": { "includeFiles": "productos.json" }
+  },
+  "redirects": [
+    { "source": "/", "has": [{ "type": "host", "value": "ludolab-cyan.vercel.app" }], "destination": "https://ludolab.app/dados/a", "statusCode": 301 },
+    { "source": "/b", "has": [{ "type": "host", "value": "ludolab-cyan.vercel.app" }], "destination": "https://ludolab.app/dados/b", "statusCode": 301 },
+    { "source": "/:path((?!api/).+)", "has": [{ "type": "host", "value": "ludolab-cyan.vercel.app" }], "destination": "https://ludolab.app/:path", "statusCode": 301 },
+    { "source": "/b", "destination": "/dados/b", "statusCode": 301 }
+  ],
+  "rewrites": [
+    { "source": "/:slug([a-z0-9-]+)", "destination": "/:slug/a.html" }
+  ],
   "headers": [
     { "source": "/api/(.*)", "headers": [{ "key": "Cache-Control", "value": "no-store" }] }
   ]

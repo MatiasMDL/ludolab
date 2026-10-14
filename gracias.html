@@ -81,7 +81,7 @@ function trackPurchase(d) {
 
 async function check(attempt) {
   if (!paymentId) {
-    render('<h1>No encontramos tu pago</h1><p>Si ya pagaste, revisá tu email o WhatsApp: el link te llega igual.' + help + '</p><a class="btn" href="/">Volver</a>');
+    render('<h1>No encontramos tu pago</h1><p>Si ya pagaste, revisá tu email o WhatsApp: el link te llega igual.' + help + '</p><a class="btn" href="/dados">Volver</a>');
     return;
   }
   try {
@@ -100,7 +100,7 @@ async function check(attempt) {
       return;
     }
     if (d.status === "rejected" || d.status === "cancelled") {
-      render('<h1>El pago no se aprobó</h1><p>No se hizo ningún cobro. Podés intentar con otro medio de pago.</p><a class="btn" href="' + (q.get("l") === "b" ? "/b" : "/") + '#comprar">Intentar de nuevo</a>');
+      render('<h1>El pago no se aprobó</h1><p>No se hizo ningún cobro. Podés intentar con otro medio de pago.</p><a class="btn" href="/dados/' + (q.get("l") === "b" ? "b" : "a") + '#comprar">Intentar de nuevo</a>');
       return;
     }
     throw new Error("estado " + d.status);

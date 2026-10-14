@@ -1,0 +1,65 @@
+/* Estilos comunes de LudoLab Ebooks (portal, páginas legales, mi-ebook, recuperar, admin).
+   Mismo lenguaje que las landings: papel claro, tinta negra, un rojo para la acción. */
+:root{
+  --bg:#FAF8F5;--panel:#F0ECE5;--card:#FFFFFF;--ink:#18181B;--ink-soft:#56565E;--line:#E2DDD5;
+  --cta:#DA3229;--cta-hover:#B8261E;--blue:#2350C2;--green:#1C8A5E;
+  --f-display:"Fredoka","Arial Rounded MT Bold","Trebuchet MS",system-ui,sans-serif;
+  --f-body:"Figtree","Segoe UI",system-ui,-apple-system,sans-serif;
+  --r:16px;--shadow:0 18px 40px -22px rgba(24,24,27,.45);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141416;--panel:#1D1D21;--card:#232328;--ink:#F3F1EC;--ink-soft:#B3B1AB;--line:#34343A;
+  --cta:#EE463C;--cta-hover:#FF5F55;--blue:#7C9DF2;--green:#4CC08E;--shadow:0 18px 40px -22px rgba(0,0,0,.8);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141416;--panel:#1D1D21;--card:#232328;--ink:#F3F1EC;--ink-soft:#B3B1AB;--line:#34343A;
+  --cta:#EE463C;--cta-hover:#FF5F55;--blue:#7C9DF2;--green:#4CC08E;--shadow:0 18px 40px -22px rgba(0,0,0,.8);color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--f-body);-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+main{flex:1}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+.wrap{max-width:1100px;margin:0 auto;padding-inline:16px}
+.narrow{max-width:680px}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.1;margin:0}
+h1{font-size:clamp(2rem,7vw,3.2rem);letter-spacing:-.01em}
+h2{font-size:clamp(1.4rem,4.5vw,1.9rem)}
+p{margin:0}
+
+.top{border-bottom:1.5px solid var(--line);background:var(--bg)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;min-height:62px;gap:12px}
+.logo{display:inline-flex;align-items:center;gap:10px;font:700 1.25rem/1 var(--f-display);text-decoration:none}
+.logo .dot{width:26px;height:26px;border:2.5px solid currentColor;border-radius:7px;position:relative}
+.logo .dot::after{content:"";position:absolute;inset:0;margin:auto;width:7px;height:7px;border-radius:50%;background:var(--cta)}
+.logo small{font:600 .8rem/1 var(--f-body);color:var(--ink-soft);letter-spacing:.06em;text-transform:uppercase}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;border:0;border-radius:999px;background:var(--cta);color:#fff;
+  font:800 1.05rem/1 var(--f-body);padding:1em 1.5em;text-decoration:none;cursor:pointer;box-shadow:0 4px 0 var(--cta-hover);transition:transform .12s,background .12s}
+.btn:hover{background:var(--cta-hover)}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--cta-hover)}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--ink);box-shadow:none}
+.btn.ghost:hover{background:var(--panel)}
+.btn.block{display:flex;width:100%}
+.btn[disabled]{opacity:.6;cursor:wait}
+
+.pill{display:inline-flex;align-items:center;border:1.5px solid currentColor;border-radius:999px;padding:.2em .8em;font:600 .82rem/1.4 var(--f-body)}
+
+.card{background:var(--card);border:2px solid var(--ink);border-radius:var(--r);box-shadow:6px 6px 0 var(--ink)}
+
+input[type=email],input[type=password],input[type=text]{width:100%;font:500 1.05rem/1.2 var(--f-body);padding:.9em 1em;border:2px solid var(--ink);border-radius:12px;background:var(--card);color:var(--ink)}
+input:focus{outline:3px solid var(--blue);outline-offset:2px}
+label{font-weight:700}
+.err{color:var(--cta);font-weight:700;font-size:.92rem}
+.ok-msg{color:var(--green);font-weight:700}
+.muted{color:var(--ink-soft)}
+.sug{font:inherit;color:inherit;background:none;border:0;padding:0;text-decoration:underline;cursor:pointer}
+
+footer.site{border-top:1.5px solid var(--line);padding-block:28px 40px;font-size:.9rem;color:var(--ink-soft);margin-top:48px}
+footer.site .wrap{display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:space-between}
+footer.site nav{display:flex;flex-wrap:wrap;gap:6px 16px}
+
+.prose{padding-block:36px}
+.prose h1{font-size:clamp(1.8rem,6vw,2.4rem);margin-bottom:18px}
+.prose h2{font-size:1.25rem;margin:26px 0 8px}
+.prose p,.prose li{color:var(--ink-soft);margin-bottom:10px}
