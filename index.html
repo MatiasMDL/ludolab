@@ -27,28 +27,84 @@ fbq('track', 'PageView');
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Figtree:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="/assets/site.css">
 <style>
-.hero{padding-block:36px 20px}
-.hero p{font-size:1.1rem;color:var(--ink-soft);margin-top:12px;max-width:560px}
-.filters{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 18px}
-.filters button{font:700 .95rem/1 var(--f-body);padding:.7em 1.1em;border-radius:999px;border:2px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+:root{--sun:#FFC531;--sky:#DCE6FF}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--sun:#E8B02A;--sky:#1E2742}}
+:root[data-theme="dark"]{--sun:#E8B02A;--sky:#1E2742}
+.strip{background:var(--cta);color:#fff;text-align:center;font:700 .9rem/1.3 var(--f-body);padding:9px 16px}
+.strip b{font-weight:800}
+.top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px)}
+.help{font-size:.92rem;font-weight:700;white-space:nowrap}
+.mp-badge{display:inline-flex;align-items:center;gap:5px;background:#009EE3;color:#fff;border-radius:999px;padding:3px 11px 3px 4px;font:800 .8rem/1 var(--f-body);text-transform:lowercase;letter-spacing:.01em;vertical-align:middle}
+.mp-badge svg{width:24px;height:16px}
+
+.hero{position:relative;overflow:hidden;padding-block:34px 44px;background:
+  radial-gradient(circle at 92% 8%,var(--sun) 0 70px,transparent 71px),
+  radial-gradient(circle at 4% 96%,var(--sky) 0 110px,transparent 111px)}
+.hero .wrap{display:grid;gap:30px;align-items:center}
+.hero h1{font-size:clamp(2.3rem,9vw,4rem)}
+.hero h1 .hl{background:linear-gradient(transparent 62%,var(--sun) 62% 92%,transparent 92%);padding-inline:.05em}
+.hero .lead{font-size:1.12rem;color:var(--ink-soft);margin-top:14px;max-width:520px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:22px}
+.secure{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:700;font-size:.95rem;margin-top:16px}
+.secure svg{width:20px;height:20px}
+.collage{position:relative;height:340px;max-width:440px;width:100%;margin-inline:auto}
+.collage img{position:absolute;border:3px solid var(--ink);border-radius:14px;box-shadow:6px 6px 0 var(--ink);object-fit:cover;background:var(--panel)}
+.collage .c1{width:58%;height:84%;left:21%;top:4%;z-index:2;transform:rotate(-3deg)}
+.collage .c2{width:42%;height:62%;left:0;top:30%;transform:rotate(-9deg)}
+.collage .c3{width:42%;height:62%;right:0;top:24%;transform:rotate(8deg)}
+.sticker{position:absolute;z-index:3;right:6%;top:0;width:96px;height:96px;border-radius:50%;background:var(--cta);color:#fff;display:grid;place-items:center;text-align:center;
+  font:700 1.05rem/1 var(--f-display);transform:rotate(12deg);border:3px solid var(--ink);box-shadow:3px 3px 0 var(--ink)}
+.sticker small{display:block;font:700 .7rem/1.2 var(--f-body);margin-top:3px}
+
+.trust{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-block:6px 10px}
+.trust div{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:12px}
+.trust svg{width:24px;height:24px;flex:none}
+.trust span{display:flex;flex-direction:column;font-size:.82rem;color:var(--ink-soft);line-height:1.3}
+.trust b{font-size:.95rem;color:var(--ink)}
+.pays{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;padding:14px 0 6px;font-size:.88rem;font-weight:700}
+.pays span:not(.mp-badge){border:1.5px solid var(--line);border-radius:999px;padding:4px 12px;background:var(--card)}
+
+.sec{padding-block:34px 10px}
+.sec-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:14px;margin-bottom:18px}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filters button{font:700 .95rem/1 var(--f-body);padding:.75em 1.15em;border-radius:999px;border:2px solid var(--ink);background:var(--card);color:var(--ink);cursor:pointer}
 .filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px;padding-bottom:12px}
-.ebook{display:flex;flex-direction:column;overflow:hidden;text-decoration:none}
-.help{font-size:.92rem;font-weight:600;white-space:nowrap}
-.ebook .cover{aspect-ratio:4/3;background:var(--panel);border-bottom:2px solid var(--ink);overflow:hidden}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px}
+.ebook{display:flex;flex-direction:column;overflow:hidden;text-decoration:none;transition:transform .15s,box-shadow .15s}
+.ebook:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink)}
+.ebook .cover{position:relative;aspect-ratio:4/3;background:var(--panel);border-bottom:2px solid var(--ink);overflow:hidden}
 .ebook .cover img{width:100%;height:100%;object-fit:cover}
+.ebook .off{position:absolute;top:12px;left:12px;background:var(--cta);color:#fff;font:800 .85rem/1 var(--f-body);padding:7px 11px;border-radius:999px;border:2px solid var(--ink)}
+.ebook .cat{position:absolute;top:12px;right:12px;background:var(--sun);color:#18181B;font:800 .78rem/1 var(--f-body);padding:7px 11px;border-radius:999px;border:2px solid var(--ink)}
 .ebook .body{padding:16px 16px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
-.ebook h2{font-size:1.35rem}
-.ebook .who{font-size:.92rem;color:var(--ink-soft)}
+.ebook h3{font-size:1.4rem}
+.ebook .sub{font-size:.95rem;color:var(--ink-soft)}
+.ebook .who{font-size:.85rem;font-weight:700}
 .ebook .price{display:flex;align-items:baseline;gap:10px;margin-top:auto;padding-top:6px}
-.ebook .price b{font:700 1.5rem/1 var(--f-display)}
+.ebook .price b{font:700 1.7rem/1 var(--f-display);color:var(--cta)}
 .ebook .price s{color:var(--ink-soft)}
 .ebook .btn{margin-top:8px}
-.empty{padding:30px 0;color:var(--ink-soft)}
-.trust{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--ink-soft);font-size:.92rem;margin-top:26px}
+.ebook .mini{display:flex;align-items:center;gap:6px;justify-content:center;font-size:.8rem;color:var(--ink-soft);font-weight:600}
+.empty{padding:20px 0;color:var(--ink-soft)}
+
+.steps{display:grid;gap:14px;counter-reset:s}
+.step{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:2px solid var(--ink);border-radius:var(--r);padding:16px}
+.step .n{flex:none;width:44px;height:44px;border-radius:12px;border:2.5px solid var(--ink);display:grid;place-items:center;font:700 1.3rem/1 var(--f-display);background:var(--sun);color:#18181B}
+.step h3{font-size:1.15rem;margin-bottom:4px}
+.step p{color:var(--ink-soft);font-size:.95rem}
+.lost{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--sky);border-radius:var(--r);padding:18px 18px;border:2px solid var(--ink)}
+.lost p{font-weight:700}
+
+@media (min-width:820px){
+  .hero .wrap{grid-template-columns:1.1fr .9fr}
+  .collage{height:420px}
+  .trust{grid-template-columns:repeat(4,1fr)}
+  .steps{grid-template-columns:repeat(3,1fr)}
+}
 </style>
 </head>
 <body>
+<div class="strip">🎲 <b>Ebooks imprimibles</b> · Pagás con Mercado Pago y lo abrís al instante</div>
 <header class="top">
   <div class="wrap">
     <a class="logo" href="/"><span class="dot"></span>LudoLab <small>Ebooks</small></a>
@@ -56,27 +112,61 @@ fbq('track', 'PageView');
   </div>
 </header>
 
-<main class="wrap">
+<main>
   <section class="hero">
-    <h1>Ebooks para imprimir y disfrutar</h1>
-    <p>Juegos y actividades probados en casa. Pagás con Mercado Pago y lo abrís al instante en tu celu o tu compu.</p>
+    <div class="wrap">
+      <div>
+        <h1>Ebooks para <span class="hl">imprimir</span> y disfrutar en familia</h1>
+        <p class="lead">Juegos y actividades probados en casa, juego por juego. Los pagás con Mercado Pago y los abrís al instante en tu celu o tu compu.</p>
+        <div class="ctas"><a class="btn" href="#ebooks">Ver los ebooks</a></div>
+        <p class="secure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Compra 100% segura con <span class="mp-badge"><svg viewBox="0 0 24 16" aria-hidden="true"><ellipse cx="12" cy="8" rx="11.5" ry="7.5" fill="#fff"/><path d="M5 7.6c1.7-1.5 3.4-2 4.9-1.3l2.1 1.2 2.1-1.2c1.5-.7 3.2-.2 4.9 1.3M7.8 9.4l2.6 1.7c.6.4 1.5.4 2.1 0l3.8-2.6" fill="none" stroke="#009EE3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>mercado pago</span></p>
+      </div>
+      <div class="collage" aria-hidden="true">
+        <img class="c2" src="/img/juego-45.jpg" alt="" width="1000" height="1333">
+        <img class="c3" src="/img/juego-19.jpg" alt="" width="787" height="1400">
+        <img class="c1" src="/img/tapa.jpg" alt="" width="900" height="1200">
+        <span class="sticker">-20%<small>por tiempo<br>limitado</small></span>
+      </div>
+    </div>
   </section>
 
-  <div class="filters" role="group" aria-label="Filtrar ebooks">
-    <button type="button" data-f="todos" aria-pressed="true">Todos</button>
-    <button type="button" data-f="chicos" aria-pressed="false">Para chicos</button>
-    <button type="button" data-f="adultos" aria-pressed="false">Para grandes</button>
+  <div class="wrap">
+    <div class="trust">
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span><b>Pago seguro</b>Con Mercado Pago</span></div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg><span><b>Al instante</b>Lo abrís apenas pagás</span></div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg><span><b>Imprimilo</b>Todas las veces que quieras</span></div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><span><b>Link para siempre</b>Te llega a tu mail</span></div>
+    </div>
+    <div class="pays"><span class="mp-badge"><svg viewBox="0 0 24 16" aria-hidden="true"><ellipse cx="12" cy="8" rx="11.5" ry="7.5" fill="#fff"/><path d="M5 7.6c1.7-1.5 3.4-2 4.9-1.3l2.1 1.2 2.1-1.2c1.5-.7 3.2-.2 4.9 1.3M7.8 9.4l2.6 1.7c.6.4 1.5.4 2.1 0l3.8-2.6" fill="none" stroke="#009EE3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>mercado pago</span><span>Crédito</span><span>Débito</span><span>Dinero en cuenta</span><span>Efectivo</span></div>
   </div>
 
-  <section class="grid" id="grid" aria-live="polite"></section>
-  <p class="empty" id="empty" hidden>Pronto vas a encontrar ebooks en esta categoría.</p>
+  <section class="sec wrap" id="ebooks">
+    <div class="sec-head">
+      <h2>Nuestros ebooks</h2>
+      <div class="filters" role="group" aria-label="Filtrar ebooks">
+        <button type="button" data-f="todos" aria-pressed="true">Todos</button>
+        <button type="button" data-f="chicos" aria-pressed="false">Para chicos</button>
+        <button type="button" data-f="adultos" aria-pressed="false">Para grandes</button>
+      </div>
+    </div>
+    <div class="grid" id="grid" aria-live="polite"></div>
+    <p class="empty" id="empty" hidden>Muy pronto vas a encontrar ebooks en esta categoría.</p>
+  </section>
 
-  <div class="trust"><span>✔ Pago seguro con Mercado Pago</span><span>✔ Lo abrís al instante</span><span>✔ Te queda un link para siempre</span></div>
+  <section class="sec wrap">
+    <h2 style="margin-bottom:16px">Así de fácil</h2>
+    <div class="steps">
+      <div class="step"><span class="n">1</span><div><h3>Elegís tu ebook</h3><p>Dejás tu mail, nada más.</p></div></div>
+      <div class="step"><span class="n">2</span><div><h3>Pagás con Mercado Pago</h3><p>Tarjeta, débito, dinero en cuenta o efectivo.</p></div></div>
+      <div class="step"><span class="n">3</span><div><h3>Lo abrís al instante</h3><p>Te llega a tu mail un link que es tuyo para siempre.</p></div></div>
+    </div>
+    <div class="lost"><p>¿Ya compraste y no encontrás tu ebook?</p><a class="btn ghost" href="/recuperar">Recuperarlo</a></div>
+  </section>
 </main>
 
 <footer class="site">
   <div class="wrap">
-    <span>© LudoLab Ebooks</span>
+    <span>© LudoLab Ebooks · Pagos procesados por Mercado Pago</span>
     <nav><a href="/recuperar">¿No te llegó?</a><a href="/terminos">Términos</a><a href="/privacidad">Privacidad</a><a href="/contacto">Contacto</a><a href="/contacto#arrepentimiento">Botón de arrepentimiento</a></nav>
   </div>
 </footer>
@@ -84,6 +174,7 @@ fbq('track', 'PageView');
 <script>
 const grid = document.getElementById("grid"), empty = document.getElementById("empty");
 const fmt = (n) => "$" + Number(n).toLocaleString("es-AR");
+const CAT = {chicos: "Para chicos", adultos: "Para grandes"};
 let productos = [];
 
 function render(filtro) {
@@ -91,15 +182,20 @@ function render(filtro) {
   grid.replaceChildren(...lista.map(p => {
     const a = document.createElement("a");
     a.className = "ebook card"; a.href = "/" + p.slug;
-    a.innerHTML = '<div class="cover"><img alt="" loading="lazy" width="600" height="800"></div>'
-      + '<div class="body"><h2></h2><p class="who"></p><div class="price"><b></b><s></s></div>'
-      + '<span class="btn block">Ver más</span></div>';
-    a.querySelector("img").src = p.tapa;
-    a.querySelector("img").alt = "Tapa de " + p.titulo;
-    a.querySelector("h2").textContent = p.titulo;
-    a.querySelector(".who").textContent = p.para_quien || p.subtitulo || "";
+    a.innerHTML = '<div class="cover"><img alt="" loading="lazy" width="600" height="450"><span class="off" hidden></span><span class="cat"></span></div>'
+      + '<div class="body"><h3></h3><p class="sub"></p><p class="who"></p><div class="price"><b></b><s></s></div>'
+      + '<span class="btn block">Ver más</span><span class="mini">Pago seguro con Mercado Pago</span></div>';
+    const img = a.querySelector("img"); img.src = p.tapa; img.alt = "Tapa de " + p.titulo;
+    a.querySelector("h3").textContent = p.titulo;
+    a.querySelector(".sub").textContent = p.subtitulo || "";
+    a.querySelector(".who").textContent = p.para_quien || "";
+    a.querySelector(".cat").textContent = CAT[p.categoria] || "";
     a.querySelector(".price b").textContent = fmt(p.precio);
-    if (p.precio_tachado > p.precio) a.querySelector(".price s").textContent = fmt(p.precio_tachado);
+    if (p.precio_tachado > p.precio) {
+      a.querySelector(".price s").textContent = fmt(p.precio_tachado);
+      const off = a.querySelector(".off"); off.hidden = false;
+      off.textContent = "-" + Math.round((1 - p.precio / p.precio_tachado) * 100) + "%";
+    }
     return a;
   }));
   empty.hidden = lista.length > 0;
