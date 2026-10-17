@@ -11,12 +11,95 @@
       "precio_tachado": 14990,
       "tapa": "/img/tapa.jpg",
       "pdf": "ebooks/100-juegos-con-dados.pdf",
-      "variantes": ["a", "b"],
+      "variantes": [
+        "a",
+        "b"
+      ],
       "variante_default": "a",
       "activo": true,
       "mail": {
         "asunto": "Tu ebook 100 juegos con dados – acá está tu link",
         "intro": "Acá tenés tu ebook 100 juegos con dados. Abrilo, imprimí el juego que quieran y a jugar."
+      }
+    },
+    {
+      "slug": "escape-room",
+      "titulo": "Escape room de cumpleaños",
+      "subtitulo": "Dos aventuras completas con pistas, candado y tesoro. Imprimí, escondé las pistas ¡y que empiece la fiesta!",
+      "categoria": "chicos",
+      "para_quien": "De 4 a 12 años · de 4 a 12 jugadores",
+      "precio": 14990,
+      "precio_tachado": 19990,
+      "pdf": "ebooks/escape-room-de-cumpleanos.pdf",
+      "tapa": "/img/escape-room/tapa.jpg",
+      "variantes": [
+        "a"
+      ],
+      "variante_default": "a",
+      "activo": false,
+      "mail": {
+        "asunto": "Tu ebook Escape room de cumpleaños – acá está tu link",
+        "intro": "Acá tenés tu ebook Escape room de cumpleaños. Abrilo, imprimí lo que necesites y a jugar."
+      }
+    },
+    {
+      "slug": "vacaciones",
+      "titulo": "Vacaciones sin pantallas",
+      "subtitulo": "60 días, 60 juegos: un juego distinto para cada día del verano, con calendario para la heladera y diploma.",
+      "categoria": "chicos",
+      "para_quien": "De 4 a 10 años",
+      "precio": 11990,
+      "precio_tachado": 14990,
+      "pdf": "ebooks/vacaciones-sin-pantallas.pdf",
+      "tapa": "/img/vacaciones/tapa.jpg",
+      "variantes": [
+        "a"
+      ],
+      "variante_default": "a",
+      "activo": false,
+      "mail": {
+        "asunto": "Tu ebook Vacaciones sin pantallas – acá está tu link",
+        "intro": "Acá tenés tu ebook Vacaciones sin pantallas. Abrilo, imprimí lo que necesites y a jugar."
+      }
+    },
+    {
+      "slug": "abuelos",
+      "titulo": "50 juegos con dados para abuelos",
+      "subtitulo": "Memoria y agilidad mental en letra grande. Para jugar a solas, con los nietos o con quien acompañe.",
+      "categoria": "grandes",
+      "para_quien": "Adultos mayores · de 1 a 4 jugadores",
+      "precio": 11990,
+      "precio_tachado": 14990,
+      "pdf": "ebooks/50-juegos-con-dados-para-abuelos.pdf",
+      "tapa": "/img/abuelos/tapa.jpg",
+      "variantes": [
+        "a"
+      ],
+      "variante_default": "a",
+      "activo": false,
+      "mail": {
+        "asunto": "Tu ebook 50 juegos con dados para abuelos – acá está tu link",
+        "intro": "Acá tenés tu ebook 50 juegos con dados para abuelos. Abrilo, imprimí lo que necesites y a jugar."
+      }
+    },
+    {
+      "slug": "noche-de-juegos",
+      "titulo": "Noche de juegos",
+      "subtitulo": "40 juegos para la juntada: Generala, Tutti frutti, juegos de lápiz y dado y duelos de a dos.",
+      "categoria": "grandes",
+      "para_quien": "Desde 14 años · de 2 a 12 jugadores",
+      "precio": 11990,
+      "precio_tachado": 14990,
+      "pdf": "ebooks/noche-de-juegos.pdf",
+      "tapa": "/img/noche-de-juegos/tapa.jpg",
+      "variantes": [
+        "a"
+      ],
+      "variante_default": "a",
+      "activo": false,
+      "mail": {
+        "asunto": "Tu ebook Noche de juegos – acá está tu link",
+        "intro": "Acá tenés tu ebook Noche de juegos. Abrilo, imprimí lo que necesites y a jugar."
       }
     }
   ]
