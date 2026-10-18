@@ -36,7 +36,7 @@
         "a"
       ],
       "variante_default": "a",
-      "activo": false,
+      "activo": true,
       "mail": {
         "asunto": "Tu ebook Escape room de cumpleaños – acá está tu link",
         "intro": "Acá tenés tu ebook Escape room de cumpleaños. Abrilo, imprimí lo que necesites y a jugar."
@@ -56,7 +56,7 @@
         "a"
       ],
       "variante_default": "a",
-      "activo": false,
+      "activo": true,
       "mail": {
         "asunto": "Tu ebook Vacaciones sin pantallas – acá está tu link",
         "intro": "Acá tenés tu ebook Vacaciones sin pantallas. Abrilo, imprimí lo que necesites y a jugar."
@@ -76,7 +76,7 @@
         "a"
       ],
       "variante_default": "a",
-      "activo": false,
+      "activo": true,
       "mail": {
         "asunto": "Tu ebook 50 juegos con dados para abuelos – acá está tu link",
         "intro": "Acá tenés tu ebook 50 juegos con dados para abuelos. Abrilo, imprimí lo que necesites y a jugar."
@@ -96,7 +96,7 @@
         "a"
       ],
       "variante_default": "a",
-      "activo": false,
+      "activo": true,
       "mail": {
         "asunto": "Tu ebook Noche de juegos – acá está tu link",
         "intro": "Acá tenés tu ebook Noche de juegos. Abrilo, imprimí lo que necesites y a jugar."

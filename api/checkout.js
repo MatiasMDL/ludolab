@@ -3,6 +3,7 @@ import { mp } from "./_lib/mp.js";
 import { hset, redis } from "./_lib/db.js";
 import { productoActivo } from "./_lib/catalogo.js";
 import { encodeRef } from "./_lib/ventas.js";
+import { privatePdfExists } from "./_lib/pdf.js";
 
 // POST /api/checkout  {producto, email, cta, landing, fbp, fbc}
 // Guarda el pedido (mail incluido) ANTES de ir a pagar y devuelve la URL de pago de Mercado Pago.
@@ -12,6 +13,9 @@ export default async function handler(req, res) {
 
   const prod = productoActivo(String(b.producto || "dados"));
   if (!prod) return res.status(400).json({ error: "Ese ebook no existe" });
+  // No cobrar un ebook cuyo PDF todavía no se subió desde /admin (dados tiene además el PDF viejo en PDF_URL)
+  if (!(prod.slug === "dados" && process.env.PDF_URL) && !(await privatePdfExists(prod.pdf)))
+    return res.status(409).json({ error: "Este ebook sale a la venta en unos minutos. Probá de nuevo más tarde." });
 
   // Landings viejas (todavía abiertas en algún celu) mandan {channel, value}
   let email = normEmail(b.email || (b.channel === "email" ? b.value : ""));
