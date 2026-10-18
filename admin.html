@@ -93,6 +93,9 @@ function draw() {
     + ok(estado.pdfPrivado, "PDFs en Blob privado") + ok(estado.metaCapi, "API de conversiones de Meta") + ok(estado.copiaA, "Copia oculta y aviso de ventas")
     + (estado.pdfPrivado ? '<span><button class="mini" id="migrar">Copiar el PDF de dados al Blob privado</button> <span id="mres" class="muted"></span></span>' : '')
     + '</div></div>'
+    + '<div class="panel card"><h2>Ebooks</h2><table><tr><th>Ebook</th><th>Precio</th><th>En venta</th><th>PDF</th><th>Subir PDF</th></tr>'
+    + (estado.productos || []).map(p => '<tr><td>' + esc(p.titulo) + '</td><td>' + fmt(p.precio) + '</td><td>' + (p.activo ? "Sí" : "No") + '</td><td>' + (p.pdf ? "✅ cargado" : "⚠️ falta") + '</td>'
+      + '<td class="wrap-ok"><input type="file" accept="application/pdf" data-pdf="' + esc(p.slug) + '"> <span class="muted" data-pdfres="' + esc(p.slug) + '"></span></td></tr>').join("") + '</table></div>'
     + '<div class="panel card"><h2>Por producto</h2><table><tr><th>Ebook</th><th>Ventas</th><th>Total</th></tr>'
     + Object.entries(porProd).map(([k, x]) => '<tr><td>' + esc(k) + '</td><td>' + x.n + '</td><td>' + fmt(x.m) + '</td></tr>').join("") + '</table></div>'
     + '<div class="panel card"><h2>Por día</h2><table><tr><th>Día</th><th>Ventas</th><th>Total</th></tr>'
@@ -114,6 +117,17 @@ function draw() {
     b.disabled = true; b.textContent = "Enviando…";
     try { const r = await api("reenviar", {payment_id: b.dataset.re}); b.textContent = r.ok ? "¡Enviado!" : "Falló"; setTimeout(() => load(), 1200); }
     catch (e) { b.textContent = "Error"; alert(e.message); }
+  });
+  document.querySelectorAll("[data-pdf]").forEach(inp => inp.onchange = async () => {
+    const f = inp.files[0], out = document.querySelector('[data-pdfres="' + inp.dataset.pdf + '"]');
+    if (!f) return;
+    if (f.size > 3.3e6) { out.textContent = "El PDF pesa más de 3,3 MB: hay que achicarlo."; return; }
+    inp.disabled = true; out.textContent = "Subiendo…";
+    try {
+      const base64 = await new Promise((ok, ko) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(",")[1]); r.onerror = ko; r.readAsDataURL(f); });
+      const r = await api("subir-pdf", {slug: inp.dataset.pdf, base64});
+      out.textContent = "Listo (" + Math.round(r.bytes / 1024) + " KB)"; setTimeout(() => load(), 1200);
+    } catch (e) { out.textContent = e.message; inp.disabled = false; }
   });
   const mg = document.getElementById("migrar");
   if (mg) mg.onclick = async () => { mg.disabled = true; const out = document.getElementById("mres"); out.textContent = "Copiando…";

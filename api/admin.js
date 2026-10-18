@@ -2,7 +2,7 @@ import { put } from "@vercel/blob";
 import { body, clientIp, safeEqual, env } from "./_lib/util.js";
 import { redis, pipeline, toObj, hasDb, rateLimit } from "./_lib/db.js";
 import { productos, producto } from "./_lib/catalogo.js";
-import { privateToken } from "./_lib/pdf.js";
+import { privateToken, privatePdfExists } from "./_lib/pdf.js";
 import { sendDelivery } from "./_lib/ventas.js";
 
 // POST /api/admin  {accion, ...}  con el header x-admin-password = ADMIN_PASSWORD
@@ -23,7 +23,9 @@ export default async function handler(req, res) {
         base: hasDb(), resend: Boolean(process.env.RESEND_API_KEY), remitente: process.env.EMAIL_FROM || "",
         pdfPrivado: Boolean(privateToken()), metaCapi: Boolean(process.env.META_CAPI_TOKEN),
         copiaA: process.env.OWNER_EMAIL ? "configurado" : "", sitio: process.env.SITE_URL || "",
-        productos: productos().map((p) => ({ slug: p.slug, titulo: p.titulo, precio: p.precio, activo: p.activo !== false })),
+        productos: await Promise.all(productos().map(async (p) => ({
+          slug: p.slug, titulo: p.titulo, precio: p.precio, activo: p.activo !== false, pdf: await privatePdfExists(p.pdf),
+        }))),
       });
     }
 
@@ -56,6 +58,16 @@ export default async function handler(req, res) {
       const r = await fetch(env("PDF_URL"));
       if (!r.ok) throw new Error(`No pude bajar PDF_URL (${r.status})`);
       const buf = Buffer.from(await r.arrayBuffer());
+      await put(prod.pdf, buf, { access: "private", token: privateToken(), addRandomSuffix: false, allowOverwrite: true, contentType: "application/pdf" });
+      return res.json({ ok: true, guardado: prod.pdf, bytes: buf.length });
+    }
+
+    // Sube el PDF de un ebook al Blob privado desde el panel (llega en base64; Vercel acepta hasta ~4,5 MB por pedido)
+    if (b.accion === "subir-pdf") {
+      const prod = producto(String(b.slug || ""));
+      if (!prod || !privateToken()) return res.status(400).json({ error: "Falta el producto o EBOOKS_READ_WRITE_TOKEN" });
+      const buf = Buffer.from(String(b.base64 || ""), "base64");
+      if (buf.subarray(0, 5).toString() !== "%PDF-") return res.status(400).json({ error: "El archivo no es un PDF" });
       await put(prod.pdf, buf, { access: "private", token: privateToken(), addRandomSuffix: false, allowOverwrite: true, contentType: "application/pdf" });
       return res.json({ ok: true, guardado: prod.pdf, bytes: buf.length });
     }

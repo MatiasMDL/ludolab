@@ -1,0 +1,849 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vacaciones sin pantallas: 60 juegos para imprimir · LudoLab</title>
+<meta name="description" content="Ebook imprimible con 60 juegos, uno para cada día del verano, de 4 a 10 años. Con calendario, registro de estrellas y diploma. PDF A4, lo abrís al instante y te llega a tu mail. Pagás con Mercado Pago.">
+<link rel="canonical" href="https://ludolab.app/vacaciones">
+<meta property="og:type" content="product">
+<meta property="og:url" content="https://ludolab.app/vacaciones">
+<meta property="og:title" content="Vacaciones sin pantallas: 60 días, 60 juegos para imprimir">
+<meta property="og:description" content="Un juego distinto para cada día del verano, con cosas que ya tenés en casa. PDF imprimible, lo recibís al instante.">
+<meta property="og:image" content="https://ludolab.app/img/vacaciones/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="theme-color" content="#FAF8F5">
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '4240054562902602');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=4240054562902602&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel -->
+<!--HEAD-END-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Figtree:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: la página imita el libro. Blanco y negro, títulos en mayúscula redondeada,
+   pastillas de contorno como las del libro, fotos reales sobre la mesa, un solo rojo para comprar. */
+:root{
+  --bg:#FAF8F5;        /* papel */
+  --panel:#F0ECE5;     /* bloque alterno, tono mesa clara */
+  --card:#FFFFFF;
+  --ink:#18181B;       /* negro de impresión */
+  --ink-soft:#56565E;
+  --line:#E2DDD5;
+  --cta:#DA3229;       /* rojo de los puntos del dado */
+  --cta-hover:#B8261E;
+  --blue:#2350C2;      /* azul del otro dado: detalles */
+  --green:#1C8A5E;
+  --f-display:"Fredoka","Arial Rounded MT Bold","Trebuchet MS",system-ui,sans-serif;
+  --f-body:"Figtree","Segoe UI",system-ui,-apple-system,sans-serif;
+  --r:16px;
+  --shadow:0 18px 40px -22px rgba(24,24,27,.45);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141416;--panel:#1D1D21;--card:#232328;--ink:#F3F1EC;--ink-soft:#B3B1AB;--line:#34343A;
+  --cta:#EE463C;--cta-hover:#FF5F55;--blue:#7C9DF2;--green:#4CC08E;--shadow:0 18px 40px -22px rgba(0,0,0,.8);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141416;--panel:#1D1D21;--card:#232328;--ink:#F3F1EC;--ink-soft:#B3B1AB;--line:#34343A;
+  --cta:#EE463C;--cta-hover:#FF5F55;--blue:#7C9DF2;--green:#4CC08E;--shadow:0 18px 40px -22px rgba(0,0,0,.8);color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--f-body);-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+.wrap{max-width:1100px;margin:0 auto;padding-inline:20px}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.05;margin:0;text-wrap:balance}
+h1{font-size:clamp(2.2rem,5.4vw,3.7rem);letter-spacing:-.01em}
+h2{font-size:clamp(1.7rem,3.6vw,2.4rem);text-transform:uppercase;letter-spacing:.01em}
+h3{font-size:1.2rem;font-weight:600}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:6px}
+section{padding-block:72px}
+.panel{background:var(--panel)}
+
+/* pastillas como las del libro */
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--ink);border-radius:999px;padding:5px 12px;
+  font:600 .78rem/1 var(--f-display);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.pill.solid{background:var(--ink);color:var(--bg)}
+.pill.new{background:var(--cta);border-color:var(--cta);color:#fff}
+.label{font:600 .8rem/1 var(--f-display);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+
+/* números de paso como el "1 Tirá el dado" del libro */
+.n{width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--bg);display:inline-grid;place-items:center;
+  font:700 .95rem/1 var(--f-display);flex:none}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6em;border:0;cursor:pointer;text-decoration:none;
+  font:800 1.1rem/1 var(--f-body);padding:1.05em 1.7em;border-radius:14px;background:var(--cta);color:#fff;
+  box-shadow:0 4px 0 var(--cta-hover);transition:transform .12s,box-shadow .12s,background .12s}
+.btn:hover{background:var(--cta-hover)}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--cta-hover)}
+.btn[disabled]{opacity:.7;cursor:progress}
+
+/* header */
+header.top{padding-block:16px;border-bottom:1.5px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{font:700 1.4rem/1 var(--f-display);text-decoration:none;display:flex;align-items:center;gap:8px}
+.logo .dot{width:22px;height:22px;border-radius:6px;background:var(--cta);display:grid;place-items:center}
+.logo .dot::after{content:"";width:6px;height:6px;border-radius:50%;background:#fff}
+.top a.small{font-weight:800;font-size:.9rem;text-decoration:none;background:var(--cta);color:#fff;border-radius:10px;padding:9px 14px}
+
+/* hero */
+.hero{padding-block:40px 64px}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;grid-template-areas:"copy photo" "cta photo";column-gap:56px;row-gap:26px;align-items:start}
+.hero-copy{grid-area:copy;display:flex;flex-direction:column;gap:18px;min-width:0;align-self:end}
+.hero-photo{grid-area:photo;min-width:0;position:relative}
+.hero-photo img{max-height:620px;border-radius:22px;box-shadow:var(--shadow);aspect-ratio:3/4;object-fit:cover;width:100%}
+.hero-photo figcaption{position:absolute;left:14px;bottom:14px;background:var(--card);color:var(--ink);border-radius:10px;padding:7px 12px;font-size:.82rem;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.hero-cta{grid-area:cta;display:flex;flex-direction:column;gap:18px;min-width:0}
+.lead{font-size:1.18rem;color:var(--ink-soft);max-width:36ch}
+.lead b{color:var(--ink)}
+.buyrow{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px}
+.price{display:flex;flex-direction:column;line-height:1.1}
+.price b{font:700 1.9rem/1 var(--f-display);font-variant-numeric:tabular-nums}
+.price span{font-size:.85rem;color:var(--ink-soft);font-weight:600}
+.anchor{font-size:.95rem;color:var(--ink-soft);font-weight:600}
+.ticks{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;font-weight:600;font-size:.97rem}
+.ticks li{display:flex;align-items:center;gap:10px}
+.ticks li::before{content:"";width:20px;height:20px;border-radius:50%;flex:none;
+  background:var(--green) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3 3 7-7' stroke='white' stroke-width='2.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat}
+
+/* cómo es un juego */
+.head{display:flex;flex-direction:column;gap:12px;max-width:660px;margin-bottom:36px}
+.head p{color:var(--ink-soft);font-size:1.08rem}
+.showcase{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:start}
+.shot{margin:0;display:flex;flex-direction:column;gap:12px;min-width:0}
+.shot img{border-radius:18px;box-shadow:var(--shadow);width:100%;aspect-ratio:3/4;object-fit:cover}
+.shot figcaption{display:flex;flex-direction:column;gap:8px}
+.shot figcaption strong{font:700 1.15rem/1.2 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.rules{background:var(--card);border:2.5px solid var(--ink);border-radius:18px;overflow:hidden;align-self:center;min-width:0}
+.rules .top-r{padding:20px 22px 6px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.rules .tit{font:700 1.5rem/1 var(--f-display);background:var(--ink);color:var(--bg);border-radius:12px;padding:8px 16px;text-transform:uppercase}
+.rules ol{list-style:none;margin:0;padding:14px 22px 18px;display:flex;flex-direction:column;gap:12px}
+.rules li{display:flex;gap:12px;align-items:center;font:600 1.08rem/1.25 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.rules .win{background:var(--ink);color:var(--bg);padding:14px 22px;font:700 1.05rem/1.25 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.rules .cap{padding:14px 22px 18px;font-size:.95rem;color:var(--ink-soft)}
+.side{display:flex;flex-direction:column;gap:22px;min-width:0}
+
+/* contenido */
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.cat{background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.cat h3{text-transform:uppercase;letter-spacing:.02em}
+.cat p{color:var(--ink-soft);font-size:.97rem}
+
+.why{display:grid;grid-template-columns:repeat(3,1fr);gap:28px 36px}
+.why div{display:flex;flex-direction:column;gap:6px;min-width:0;padding-top:14px;border-top:2.5px solid var(--ink)}
+.why p{color:var(--ink-soft);font-size:.98rem}
+
+/* historia */
+.story .wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;align-items:center}
+.story img{border-radius:18px;box-shadow:var(--shadow);width:100%;aspect-ratio:4/5;object-fit:cover}
+.story-copy{display:flex;flex-direction:column;gap:16px;min-width:0}
+.story blockquote{margin:0;font:500 clamp(1.25rem,2.4vw,1.55rem)/1.4 var(--f-display);color:var(--ink)}
+.story cite{font-style:normal;font-weight:700;color:var(--ink-soft)}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.step{display:flex;gap:14px;align-items:flex-start;min-width:0}
+.step div{display:flex;flex-direction:column;gap:4px}
+.step p{color:var(--ink-soft)}
+
+/* testimonios (se muestran solo si hay reales en CONFIG) */
+.quotes{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.quotes figure{margin:0;background:var(--card);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:10px;min-width:0;border:1.5px solid var(--line);position:relative}
+.quotes blockquote{margin:0;font-size:1rem;line-height:1.5}
+.quotes figcaption{display:flex;flex-direction:column;font-size:.9rem;margin-top:auto}
+.quotes figcaption span{color:var(--ink-soft)}
+.stars{color:#F2A900;letter-spacing:2px;font-size:1.05rem}
+.rating{font-weight:600}
+.sample-note{font-size:.9rem;border:2px dashed var(--blue);border-radius:10px;padding:8px 12px;color:var(--ink)}
+.sample-tag{position:absolute;top:12px;right:12px;font:700 .7rem/1 var(--f-body);text-transform:uppercase;letter-spacing:.08em;color:var(--blue);border:1.5px solid var(--blue);border-radius:6px;padding:3px 6px}
+
+/* checkout */
+.buy .wrap{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+.buy-copy{display:flex;flex-direction:column;gap:18px;min-width:0}
+.buy-copy img{width:140px;border-radius:12px;box-shadow:var(--shadow);transform:rotate(-4deg)}
+.included{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;font-weight:600}
+.included li{display:flex;gap:10px;align-items:baseline}
+.included li::before{content:"✓";color:var(--green);font-weight:900}
+.included li.bonus::before{content:"★";color:var(--cta)}
+.included li.no{color:var(--ink-soft);font-weight:500}
+.included li.no::before{content:"✕";color:var(--ink-soft)}
+.box{background:var(--card);border:2.5px solid var(--ink);border-radius:22px;padding:28px;display:flex;flex-direction:column;gap:18px;min-width:0;box-shadow:var(--shadow)}
+.box-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.box-top .price b{font-size:2.4rem}
+fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column}
+legend{font-weight:800;margin-bottom:10px;padding:0}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--bg);border:1.5px solid var(--line);border-radius:14px;padding:5px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 8px;border-radius:10px;font-weight:700;cursor:pointer;color:var(--ink-soft)}
+.seg input:checked + label{background:var(--ink);color:var(--bg)}
+.seg input:focus-visible + label{outline:3px solid var(--blue);outline-offset:2px}
+.seg svg{width:18px;height:18px;flex:none}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-weight:700;font-size:.95rem}
+.inp{display:flex;align-items:center;border:2px solid var(--line);border-radius:14px;background:var(--bg);overflow:hidden;transition:border-color .15s}
+.inp:focus-within{border-color:var(--ink)}
+.inp.bad{border-color:var(--cta)}
+.inp .pre{padding:0 0 0 14px;font-weight:700;color:var(--ink-soft);white-space:nowrap;font-variant-numeric:tabular-nums}
+.inp input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:600 1.1rem var(--f-body);padding:15px 14px;outline:none}
+.hint{font-size:.85rem;color:var(--ink-soft)}
+.err .sug{font:inherit;color:inherit;background:none;border:0;padding:0;text-decoration:underline;cursor:pointer}
+.err{font-size:.9rem;color:var(--cta);font-weight:700}
+.box .btn{width:100%;font-size:1.2rem}
+.secure{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:.85rem;color:var(--ink-soft);text-align:center}
+.mp{font-weight:800;color:#009EE3}
+.pays{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.pays span{font-size:.75rem;font-weight:700;border:1px solid var(--line);border-radius:6px;padding:3px 8px;color:var(--ink-soft)}
+.guarantee{font-size:.92rem;text-align:center;background:var(--panel);border-radius:12px;padding:10px 14px}
+.demo{border:2px dashed var(--blue);border-radius:14px;padding:14px 16px;font-size:.92rem;display:flex;flex-direction:column;gap:6px}
+.demo code{font-size:.85rem;word-break:break-all}
+
+/* conversión */
+.urgency{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--cta);color:#fff;display:flex;flex-wrap:wrap;
+  justify-content:center;align-items:center;gap:6px 16px;padding:9px 16px;font-size:.92rem;text-align:center}
+.u-txt b{text-transform:uppercase;letter-spacing:.06em}
+.u-timer{display:inline-flex;gap:6px;font-variant-numeric:tabular-nums}
+.u-timer > span{background:rgba(0,0,0,.22);border-radius:6px;padding:2px 7px;font-size:.85rem}
+.u-timer b{font:700 1.05rem/1 var(--f-display)}
+.was{font-size:.95rem;color:var(--ink-soft);font-weight:600}
+.was s,.anchor{color:var(--ink-soft)}
+.off{display:inline-block;background:var(--cta);color:#fff;font:700 .95rem/1 var(--f-display);border-radius:8px;padding:6px 9px;transform:rotate(-3deg)}
+.big-offer{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.offer-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px}
+.offer-row > b{font:700 clamp(2.4rem,5vw,3rem)/1 var(--f-display);font-variant-numeric:tabular-nums}
+.offer-note{font-size:.9rem;color:var(--ink-soft);font-weight:600}
+.btn.big{font-size:1.2rem;padding:1.1em 1.8em;text-transform:uppercase;letter-spacing:.02em;width:100%;max-width:440px}
+@media (prefers-reduced-motion:no-preference){.btn.big{animation:nudge 2.8s ease-in-out 1.5s infinite}
+  @keyframes nudge{0%,88%,100%{transform:none}92%{transform:scale(1.035)}96%{transform:scale(.99)}}}
+.secure-line{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:.88rem;font-weight:600;color:var(--ink-soft)}
+.secure-line > svg{width:16px;height:16px;color:var(--green)}
+.mp-badge{display:inline-flex;align-items:center;gap:5px;background:#009EE3;color:#fff;border-radius:999px;padding:3px 10px 3px 4px;
+  font:800 .8rem/1 var(--f-body);letter-spacing:-.01em;white-space:nowrap}
+.mp-badge svg{width:24px;height:16px}
+.trust{list-style:none;margin:6px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.trust li{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;min-width:0}
+.trust svg{width:22px;height:22px;flex:none;color:var(--ink)}
+.trust span{display:flex;flex-direction:column;font-size:.8rem;color:var(--ink-soft);line-height:1.3}
+.trust b{font-size:.9rem;color:var(--ink)}
+.cta-sec{padding-block:0 64px}
+.panel + .cta-sec,.cta-sec.on-panel{background:var(--panel)}
+.cta-block{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;border-top:2.5px solid var(--ink);padding-top:40px}
+.cta-title{font:700 clamp(1.3rem,3vw,1.7rem)/1.15 var(--f-display);text-wrap:balance}
+.cta-block .offer-row{justify-content:center}
+.cta-block .secure-line{justify-content:center}
+.stack{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+.stack-copy{display:flex;flex-direction:column;gap:14px;min-width:0}
+.incl{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:14px}
+.incl li{display:flex;gap:12px;align-items:flex-start}
+.incl svg{width:24px;height:24px;flex:none;color:#fff;background:var(--green);border-radius:50%;padding:4px}
+.incl span{display:flex;flex-direction:column;color:var(--ink-soft);font-size:.95rem}
+.incl b{color:var(--ink);font-size:1.05rem}
+.stack-price{background:var(--card);border:2.5px solid var(--ink);border-radius:22px;padding:28px 24px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;box-shadow:var(--shadow);min-width:0}
+.sp-was{color:var(--ink-soft);font-weight:600}
+.sp-now{font:600 1.1rem/1.1 var(--f-display);text-transform:uppercase}
+.sp-now b{display:block;font-size:3.2rem;line-height:1;margin-top:4px;font-variant-numeric:tabular-nums}
+.sp-save{font-size:.9rem;color:var(--ink-soft)}
+.sp-save b{color:var(--cta);font-variant-numeric:tabular-nums}
+.box-urg{background:var(--panel);border-radius:10px;padding:8px 12px;text-align:center;font-size:.92rem;font-weight:600}
+.box-urg b{color:var(--cta);font-variant-numeric:tabular-nums}
+.box .btn.big{max-width:none}
+.sticky .anchor{font-size:.8rem}
+.sticky .price span{color:var(--cta);font-weight:700;font-variant-numeric:tabular-nums}
+@media (max-width:760px){
+  .stack{grid-template-columns:1fr;gap:28px}
+  .trust{grid-template-columns:1fr 1fr}
+  .btn.big{max-width:none}
+}
+@media (max-width:380px){.trust{grid-template-columns:1fr}}
+
+/* faq */
+.faq{max-width:760px;display:flex;flex-direction:column}
+.faq details{border-bottom:1.5px solid var(--line);padding-block:18px}
+.faq summary{cursor:pointer;font:700 1.1rem/1.3 var(--f-body);list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font:700 1.5rem/1 var(--f-display);color:var(--cta);transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin-top:10px;color:var(--ink-soft)}
+
+footer{padding-block:40px 120px;border-top:1.5px solid var(--line);font-size:.9rem;color:var(--ink-soft)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+footer a{color:inherit}
+.foot-links{flex-basis:100%}
+
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--card);border-top:1.5px solid var(--line);
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));display:none;align-items:center;justify-content:space-between;gap:12px;
+  box-shadow:0 -8px 24px -12px rgba(0,0,0,.3);transition:transform .25s}
+.sticky.hide{transform:translateY(110%)}
+.sticky .price b{font-size:1.4rem}
+.sticky .btn{padding:.85em 1.3em;font-size:1rem}
+
+@media (max-width:860px){
+  .why{grid-template-columns:repeat(2,1fr)}
+  .showcase{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  section{padding-block:52px}
+  .hero{padding-block:24px 48px}
+  .hero .wrap{grid-template-columns:1fr;grid-template-areas:"copy" "photo" "cta";row-gap:22px}
+  .hero-photo img{aspect-ratio:16/11;object-position:50% 40%}
+  .buy .wrap,.story .wrap{grid-template-columns:1fr;gap:28px}
+  .story img{aspect-ratio:4/3}
+  .steps{grid-template-columns:1fr;gap:20px}
+  .sticky{display:flex}
+  .top a.small{display:none}
+}
+@media (max-width:480px){
+  .why{grid-template-columns:1fr}
+  .box{padding:22px 18px}
+  .buyrow .btn{flex:1}
+}
+
+/* Hojas del PDF: son renders digitales (no fotos), se muestran como hojas de papel sobre la mesa */
+.sheet{display:block;background:#fff;border-radius:3px;overflow:hidden;
+  box-shadow:0 0 0 1px rgba(24,24,27,.07),0 18px 32px -18px rgba(24,24,27,.55)}
+.sheet img,.shot .sheet img,.story .sheet img{width:100%;height:auto;aspect-ratio:827/1170;object-fit:cover;border-radius:0;box-shadow:none;max-height:none}
+.hero-book{position:relative;margin:0;background:var(--panel);border-radius:22px;aspect-ratio:5/6;overflow:hidden;min-width:0;grid-area:photo}
+.hero-book .sheet{position:absolute}
+.hero-book .s1{width:46%;left:3%;top:21%;transform:rotate(-7deg)}
+.hero-book .s2{width:46%;right:3%;top:21%;transform:rotate(6deg)}
+.hero-book .s0{width:62%;left:19%;top:8%;z-index:2;box-shadow:0 0 0 1px rgba(24,24,27,.08),0 26px 44px -18px rgba(24,24,27,.6)}
+.hero-book figcaption{position:absolute;left:14px;bottom:14px;z-index:3;background:var(--card);color:var(--ink);border-radius:10px;padding:7px 12px;font-size:.82rem;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.shot .sheet{transform:rotate(-1deg)}
+.side .shot .sheet{transform:rotate(1.4deg)}
+.pages{display:grid;grid-template-columns:repeat(4,1fr);gap:32px 24px;margin-top:44px}
+.pages figure{margin:0;display:flex;flex-direction:column;gap:14px;min-width:0}
+.pages figure:nth-child(odd) .sheet{transform:rotate(-1.6deg)}
+.pages figure:nth-child(even) .sheet{transform:rotate(1.3deg)}
+.pages figcaption{display:flex;flex-direction:column;gap:8px}
+.pages figcaption strong{font:700 1rem/1.2 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.pages .pill{font-size:.7rem;padding:4px 9px}
+.story .sheet{transform:rotate(-2deg);max-width:440px;width:100%;justify-self:center}
+.buy-copy img{border-radius:4px}
+@media (max-width:860px){.pages{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:760px){
+  .hero-book{aspect-ratio:1/.82}
+  .hero-book .s0{width:46%;left:27%;top:5%}
+  .hero-book .s1{width:37%;left:5%;top:15%}
+  .hero-book .s2{width:37%;right:5%;top:15%}
+  .story .sheet{max-width:300px}
+}
+@media (max-width:480px){.pages{gap:24px 16px}.pages figcaption strong{font-size:.9rem}}
+</style>
+</head>
+<body>
+
+<div class="urgency" role="status">
+  <span class="u-txt"><b>Oferta limitada</b> · Últimas horas de promoción</span>
+  <span class="u-timer" aria-label="Tiempo restante de la promoción"><span><b id="cd-h">05</b>h</span><span><b id="cd-m">12</b>m</span><span><b id="cd-s">33</b>s</span></span>
+</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="/"><span class="dot"></span>LudoLab</a>
+    <a class="small js-cta" href="#comprar" data-cta="header">Quiero el ebook ahora</a>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <div class="pills"><span class="pill new">Ya salió</span><span class="pill">Ebook imprimible</span><span class="pill">Llega al instante</span></div>
+      <h1>60 días de verano, un juego por día, sin pantallas</h1>
+      <p class="lead"><b>Imprimís la hoja del día ¡y a jugar!</b> Juegos de patio, de agua, de mesa y tranquilos para la siesta, con cosas que ya tenés en casa. Cambiá el “¿qué hacemos hoy?” por un juego listo.</p>
+      <div class="pills"><span class="pill">De 4 a 10 años</span><span class="pill">60 juegos distintos</span><span class="pill">Formato A4</span></div>
+    </div>
+    <figure class="hero-book">
+      <span class="sheet s1"><img src="/img/vacaciones/pag-11.jpg" alt="Página de muestra: día 3, laberinto del cangrejo que buscaba el mar" width="827" height="1170"></span>
+      <span class="sheet s2"><img src="/img/vacaciones/pag-41.jpg" alt="Página de muestra: día 33, antifaces de animales para pintar y recortar" width="827" height="1170"></span>
+      <span class="sheet s0"><img src="/img/vacaciones/tapa.jpg" alt="Tapa del ebook Vacaciones sin pantallas: 60 días, 60 juegos, un juego distinto para cada día del verano" width="900" height="1273"></span>
+      <figcaption>Así se ve el PDF: tapa y páginas de adentro</figcaption>
+    </figure>
+    <div class="hero-cta">
+      <div class="big-offer">
+        <span class="pill new">Oferta limitada</span>
+        <div class="offer-row"><span class="was">Antes <s class="js-anchor">$24.990</s></span><b class="js-price">$18.990</b><span class="off js-off">-24%</span></div>
+        <span class="offer-note">Pago único · Ebook imprimible · Lo abrís al instante y te llega a tu mail</span>
+      </div>
+      <a class="btn big js-cta" href="#comprar" data-cta="hero">Quiero el ebook ahora</a>
+      <p class="secure-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Compra 100% segura con <span class="mp-badge"><svg viewBox="0 0 24 16" aria-hidden="true"><ellipse cx="12" cy="8" rx="11.5" ry="7.5" fill="#fff"/><path d="M5 7.6c1.7-1.5 3.4-2 4.9-1.3l2.1 1.2 2.1-1.2c1.5-.7 3.2-.2 4.9 1.3M7.8 9.4l2.6 1.7c.6.4 1.5.4 2.1 0l3.8-2.6" fill="none" stroke="#009EE3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>mercado pago</span></p>
+      <ul class="trust">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg><span><b>Entrega al instante</b>Apenas se aprueba el pago</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.8 7L4 20l1.1-4A8 8 0 1 1 20 12z"/></svg><span><b>A tu mail</b>Con un link que es tuyo para siempre</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></svg><span><b>PDF imprimible A4</b>Imprimís cuando quieras</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span><b>Pago 100% seguro</b>Con Mercado Pago</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="juegos">
+  <div class="wrap">
+    <div class="head">
+      <span class="label">Mirá cómo es por dentro</span>
+      <h2>Cada día, una hoja con todo lo que hace falta</h2>
+      <p>Arriba dice cuántos juegan, desde qué edad y qué se necesita. Abajo, las reglas en pocos pasos y un lugar para anotar quién ganó y cuántas estrellas le dieron.</p>
+    </div>
+    <div class="showcase">
+      <figure class="shot">
+        <span class="sheet "><img src="/img/vacaciones/pag-11.jpg" alt="Página del ebook: día 3, un laberinto para llevar al cangrejo Cachito hasta el mar" width="827" height="1170" loading="lazy"></span>
+        <figcaption>
+          <strong>Día 3 · El cangrejo que buscaba el mar</strong>
+          <div class="pills"><span class="pill">Lápiz y papel</span><span class="pill">4+ años</span><span class="pill">1 jugador</span><span class="pill">Lápiz</span></div>
+        </figcaption>
+      </figure>
+      <div class="side">
+        <div class="rules" aria-label="Reglas del día 3, copiadas del libro">
+          <div class="top-r"><span class="tit">Día 3</span><span class="label">Las reglas, tal cual</span></div>
+          <ol>
+            <li><span class="n">1</span>Entrá por la flecha de arriba.</li><li><span class="n">2</span>Pasá el lápiz por el camino sin tocar las paredes.</li><li><span class="n">3</span>Si te chocás, volvé atrás y probá otro camino.</li>
+          </ol>
+          <div class="win">¡Lo lograste cuando Cachito llega al mar!</div>
+        </div>
+        <figure class="shot">
+          <span class="sheet "><img src="/img/vacaciones/pag-41.jpg" alt="Página del ebook: día 33, antifaces de gato y búho para pintar, recortar y ponerse" width="827" height="1170" loading="lazy"></span>
+          <figcaption>
+            <strong>Día 33 · Antifaces de animales</strong>
+            <div class="pills"><span class="pill">Creativos</span><span class="pill">4+ años</span><span class="pill">Tijera y colores</span></div>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+    <div class="pages">
+      <figure>
+        <span class="sheet "><img src="/img/vacaciones/pag-5.jpg" alt="Página del ebook: calendario de vacaciones de los días 1 a 30 para pintar un casillero por día jugado" width="827" height="1170" loading="lazy"></span>
+        <figcaption><strong>Calendario para la heladera</strong><div class="pills"><span class="pill">60 días</span></div></figcaption>
+      </figure>
+      <figure>
+        <span class="sheet "><img src="/img/vacaciones/pag-22.jpg" alt="Página del ebook: día 14, un mandala de verano para pintar a la hora de la siesta" width="827" height="1170" loading="lazy"></span>
+        <figcaption><strong>Día 14 · Mandala de verano</strong><div class="pills"><span class="pill">Siesta y lluvia</span><span class="pill">4+ años</span></div></figcaption>
+      </figure>
+      <figure>
+        <span class="sheet "><img src="/img/vacaciones/pag-44.jpg" alt="Página del ebook: día 36, laberinto de la isla del tesoro del barco pirata al cofre" width="827" height="1170" loading="lazy"></span>
+        <figcaption><strong>Día 36 · La isla del tesoro</strong><div class="pills"><span class="pill">Lápiz y papel</span><span class="pill">6+ años</span></div></figcaption>
+      </figure>
+      <figure>
+        <span class="sheet "><img src="/img/vacaciones/pag-69.jpg" alt="Página del ebook: diploma Completé mis vacaciones sin pantallas, con medallas y estrellas" width="827" height="1170" loading="lazy"></span>
+        <figcaption><strong>El diploma final</strong><div class="pills"><span class="pill">Al terminar</span></div></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="cta-sec">
+  <div class="wrap">
+    <div class="cta-block">
+      <p class="cta-title">¿Lo imaginás pegado en la heladera este verano?</p>
+      <div class="offer-row"><span class="was">Antes <s class="js-anchor">$24.990</s></span><b class="js-price">$18.990</b><span class="off js-off">-24%</span></div>
+      <a class="btn big js-cta" href="#comprar" data-cta="juegos">Quiero el ebook ahora</a>
+      <p class="secure-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Compra segura con <span class="mp-badge"><svg viewBox="0 0 24 16" aria-hidden="true"><ellipse cx="12" cy="8" rx="11.5" ry="7.5" fill="#fff"/><path d="M5 7.6c1.7-1.5 3.4-2 4.9-1.3l2.1 1.2 2.1-1.2c1.5-.7 3.2-.2 4.9 1.3M7.8 9.4l2.6 1.7c.6.4 1.5.4 2.1 0l3.8-2.6" fill="none" stroke="#009EE3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>mercado pago</span></p>
+    </div>
+  </div>
+</section>
+
+<section id="que-trae">
+  <div class="wrap">
+    <div class="head">
+      <span class="label">Qué hay adentro</span>
+      <h2>60 juegos, 8 tipos, ningún día igual</h2>
+      <p>Están mezclados para que nunca se repita el tipo de juego dos días seguidos. Y si llueve, hay comodines.</p>
+    </div>
+    <div class="cats">
+      <article class="cat"><h3>Juegos con dado</h3><p>Carreras, el monstruo del dado, escaleras y toboganes, bingo de sumas y cuatro en línea.</p></article>
+      <article class="cat"><h3>Movimiento y patio</h3><p>Circuitos, rayuela, bolos caseros e islas de almohadas para gastar energía.</p></article>
+      <article class="cat"><h3>Agua y aire libre</h3><p>Regata de barquitos, pintores de agua, ¿flota o se hunde? y rescate helado.</p></article>
+      <article class="cat"><h3>Tranquilos: siesta y lluvia</h3><p>Mandalas, unir los puntos, las 7 diferencias y la sopa de letras del verano.</p></article>
+      <article class="cat"><h3>Lápiz y papel</h3><p>Laberintos, batalla naval, torneo de ta-te-ti y mapas del tesoro.</p></article>
+      <article class="cat"><h3>Palabras y cuentos</h3><p>Rimas locas, adivinanzas, la fábrica de cuentos y el cuento doblado.</p></article>
+      <article class="cat"><h3>Creativos y manualidades</h3><p>Títeres de medias, antifaces, fábrica de avioncitos e historietas.</p></article>
+      <article class="cat"><h3>Desafíos en familia</h3><p>Fútbol de tapitas, mímica, concurso de talentos y las olimpíadas familiares.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="testimonios" hidden>
+  <div class="wrap">
+    <div class="head">
+      <span class="label">Reseñas de familias</span>
+      <h2>Lo que dicen las familias que ya juegan</h2>
+      <p class="rating"><span class="stars" aria-hidden="true">★★★★★</span> <b class="js-avg">5,0</b> · <span class="js-count">10</span> reseñas</p>
+      <p class="sample-note" id="sample-note" hidden>Reseñas de ejemplo para probar el diseño. Solo se ven en la vista previa; en el sitio publicado aparecen únicamente las reseñas reales que cargues en la configuración.</p>
+    </div>
+    <div class="quotes" id="quotes"></div>
+  </div>
+</section>
+
+<section class="panel" id="incluye">
+  <div class="wrap">
+    <div class="stack">
+      <div class="stack-copy">
+        <span class="label">¿Qué incluye?</span>
+        <h2>Todo lo que te llevás hoy</h2>
+        <ul class="incl">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span><b>El ebook completo: 60 días, 60 juegos</b>PDF A4 de 70 páginas, en blanco y negro</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span><b>Calendario de 60 días para la heladera</b>Cada día jugado se pinta un casillero</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span><b>Registro de estrellas y diploma final</b>Los chicos ven su avance y se llevan su diploma al terminar</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span><b>6 comodines para días de lluvia</b>Recortables, para cambiar el plan cuando hace falta</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span><b>Impresiones ilimitadas</b>Reimprimí los favoritos para la revancha</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span><b>Entrega al instante</b>Se abre apenas pagás y te llega a tu mail</span></li>
+        </ul>
+        <ul class="incl js-bonus-list" hidden></ul>
+      </div>
+      <div class="stack-price">
+        <span class="pill new">Oferta limitada</span>
+        <p class="sp-was">Precio normal: <s class="js-anchor">$24.990</s></p>
+        <p class="sp-now">Hoy solo <b class="js-price">$18.990</b></p>
+        <p class="sp-save">Ahorrás <b class="js-save">$6.000</b> · La promo termina en <b class="js-cd-inline">00:00:00</b></p>
+        <a class="btn big js-cta" href="#comprar" data-cta="incluye">Quiero el ebook ahora</a>
+        <p class="secure-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Pago seguro con <span class="mp-badge"><svg viewBox="0 0 24 16" aria-hidden="true"><ellipse cx="12" cy="8" rx="11.5" ry="7.5" fill="#fff"/><path d="M5 7.6c1.7-1.5 3.4-2 4.9-1.3l2.1 1.2 2.1-1.2c1.5-.7 3.2-.2 4.9 1.3M7.8 9.4l2.6 1.7c.6.4 1.5.4 2.1 0l3.8-2.6" fill="none" stroke="#009EE3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>mercado pago</span></p>
+        <div class="pays"><span>Crédito</span><span>Débito</span><span>Dinero en cuenta</span><span>Efectivo</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="story">
+  <div class="wrap">
+    <span class="sheet "><img src="/img/vacaciones/pag-2.jpg" alt="Página del ebook: cómo usar este libro, con consejos para los grandes" width="827" height="1170" loading="lazy"></span>
+    <div class="story-copy">
+      <span class="label">Hecho por una familia argentina que ama jugar</span>
+      <blockquote>“Queríamos que las vacaciones se llenen de juegos, risas y tardes en familia, con cosas que ya hay en cualquier casa. Sin comprar nada y sin preparar mucho.”</blockquote>
+      <cite>La familia detrás de LudoLab</cite>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="por-que">
+  <div class="wrap">
+    <div class="head">
+      <span class="label">Por qué funciona</span>
+      <h2>Un verano con más juego y menos pantalla</h2>
+    </div>
+    <div class="why">
+      <div><h3>Con lo que hay en casa</h3><p>Hojas, un dado, tapitas, medias, almohadas, una pelota y agua. No hace falta comprar nada.</p></div>
+      <div><h3>Para cualquier clima</h3><p>De patio y de agua para los días de sol, tranquilos para la siesta y comodines para la lluvia.</p></div>
+      <div><h3>Cero preparación</h3><p>Cada hoja trae el tablero, el laberinto o la tabla. Imprimís y listo.</p></div>
+      <div><h3>Ven su avance</h3><p>Pintan el calendario, le ponen estrellas a cada juego y al final reciben su diploma.</p></div>
+      <div><h3>Entre hermanos</h3><p>Cada hoja marca la edad, de 4 a 10 años, y muchos juegos son para jugar de a varios.</p></div>
+      <div><h3>Primero, la seguridad</h3><p>El libro avisa cuándo tiene que acompañar un grande: con agua, con tijera y con sol fuerte.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-sec">
+  <div class="wrap">
+    <div class="cta-block">
+      <p class="cta-title">Este verano, un juego por día</p>
+      <div class="offer-row"><span class="was">Antes <s class="js-anchor">$24.990</s></span><b class="js-price">$18.990</b><span class="off js-off">-24%</span></div>
+      <a class="btn big js-cta" href="#comprar" data-cta="porque">Quiero el ebook ahora</a>
+      <p class="secure-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Compra segura con <span class="mp-badge"><svg viewBox="0 0 24 16" aria-hidden="true"><ellipse cx="12" cy="8" rx="11.5" ry="7.5" fill="#fff"/><path d="M5 7.6c1.7-1.5 3.4-2 4.9-1.3l2.1 1.2 2.1-1.2c1.5-.7 3.2-.2 4.9 1.3M7.8 9.4l2.6 1.7c.6.4 1.5.4 2.1 0l3.8-2.6" fill="none" stroke="#009EE3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>mercado pago</span></p>
+    </div>
+  </div>
+</section>
+
+<section id="como">
+  <div class="wrap">
+    <div class="head">
+      <span class="label">Cómo es la compra</span>
+      <h2>En dos minutos lo tenés en tus manos</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="n">1</span><div><h3>Dejás tu mail</h3><p>Es el único dato que te pedimos.</p></div></div>
+      <div class="step"><span class="n">2</span><div><h3>Pagás con Mercado Pago</h3><p>Tarjeta, débito, dinero en cuenta o efectivo.</p></div></div>
+      <div class="step"><span class="n">3</span><div><h3>Descargás e imprimís</h3><p>Apenas se aprueba el pago aparece el botón de descarga y te llega el link a tu mail.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="buy panel" id="comprar">
+  <div class="wrap">
+    <div class="buy-copy">
+      <img src="/img/vacaciones/tapa.jpg" alt="" width="900" height="1273" loading="lazy">
+      <span class="label">Último paso</span>
+      <h2>Dejá tu mail y abrilo ya</h2>
+      <ul class="included">
+        <li>1 PDF tamaño A4 de 70 páginas con 60 juegos</li>
+        <li>Calendario, registro de estrellas, comodines y diploma</li>
+        <li>Para imprimir en casa todas las veces que quieras</li>
+        <li>Entrega inmediata en tu mail</li>
+        <li>Pagás con Mercado Pago: tarjeta, débito o efectivo</li>
+        <li class="no">Es digital: no incluye libro impreso ni materiales</li>
+      </ul>
+    </div>
+
+    <form class="box" id="buy-form" novalidate>
+      <div class="box-top">
+        <div class="price"><span class="was">Antes <s class="js-anchor">$24.990</s></span><b class="js-price">$18.990</b><span>pago único · ARS</span></div>
+        <span class="off js-off">-24%</span>
+      </div>
+
+      <p class="box-urg">La promo termina en <b class="js-cd-inline">00:00:00</b></p>
+
+      <div class="field" id="f-email">
+        <label for="email">Tu mail <span style="font-weight:500">(ahí te mandamos el ebook)</span></label>
+        <div class="inp"><input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="nombre@gmail.com"></div>
+      </div>
+      <p class="err" id="err" hidden></p>
+
+      <button class="btn big" type="submit" id="pay-btn"><span class="js-pay-label">Pagar y descargar</span> · <span class="js-price">$18.990</span></button>
+
+      <div class="secure">
+        <span class="secure-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Pago 100% seguro con <span class="mp-badge"><svg viewBox="0 0 24 16" aria-hidden="true"><ellipse cx="12" cy="8" rx="11.5" ry="7.5" fill="#fff"/><path d="M5 7.6c1.7-1.5 3.4-2 4.9-1.3l2.1 1.2 2.1-1.2c1.5-.7 3.2-.2 4.9 1.3M7.8 9.4l2.6 1.7c.6.4 1.5.4 2.1 0l3.8-2.6" fill="none" stroke="#009EE3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>mercado pago</span></span>
+        <div class="pays"><span>Crédito</span><span>Débito</span><span>Dinero en cuenta</span><span>Efectivo</span></div>
+      </div>
+      <p class="guarantee" id="guarantee" hidden><strong>Garantía de 7 días.</strong> Si no te convence, te devolvemos el dinero. Solo tenés que escribirnos.</p>
+      <div class="demo" id="demo" hidden></div>
+    </form>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="head"><span class="label">Preguntas frecuentes</span><h2>Lo que más nos preguntan</h2></div>
+    <div class="faq">
+      <details open><summary>¿Qué recibo y cuándo?</summary><p>Un PDF tamaño A4 de 70 páginas con los 60 juegos, el calendario, el registro, los comodines y el diploma. Apenas se aprueba el pago se abre tu ebook, y además te llega a tu mail un link que es tuyo para siempre.</p></details>
+      <details><summary>¿Es un libro físico?</summary><p>No. Es un PDF para imprimir: todo junto y abrochado, o de a una hoja por día. No enviamos materiales.</p></details>
+      <details><summary>¿Qué necesito para jugar?</summary><p>Cosas que ya hay en casa: hojas, lápiz, colores, un dado, tapitas, medias, almohadas, una pelota, botellas y vasos de plástico o un balde. Cada hoja dice arriba qué hace falta. ¿No tenés dado? El libro te explica cómo reemplazarlo con papelitos.</p></details>
+      <details><summary>¿Para qué edades es?</summary><p>De 4 a 10 años. Cada hoja marca desde qué edad se puede jugar y su nivel. La edad es orientativa: con ayuda, los más chicos se animan a casi todo.</p></details>
+      <details><summary>¿Hay que seguir el orden de los días?</summary><p>No, el orden es una sugerencia. Si llueve, usan un comodín; si hace mucho calor, adelantan uno de agua. Y si un juego les encantó, ¡a repetirlo!</p></details>
+      <details><summary>¿Lo puedo usar en el celular?</summary><p>Se abre en el celu o la compu, pero los juegos se juegan en papel: imprimís la hoja del día y listo. También podés llevar el archivo a una fotocopiadora.</p></details>
+      <details><summary>¿Cómo puedo pagar?</summary><p>Con todo lo que acepta Mercado Pago: tarjeta de crédito, débito, dinero en cuenta o efectivo en Pago Fácil y Rapipago. Si pagás en efectivo, te llega cuando se acredita el pago.</p></details>
+      <details><summary>¿Puedo imprimirlo varias veces?</summary><p>Sí, para uso en tu familia o tu aula las veces que quieras. Lo que no se permite es revenderlo ni compartir el archivo.</p></details>
+      <details id="faq-guarantee" hidden><summary>¿Y si no me convence?</summary><p>Tenés 7 días de garantía: nos escribís y te devolvemos el dinero, sin vueltas.</p></details>
+      <details><summary>¿Y si no me llega?</summary><p>Revisá Spam o Promociones. Si igual no aparece, pedilo de nuevo en <a href="/recuperar">ludolab.app/recuperar</a> y te llega al instante.</p></details>
+      <details><summary>¿Tengo otra duda, a quién le escribo?</summary><p>Escribinos a <a href="https://www.instagram.com/ludolab.ar/" target="_blank" rel="noopener">@ludolab.ar en Instagram</a> o desde <a href="/contacto">ludolab.app/contacto</a>. Si es por una compra, contanos tu número de pago (está en el mail de Mercado Pago).</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© LudoLab Ebooks · Juegos para imprimir y jugar en familia</span>
+    <span>Producto digital · Pagos procesados por Mercado Pago</span>
+    <nav class="foot-links"><a href="/">Más ebooks</a> · <a href="/terminos">Términos</a> · <a href="/privacidad">Privacidad</a> · <a href="/contacto">Contacto</a> · <a href="/contacto#arrepentimiento">Botón de arrepentimiento</a></nav>
+  </div>
+</footer>
+
+<div class="sticky" id="sticky">
+  <div class="price"><s class="js-anchor anchor">$24.990</s><b class="js-price">$18.990</b><span class="js-cd-inline">00:00:00</span></div>
+  <a class="btn js-cta" href="#comprar" data-cta="sticky">Quiero el ebook ahora</a>
+</div>
+
+<script>
+/* ===== Configuración: lo único que hay que tocar ===== */
+const CONFIG = {
+  price: 18990,                 // precio en ARS; tiene que coincidir con PRICE_ARS del backend
+  anchorPrice: 24990,           // precio anterior (tachado)
+  promoEndsAt: "",              // fin real de la promo, ej "2026-10-12T23:59:00-03:00". Vacío = termina hoy a las 23:59 (hora Argentina)
+  // Textos de botón que se prueban (A/B). A cada visitante le toca uno y se mide en el píxel y en Mercado Pago.
+  ctaVariants: {a: "Quiero el ebook ahora", b: "¡Lo quiero ya!", c: "Descargar ahora"},
+  supportWhatsApp: "",          // ej "5491123456789" para el link de ayuda (vacío = solo texto)
+  apiBase: "",                  // vacío = mismo dominio (/api/checkout)
+  landing: "a",                 // nombre de esta versión de la landing (se guarda en cada pago)
+
+  // Bloques que se muestran solo si los completás (todo vacío = no aparecen):
+  guarantee7days: false,        // true = muestra la garantía de 7 días (comprometete solo si la vas a cumplir)
+  bonuses: [],                  // ej ["Tablero de puntajes imprimible", "Dado de papel para armar"]
+  testimonials: []              // reseñas REALES, ej [{text: "Lo usamos todas las tardes", name: "Caro", place: "Rosario, Santa Fe", stars: 5}]
+};
+/* ===================================================== */
+
+const fmt = n => "$" + n.toLocaleString("es-AR", {maximumFractionDigits: 0});
+document.querySelectorAll(".js-price").forEach(el => el.textContent = fmt(CONFIG.price));
+if (CONFIG.supportWhatsApp) {
+  document.querySelectorAll(".js-support").forEach(el => {
+    el.innerHTML = 'por WhatsApp al <a href="https://wa.me/' + CONFIG.supportWhatsApp + '" target="_blank" rel="noopener">+' + CONFIG.supportWhatsApp + '</a>';
+  });
+}
+
+const hasAnchor = CONFIG.anchorPrice > CONFIG.price;
+document.querySelectorAll(".js-anchor").forEach(el => { el.textContent = fmt(CONFIG.anchorPrice); });
+document.querySelectorAll(".was, .sp-was, .js-off, .sticky .anchor").forEach(el => { el.hidden = !hasAnchor; });
+if (hasAnchor) {
+  const pct = Math.round((1 - CONFIG.price / CONFIG.anchorPrice) * 100);
+  document.querySelectorAll(".js-off").forEach(el => el.textContent = "-" + pct + "%");
+  document.querySelectorAll(".js-save").forEach(el => el.textContent = fmt(CONFIG.anchorPrice - CONFIG.price));
+} else document.querySelectorAll(".sp-save").forEach(el => el.hidden = true);
+
+// Contador: hasta promoEndsAt o, si está vacío, hasta las 23:59:59 de hoy en Argentina (UTC-3)
+function promoEnd() {
+  if (CONFIG.promoEndsAt) return new Date(CONFIG.promoEndsAt).getTime();
+  const now = Date.now(), art = new Date(now - 3 * 3600e3);
+  return Date.UTC(art.getUTCFullYear(), art.getUTCMonth(), art.getUTCDate() + 1) + 3 * 3600e3;
+}
+const END = promoEnd(), pad = n => String(n).padStart(2, "0");
+function tick() {
+  let t = Math.max(0, Math.floor((END - Date.now()) / 1000));
+  const h = Math.floor(t / 3600), m = Math.floor(t % 3600 / 60), sec = t % 60;
+  document.getElementById("cd-h").textContent = pad(h);
+  document.getElementById("cd-m").textContent = pad(m);
+  document.getElementById("cd-s").textContent = pad(sec);
+  document.querySelectorAll(".js-cd-inline").forEach(el => el.textContent = pad(h) + ":" + pad(m) + ":" + pad(sec));
+}
+tick(); setInterval(tick, 1000);
+
+// A/B de textos de botón: ?cta=b fuerza una variante; si no, se sortea una vez por visitante
+const CTA_KEYS = Object.keys(CONFIG.ctaVariants);
+let ctaVariant = new URLSearchParams(location.search).get("cta");
+if (!CONFIG.ctaVariants[ctaVariant]) {
+  try { ctaVariant = localStorage.getItem("ll_cta"); } catch (e) {}
+  if (!CONFIG.ctaVariants[ctaVariant]) ctaVariant = CTA_KEYS[Math.floor(Math.random() * CTA_KEYS.length)];
+}
+try { localStorage.setItem("ll_cta", ctaVariant); } catch (e) {}
+document.querySelectorAll(".js-cta").forEach(el => el.textContent = CONFIG.ctaVariants[ctaVariant]);
+document.documentElement.dataset.cta = ctaVariant;
+if (CONFIG.guarantee7days) { document.getElementById("guarantee").hidden = false; document.getElementById("faq-guarantee").hidden = false; }
+const inc = document.querySelector(".included"), noLi = inc.querySelector(".no");
+CONFIG.bonuses.forEach(b => { const li = document.createElement("li"); li.className = "bonus"; li.textContent = "Bonus de regalo: " + b; inc.insertBefore(li, noLi); });
+// La vista previa corre dentro de un marco: ahí no hay backend, se muestra el flujo en modo demo.
+const PREVIEW = (() => { try { return window.self !== window.top; } catch (e) { return true; } })();
+
+// Reseñas: en el sitio real solo se muestran las de CONFIG.testimonials. En la vista previa, si no hay, se ven 10 tarjetas de ejemplo marcadas.
+(function renderReviews() {
+  let list = CONFIG.testimonials, sample = false;
+  if (!list.length) return;
+  const box = document.getElementById("quotes");
+  list.forEach(t => {
+    const f = document.createElement("figure"), st = document.createElement("span"), q = document.createElement("blockquote"), c = document.createElement("figcaption");
+    const n = Math.max(1, Math.min(5, t.stars || 5));
+    st.className = "stars"; st.textContent = "★".repeat(n) + "☆".repeat(5 - n); st.setAttribute("aria-label", n + " de 5 estrellas");
+    q.textContent = "“" + t.text + "”";
+    c.innerHTML = "<b></b><span></span>"; c.firstChild.textContent = t.name; c.lastChild.textContent = t.place || "";
+    if (sample) { const tag = document.createElement("span"); tag.className = "sample-tag"; tag.textContent = "Ejemplo"; f.appendChild(tag); }
+    f.append(st, q, c); box.appendChild(f);
+  });
+  const avg = list.reduce((a, t) => a + (t.stars || 5), 0) / list.length;
+  document.querySelector(".js-avg").textContent = avg.toFixed(1).replace(".", ",");
+  document.querySelector(".js-count").textContent = list.length;
+  document.getElementById("sample-note").hidden = !sample;
+  document.getElementById("testimonios").hidden = false;
+})();
+
+// Píxel de Meta (solo en el sitio real)
+const PIXEL_ID = "4240054562902602";   // el código base del píxel está en el <head>
+const VARIANTE = "A";
+// versión de la landing para el A/B (va en todos los eventos)
+const PRODUCTO = "vacaciones";                // slug del ebook en productos.json
+function track(ev, data) { try { window.fbq && window.fbq("track", ev, Object.assign({content_ids: [PRODUCTO], content_type: "product", content_name: "Vacaciones sin pantallas"}, data, {variante: VARIANTE})); } catch (e) {} }
+track("ViewContent", {content_name: "Vacaciones sin pantallas", value: CONFIG.price, currency: "ARS"});
+
+const form = document.getElementById("buy-form");
+const fEmail = document.getElementById("f-email");
+const email = document.getElementById("email");
+const payLabel = document.getElementById("pay-btn").innerHTML;
+const err = document.getElementById("err"), btn = document.getElementById("pay-btn"), demo = document.getElementById("demo");
+
+
+function showErr(msg, input) {
+  err.textContent = msg; err.hidden = false;
+  input.closest(".inp").classList.add("bad"); input.focus();
+}
+[email].forEach(i => i.addEventListener("input", () => { i.closest(".inp").classList.remove("bad"); err.hidden = true; }));
+
+// Detecta errores de tipeo en el dominio del mail (gmial.com, hotmial.com, gmail.con...)
+const MAIL_DOMAINS = ["gmail.com", "hotmail.com", "hotmail.com.ar", "outlook.com", "outlook.com.ar", "yahoo.com", "yahoo.com.ar", "live.com", "live.com.ar", "icloud.com", "fibertel.com.ar", "speedy.com.ar", "arnet.com.ar"];
+function editDistance(a, b) {
+  const d = Array.from({length: a.length + 1}, (_, i) => [i]);
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++)
+    d[i][j] = Math.min(d[i-1][j] + 1, d[i][j-1] + 1, d[i-1][j-1] + (a[i-1] === b[j-1] ? 0 : 1),
+      i > 1 && j > 1 && a[i-1] === b[j-2] && a[i-2] === b[j-1] ? d[i-2][j-2] + 1 : 99);
+  return d[a.length][b.length];
+}
+function suggestEmail(v) {
+  const [user, domain] = v.split("@");
+  if (!domain || MAIL_DOMAINS.includes(domain)) return null;
+  let best = null, dist = 3;
+  for (const m of MAIL_DOMAINS) { const k = editDistance(domain, m); if (k < dist) { dist = k; best = m; } }
+  return best ? user + "@" + best : null;
+}
+
+function readContact() {
+  const v = email.value.trim().toLowerCase();
+  if (!/^[^\s@|]+@[^\s@|]+\.[a-z]{2,}$/i.test(v)) { showErr("Revisá el email: parece que le falta algo (ej: nombre@gmail.com).", email); return null; }
+  const fix = suggestEmail(v);
+  if (fix && email.dataset.confirmed !== v) {   // la primera vez avisamos; si vuelve a tocar Pagar, sigue con lo que escribió
+    email.dataset.confirmed = v;
+    showErr("", email);
+    err.append("¿Es correcto tu mail? Ahí te mandamos el ebook. ¿Quisiste decir ");
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "sug"; b.textContent = fix;
+    b.addEventListener("click", () => { email.value = fix; err.hidden = true; email.closest(".inp").classList.remove("bad"); email.focus(); });
+    err.append(b, "? Tocalo para corregirlo, o tocá Pagar de nuevo si está bien.");
+    return null;
+  }
+  return {channel: "email", value: v};
+}
+
+// Cookies del píxel (_fbp y _fbc) para que el servidor las reuse en la compra
+function fbCookies() {
+  const get = (n) => (document.cookie.match("(?:^|; )" + n + "=([^;]*)") || [])[1];
+  let fbc = get("_fbc");
+  const fbclid = new URLSearchParams(location.search).get("fbclid");
+  if (!fbc && fbclid) fbc = "fb.1." + Date.now() + "." + fbclid;
+  return {fbp: get("_fbp"), fbc: fbc};
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  err.hidden = true; demo.hidden = true;
+  const contact = readContact();
+  if (!contact) return;
+  // Coincidencia avanzada: solo el dato que dejó (el píxel lo hashea antes de enviarlo)
+  const lead = {em: contact.value};
+  try { window.fbq && fbq("init", PIXEL_ID, lead); } catch (e) {}
+  try { localStorage.setItem("ll_lead", JSON.stringify(lead)); } catch (e) {}   // la página de descarga lo reusa
+  track("Lead", {content_name: "Vacaciones sin pantallas"});
+  btn.disabled = true; btn.textContent = "Abriendo Mercado Pago…";
+
+  if (PREVIEW) {
+    setTimeout(() => {
+      btn.disabled = false; btn.innerHTML = payLabel;
+      demo.innerHTML = "<strong>Vista previa:</strong> en el sitio publicado, acá se abre el checkout de Mercado Pago y después del pago se descarga el PDF.<span>Contacto que se guardaría: <code></code></span>";
+      demo.querySelector("code").textContent = contact.value;
+      demo.hidden = false;
+    }, 600);
+    return;
+  }
+
+  try {
+    const r = await fetch(CONFIG.apiBase + "/api/checkout", {
+      method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({email: contact.value, producto: PRODUCTO, cta: ctaVariant, landing: CONFIG.landing, ...fbCookies()})
+    });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok || !data.url) throw new Error((data.detail || data.error || ("HTTP " + r.status)));
+    track("InitiateCheckout", {value: CONFIG.price, currency: "ARS", num_items: 1, cta_variant: ctaVariant});
+    setTimeout(() => { window.location.href = data.url; }, 300);   // le da tiempo al píxel a enviar el evento
+  } catch (e2) {
+    btn.disabled = false; btn.innerHTML = payLabel;
+    console.error("checkout", e2);
+    err.dataset.detail = String(e2.message || e2);
+    err.textContent = "No pudimos abrir Mercado Pago. Probá de nuevo en un momento" + (CONFIG.supportWhatsApp ? " o escribinos por WhatsApp al +" + CONFIG.supportWhatsApp + "." : ".");
+    if (new URLSearchParams(location.search).has("debug") || /HTTP|Mercado Pago|Falta/.test(err.dataset.detail)) err.textContent += " [" + err.dataset.detail + "]";
+    err.hidden = false;
+  }
+});
+
+// Barra fija: se esconde cuando el formulario está a la vista
+const sticky = document.getElementById("sticky");
+if ("IntersectionObserver" in window) {
+  new IntersectionObserver(([en]) => sticky.classList.toggle("hide", en.isIntersecting), {threshold: .15})
+    .observe(document.getElementById("comprar"));
+}
+document.querySelectorAll('[data-cta]').forEach(a => a.addEventListener("click", () => { try { window.fbq && fbq("trackCustom", "CTAClick", {cta_variant: ctaVariant, cta_place: a.dataset.cta, variante: VARIANTE}); } catch (e) {} }));
+document.querySelectorAll('[data-cta]').forEach(a => a.addEventListener("click", () => setTimeout(() => email.focus({preventScroll: true}), 450)));
+</script>
+</body>
+</html>
