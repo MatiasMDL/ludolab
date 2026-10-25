@@ -24,7 +24,7 @@ export default async function handler(req, res) {
         pdfPrivado: Boolean(privateToken()), metaCapi: Boolean(process.env.META_CAPI_TOKEN),
         copiaA: process.env.OWNER_EMAIL ? "configurado" : "", sitio: process.env.SITE_URL || "",
         productos: await Promise.all(productos().map(async (p) => ({
-          slug: p.slug, titulo: p.titulo, precio: p.precio, activo: p.activo !== false, pdf: await privatePdfExists(p.pdf),
+          slug: p.slug, titulo: p.titulo + (p.tipo === "complemento" ? " (complemento)" : ""), precio: p.precio, activo: p.activo !== false, ruta: p.pdf, pdf: await privatePdfExists(p.pdf),
         }))),
       });
     }
@@ -35,7 +35,8 @@ export default async function handler(req, res) {
       const opens = await pipeline(rows.map((r) => ["HGET", `buyer:${r.email}`, "aperturas"]));
       return res.json({
         ventas: rows.map((r, i) => ({
-          payment_id: r.payment_id, fecha: r.fecha, slug: r.slug, titulo: producto(r.slug)?.titulo || r.slug,
+          payment_id: r.payment_id, fecha: r.fecha, slug: r.slug, complemento: r.complemento || "",
+          titulo: (producto(r.slug)?.titulo || r.slug) + (r.complemento ? " + " + (producto(r.complemento)?.titulo || r.complemento) : ""),
           email: r.email, payer_email: r.payer_email, monto: Number(r.monto), variante: r.variante,
           mail_estado: r.mail_estado, mail_error: r.mail_error, mail_envios: Number(r.mail_envios || 0),
           aperturas: Number(opens[i] || 0),

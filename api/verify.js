@@ -17,6 +17,7 @@ export default async function handler(req, res) {
 
     const r = await processPayment(p);
     const out = { status: p.status, slug: info.slug, titulo: producto(info.slug)?.titulo, variante: r.order?.variante || "A", amount: p.transaction_amount };
+    if (r.purchase?.complemento) out.complemento = r.purchase.complemento;
     if (r.paid) {
       out.url = `/mi-ebook/${r.purchase.token}`;
       out.eventId = `mp_${p.id}`;

@@ -1,6 +1,6 @@
 import { producto } from "./_lib/catalogo.js";
 import { signedPdfUrl, privatePdfExists } from "./_lib/pdf.js";
-import { buyerByToken, comprasDe } from "./_lib/compras.js";
+import { buyerByToken, comprasDe, slugsDe } from "./_lib/compras.js";
 
 // GET /api/pdf?t=<token>&p=<slug>  → verifica que ese comprador tenga ese ebook y redirige
 // a un link firmado del Blob privado que vence en 10 minutos.
@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     const prod = producto(slug);
     if (!email || !prod) return res.status(404).send("No encontrado");
     const compras = await comprasDe(email);
-    if (!compras.some((c) => c.slug === slug)) return res.status(403).send("Este ebook no está en tu cuenta");
+    if (!compras.some((c) => slugsDe(c).includes(slug))) return res.status(403).send("Este ebook no está en tu cuenta");
     // Mientras el PDF no esté copiado al Blob privado (botón en /admin), usamos el link viejo.
     if (process.env.PDF_URL && slug === "dados" && !(await privatePdfExists(prod.pdf))) return res.redirect(302, process.env.PDF_URL);
     return res.redirect(302, await signedPdfUrl(prod.pdf));

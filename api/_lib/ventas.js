@@ -1,6 +1,6 @@
 import { env, SITE, sha, clean, esc, horaAR, randomToken, normEmail, validEmail, clientIp } from "./util.js";
 import { redis, pipeline, hgetall, hset, once } from "./db.js";
-import { producto } from "./catalogo.js";
+import { producto, esComplemento } from "./catalogo.js";
 import { sendEmail, entregaMail } from "./mail.js";
 
 export const PIXEL_ID = "4240054562902602";
@@ -27,6 +27,13 @@ export function isPaid(payment, info) {
     && Number(payment.transaction_amount) >= Number(prod.precio));
 }
 
+// Complemento (order bump) pagado: lo pidió en la landing y el pago cubre los dos precios.
+export function complementoPagado(payment, info, order) {
+  const prod = info && producto(info.slug), extra = producto(order?.complemento);
+  if (!prod || !esComplemento(extra) || !isPaid(payment, info)) return null;
+  return Number(payment.transaction_amount) >= Number(prod.precio) + Number(extra.precio) ? extra : null;
+}
+
 // Datos que guardamos ANTES de ir a pagar (mail, variante, cookies del píxel...)
 export async function loadOrder(info, payment) {
   if (info?.orderId) {
@@ -39,7 +46,7 @@ export async function loadOrder(info, payment) {
     email: lg.channel === "email" ? lg.value : m.email,
     whatsapp: lg.channel === "whatsapp" ? lg.value : undefined,
     variante: lg.variante || (String(m.landing || "").toLowerCase() === "b" ? "B" : "A"),
-    cta: m.cta_variant, fbp: m.fbp, fbc: m.fbc, ip: m.client_ip, ua: m.client_ua,
+    complemento: m.complemento, cta: m.cta_variant, fbp: m.fbp, fbc: m.fbc, ip: m.client_ip, ua: m.client_ua,
   });
 }
 
@@ -69,9 +76,10 @@ export async function recordPurchase(payment, info, order) {
   if (!email) throw new Error(`Pago ${pid} aprobado sin mail para entregar`);
 
   const token = await ensureBuyer(email);
+  const extra = complementoPagado(payment, info, order);
   const fecha = payment.date_approved || new Date().toISOString();
   const purchase = clean({
-    payment_id: pid, slug: info.slug, order_id: info.orderId, email, payer_email: payerEmail,
+    payment_id: pid, slug: info.slug, complemento: extra?.slug, order_id: info.orderId, email, payer_email: payerEmail,
     whatsapp: order.whatsapp, variante: order.variante || "A", cta: order.cta,
     monto: payment.transaction_amount, fecha, token, mail_estado: "PENDIENTE", mail_envios: 0,
   });
@@ -89,10 +97,10 @@ export async function recordPurchase(payment, info, order) {
 /* ---------- Mail de entrega ---------- */
 // Manda (o reenvía) el link del comprador. Copia oculta a la dueña siempre. Registra el resultado en la compra.
 export async function sendDelivery(purchase, { notifyOwner = false } = {}) {
-  const prod = producto(purchase.slug);
+  const prod = producto(purchase.slug), extra = producto(purchase.complemento);
   const link = ebookLink(purchase.token);
   const owner = process.env.OWNER_EMAIL || "";
-  const { subject, html, text } = entregaMail(prod, link);
+  const { subject, html, text } = entregaMail(prod, link, extra);
   const result = { mail_fecha: new Date().toISOString() };
   try {
     result.mail_id = await sendEmail({ to: purchase.email, subject, html, text, bcc: owner || undefined });
@@ -111,9 +119,9 @@ export async function sendDelivery(purchase, { notifyOwner = false } = {}) {
     const row = (k, v) => `<tr><td style="padding:4px 12px 4px 0;color:#56565E">${k}</td><td><b>${esc(v || "—")}</b></td></tr>`;
     await sendEmail({
       to: owner,
-      subject: `Venta #${purchase.payment_id} – ${prod?.titulo || purchase.slug} – mail ${result.mail_estado}`,
+      subject: `Venta #${purchase.payment_id} – ${prod?.titulo || purchase.slug}${extra ? " + complemento" : ""} – mail ${result.mail_estado}`,
       html: `<div style="font-family:Arial,sans-serif;color:#18181B"><table>
-        ${row("Pago", purchase.payment_id)}${row("Ebook", prod?.titulo || purchase.slug)}${row("Monto", "$" + purchase.monto)}
+        ${row("Pago", purchase.payment_id)}${row("Ebook", prod?.titulo || purchase.slug)}${row("Complemento", extra ? extra.titulo : "No")}${row("Monto", "$" + purchase.monto)}
         ${row("Hora", horaAR(purchase.fecha))}${row("Mail del comprador", purchase.email)}${row("Mail de su Mercado Pago", purchase.payer_email)}
         ${row("Landing", purchase.variante)}${row("Envío", result.mail_estado)}${row("Respuesta del proveedor", result.mail_error || result.mail_id)}
       </table>
@@ -149,8 +157,8 @@ export async function sendPurchaseCAPI(payment, purchase, order) {
     }),
     custom_data: {
       value: Number(payment.transaction_amount), currency: "ARS",
-      content_ids: [purchase.slug], content_name: prod?.titulo || purchase.slug,
-      content_type: "product", num_items: 1, variante: purchase.variante || "A",
+      content_ids: [purchase.slug, purchase.complemento].filter(Boolean), content_name: prod?.titulo || purchase.slug,
+      content_type: "product", num_items: purchase.complemento ? 2 : 1, variante: purchase.variante || "A",
     },
   };
   const req = { data: [event], access_token: token };

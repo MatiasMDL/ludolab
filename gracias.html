@@ -68,8 +68,8 @@ function trackPurchase(d) {
   try { if (localStorage.getItem(key)) return; } catch (e) {}
   if (!d.trackPixel) return;
   try {
-    window.fbq && fbq("track", "Purchase", {value: Number(d.amount), currency: "ARS", content_ids: [d.slug], content_name: d.titulo,
-      content_type: "product", num_items: 1, variante: d.variante}, {eventID: d.eventId});
+    window.fbq && fbq("track", "Purchase", {value: Number(d.amount), currency: "ARS", content_ids: [d.slug, d.complemento].filter(Boolean), content_name: d.titulo,
+      content_type: "product", num_items: d.complemento ? 2 : 1, variante: d.variante}, {eventID: d.eventId});
     localStorage.setItem(key, "1");
   } catch (e) {}
 }
