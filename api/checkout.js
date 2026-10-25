@@ -1,21 +1,30 @@
 import { SITE, body, clientIp, normEmail, validEmail, randomToken } from "./_lib/util.js";
 import { mp } from "./_lib/mp.js";
 import { hset, redis } from "./_lib/db.js";
-import { productoActivo } from "./_lib/catalogo.js";
+import { productoActivo, complementoDe, esComplemento } from "./_lib/catalogo.js";
 import { encodeRef } from "./_lib/ventas.js";
 import { privatePdfExists } from "./_lib/pdf.js";
 
-// POST /api/checkout  {producto, email, cta, landing, fbp, fbc}
+// POST /api/checkout  {producto, email, cta, landing, fbp, fbc, complemento}
 // Guarda el pedido (mail incluido) ANTES de ir a pagar y devuelve la URL de pago de Mercado Pago.
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "Método no permitido" });
   const b = body(req);
 
   const prod = productoActivo(String(b.producto || "dados"));
-  if (!prod) return res.status(400).json({ error: "Ese ebook no existe" });
+  if (!prod || esComplemento(prod)) return res.status(400).json({ error: "Ese ebook no existe" });
   // No cobrar un ebook cuyo PDF todavía no se subió desde /admin (dados tiene además el PDF viejo en PDF_URL)
   if (!(prod.slug === "dados" && process.env.PDF_URL) && !(await privatePdfExists(prod.pdf)))
     return res.status(409).json({ error: "Este ebook sale a la venta en unos minutos. Probá de nuevo más tarde." });
+
+  // Order bump: solo si la casilla vino marcada, el complemento es el de este ebook y su PDF ya está subido
+  let extra = null;
+  if (b.complemento) {
+    extra = complementoDe(prod);
+    if (!extra || String(b.complemento) !== extra.slug) return res.status(400).json({ error: "Ese complemento no está disponible" });
+    if (!(await privatePdfExists(extra.pdf)))
+      return res.status(409).json({ error: "El complemento todavía no está disponible. Destildá la casilla para seguir con tu compra." });
+  }
 
   // Landings viejas (todavía abiertas en algún celu) mandan {channel, value}
   let email = normEmail(b.email || (b.channel === "email" ? b.value : ""));
@@ -30,7 +39,7 @@ export default async function handler(req, res) {
   const cta = String(b.cta || "").replace(/[^a-z0-9_-]/gi, "").slice(0, 20) || "na";
   const cookie = (v) => (/^fb\.\d\.\d+\.[\w.-]{1,250}$/.test(String(v || "")) ? String(v) : undefined);
   const order = {
-    slug: prod.slug, email, whatsapp: whatsapp || undefined, variante, cta,
+    slug: prod.slug, complemento: extra?.slug, email, whatsapp: whatsapp || undefined, variante, cta,
     fbp: cookie(b.fbp), fbc: cookie(b.fbc), ip: clientIp(req) || undefined,
     ua: String(req.headers["user-agent"] || "").slice(0, 400) || undefined, creado: new Date().toISOString(),
   };
@@ -48,10 +57,13 @@ export default async function handler(req, res) {
         items: [{
           id: prod.slug, title: `${prod.titulo} · Ebook imprimible`, description: "Ebook imprimible PDF",
           quantity: 1, unit_price: Number(prod.precio), currency_id: "ARS",
-        }],
+        }, ...(extra ? [{
+          id: extra.slug, title: `${extra.titulo} · Complemento imprimible`, description: "PDF imprimible",
+          quantity: 1, unit_price: Number(extra.precio), currency_id: "ARS",
+        }] : [])],
         external_reference: encodeRef(prod.slug, orderId),
         // Copia de respaldo del pedido dentro del pago
-        metadata: { producto: prod.slug, email, landing, cta_variant: cta, fbp: order.fbp, fbc: order.fbc, client_ip: order.ip, client_ua: order.ua },
+        metadata: { producto: prod.slug, complemento: extra?.slug, email, landing, cta_variant: cta, fbp: order.fbp, fbc: order.fbc, client_ip: order.ip, client_ua: order.ua },
         back_urls: { success: back, pending: back, failure: back },
         auto_return: "approved",
         notification_url: `${site}/api/webhook`,

@@ -14,9 +14,13 @@ export async function comprasDe(email) {
   return rows.map(toObj).filter(Boolean).sort((a, b) => String(b.fecha).localeCompare(String(a.fecha)));
 }
 
+// Slugs que entrega una compra: el ebook y, si lo sumó, el complemento
+export const slugsDe = (c) => [c.slug, c.complemento].filter(Boolean);
+
 // Un ebook por producto (si compró dos veces el mismo, se ve una vez)
 export function ebooksDe(compras) {
   const seen = new Set();
-  return compras.filter((c) => !seen.has(c.slug) && seen.add(c.slug)).map((c) => ({ slug: c.slug, prod: producto(c.slug), compra: c }))
+  return compras.flatMap((c) => slugsDe(c).map((slug) => ({ slug, compra: c })))
+    .filter((x) => !seen.has(x.slug) && seen.add(x.slug)).map((x) => ({ ...x, prod: producto(x.slug) }))
     .filter((x) => x.prod);
 }

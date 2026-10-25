@@ -20,7 +20,8 @@
       "mail": {
         "asunto": "Tu ebook 100 juegos con dados – acá está tu link",
         "intro": "Acá tenés tu ebook 100 juegos con dados. Abrilo, imprimí el juego que quieran y a jugar."
-      }
+      },
+      "complemento": "7-diferencias"
     },
     {
       "slug": "escape-room",
@@ -100,6 +101,20 @@
       "mail": {
         "asunto": "Tu ebook Noche de juegos – acá está tu link",
         "intro": "Acá tenés tu ebook Noche de juegos. Abrilo, imprimí lo que necesites y a jugar."
+      }
+    },
+    {
+      "slug": "7-diferencias",
+      "titulo": "Encuentra las 7 diferencias",
+      "subtitulo": "50 actividades para imprimir y colorear.",
+      "tipo": "complemento",
+      "para_quien": "De 4 a 8 años",
+      "precio": 4999,
+      "pdf": "ebooks/encuentra-las-7-diferencias.pdf",
+      "tapa": "/img/7-diferencias/miniatura.webp",
+      "activo": true,
+      "mail": {
+        "intro": "Y también tus 50 actividades de Encuentra las 7 diferencias, listas para imprimir y colorear."
       }
     }
   ]

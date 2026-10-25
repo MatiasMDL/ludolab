@@ -43,6 +43,7 @@ select,input.search{font:600 .92rem var(--f-body);padding:.55em .8em;border:2px 
     <button class="btn block" type="submit">Entrar</button>
   </form>
 </main>
+<script src="/assets/blob-upload.js" defer></script>
 <script>
 const app = document.getElementById("app");
 const fmt = (n) => "$" + Number(n || 0).toLocaleString("es-AR");
@@ -121,9 +122,16 @@ function draw() {
   document.querySelectorAll("[data-pdf]").forEach(inp => inp.onchange = async () => {
     const f = inp.files[0], out = document.querySelector('[data-pdfres="' + inp.dataset.pdf + '"]');
     if (!f) return;
-    if (f.size > 3.3e6) { out.textContent = "El PDF pesa más de 3,3 MB: hay que achicarlo."; return; }
     inp.disabled = true; out.textContent = "Subiendo…";
     try {
+      // Más de 3,3 MB: el navegador lo sube directo al Blob privado, en partes (Vercel no deja pasar más por la función)
+      if (f.size > 3.3e6) {
+        const ruta = (estado.productos || []).find(p => p.slug === inp.dataset.pdf)?.ruta;
+        await window.blobUpload(ruta, f, {access: "private", handleUploadUrl: "/api/admin-subir", headers: {"x-admin-password": pw},
+          contentType: "application/pdf", multipart: true, onUploadProgress: (e) => { out.textContent = "Subiendo… " + Math.round(e.percentage) + "%"; }});
+        out.textContent = "Listo (" + Math.round(f.size / 1024) + " KB)"; setTimeout(() => load(), 1500);
+        return;
+      }
       const base64 = await new Promise((ok, ko) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(",")[1]); r.onerror = ko; r.readAsDataURL(f); });
       const r = await api("subir-pdf", {slug: inp.dataset.pdf, base64});
       out.textContent = "Listo (" + Math.round(r.bytes / 1024) + " KB)"; setTimeout(() => load(), 1200);

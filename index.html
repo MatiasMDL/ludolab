@@ -178,7 +178,7 @@ const CAT = {chicos: "Para chicos", adultos: "Para grandes"};
 let productos = [];
 
 function render(filtro) {
-  const lista = productos.filter(p => p.activo !== false && (filtro === "todos" || p.categoria === filtro));
+  const lista = productos.filter(p => p.activo !== false && p.tipo !== "complemento" && (filtro === "todos" || p.categoria === filtro));
   grid.replaceChildren(...lista.map(p => {
     const a = document.createElement("a");
     a.className = "ebook card"; a.href = "/" + p.slug;

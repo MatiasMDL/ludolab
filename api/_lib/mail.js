@@ -26,9 +26,9 @@ export async function sendEmail({ to, subject, html, text, bcc }) {
 }
 
 // Mail de entrega: un botón grande al link personal, el link en texto y cómo recuperarlo.
-export function entregaMail(prod, link) {
+export function entregaMail(prod, link, extra) {
   const titulo = prod?.titulo || "tu ebook";
-  const intro = prod?.mail?.intro || `Acá tenés tu ebook ${titulo}.`;
+  const intro = (prod?.mail?.intro || `Acá tenés tu ebook ${titulo}.`) + (extra ? " " + (extra.mail?.intro || `Y también ${extra.titulo}.`) : "");
   const subject = prod?.mail?.asunto || `Tu ebook ${titulo} – acá está tu link`;
   const html = `
 <div style="font-family:Arial,Helvetica,sans-serif;max-width:520px;margin:auto;color:#18181B;font-size:16px;line-height:1.5">
