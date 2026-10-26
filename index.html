@@ -146,7 +146,7 @@ fbq('track', 'PageView');
       <div class="filters" role="group" aria-label="Filtrar ebooks">
         <button type="button" data-f="todos" aria-pressed="true">Todos</button>
         <button type="button" data-f="chicos" aria-pressed="false">Para chicos</button>
-        <button type="button" data-f="adultos" aria-pressed="false">Para grandes</button>
+        <button type="button" data-f="grandes" aria-pressed="false">Para grandes</button>
       </div>
     </div>
     <div class="grid" id="grid" aria-live="polite"></div>
@@ -174,7 +174,7 @@ fbq('track', 'PageView');
 <script>
 const grid = document.getElementById("grid"), empty = document.getElementById("empty");
 const fmt = (n) => "$" + Number(n).toLocaleString("es-AR");
-const CAT = {chicos: "Para chicos", adultos: "Para grandes"};
+const CAT = {chicos: "Para chicos", grandes: "Para grandes"};
 let productos = [];
 
 function render(filtro) {
